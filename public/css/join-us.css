@@ -1,0 +1,609 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oleo+Script:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+:root {
+  --yellow-color: #d2ae33;
+  --green-color: #2a804e;
+  --text-color: #26517e;
+  --text-gray-color: #808080;
+  --white-color: #fff;
+  --black-color: #212121;
+}
+
+/* ************** NAVBAR-SECTION ************** */
+
+.navbar-section {
+  height: 90px;
+  background-color: var(--white-color);
+  width: 100%;
+}
+
+.navbar-section .container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-section .logo {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navbar-section .logo .logo-text {
+  font-family: "Oleo Script", system-ui;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 41.49px;
+  letter-spacing: -0.02em;
+  color: var(--black-color);
+}
+
+.btn-sec {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-sec .loginBtn {
+  padding: 7px 30px;
+  color: var(--white-color);
+  background-color: var(--green-color);
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  border: 2px solid var(--text-color);
+  border-radius: 100px;
+  text-transform: capitalize;
+  transition: 0.3s;
+}
+
+.btn-sec .loginBtn:hover {
+  opacity: 0.8;
+}
+
+.btn-sec a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.5px;
+  color: var(--black-color);
+}
+
+.border-part {
+  height: 9px;
+  background-color: var(--yellow-color);
+  border-top: 3px solid var(--text-color);
+  border-bottom: 3px solid var(--green-color);
+}
+
+@media screen and (max-width: 576px) {
+  .navbar-section .logo .logo-text {
+    font-size: 26px;
+  }
+
+  .btn-sec {
+    gap: 5px;
+  }
+
+  .btn-sec .loginBtn {
+    padding: 5px 15px;
+    font-size: 14px;
+  }
+
+  .btn-sec a {
+    font-size: 12px;
+  }
+}
+
+/* ************** JOIN-US-SECTION ************** */
+
+.join-us {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+}
+
+.join-us .left-section {
+  width: 40%;
+  position: relative;
+}
+
+.join-us .left-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.join-us .left-section .title {
+  font-size: 45px;
+  font-weight: 700;
+  line-height: 50px;
+  color: var(--white-color);
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+  z-index: 3;
+  padding-right: 10px;
+}
+
+.join-us .left-section::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: #00000080;
+  z-index: 1;
+}
+
+/* ? ~~~~~~~~~~~~ INPUT-SECTIOLN ~~~~~~~~~~~~ */
+
+.join-us .right {
+  width: 60%;
+  padding-right: 60px;
+}
+
+.join-us .input-section {
+  padding: 20px 50px;
+  width: 100%;
+}
+
+.join-us .input-section .input-item {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.join-us .input-section .radio-items {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.join-us .input-section .titleLabel {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.join-us .input-section .input-item .left select {
+  width: 110px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  outline: none;
+  color: #8f9098;
+  border: 1px solid #c5c6cc;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("../assets/arrow.svg");
+  background-repeat: no-repeat;
+  background-position-x: 90%;
+  background-position-y: 50%;
+  cursor: pointer;
+}
+
+.join-us .input-section .radio-items .item {
+  display: flex;
+  gap: 5px;
+}
+
+.join-us .input-section .radio-items .item label {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.5px;
+  cursor: pointer;
+}
+
+.join-us .input-section .upload-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.join-us .input-section .upload-img .icon-circle {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background: #2a804e1a;
+  line-height: 100px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.join-us .input-section .upload-img .up-text {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14.63px;
+  margin-top: 8px;
+}
+
+.join-us .input-section .input-item-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.join-us .input-section .input-item-grid input {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid #c5c6cc;
+}
+
+.join-us .input-section input::placeholder {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  color: #8f9098;
+  text-transform: capitalize;
+}
+
+.join-us .input-section input:focus {
+  border-color: var(--yellow-color);
+}
+
+.join-us .input-section .input-with-label {
+}
+
+.join-us .input-section .input-with-label label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17.07px;
+  margin-bottom: 5px;
+}
+
+.join-us .input-section .input-item-three {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.join-us .input-section .input-item-three select {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 8px;
+  outline: none;
+  color: #8f9098;
+  border: 1px solid #c5c6cc;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("../assets/arrow.svg");
+  background-repeat: no-repeat;
+  background-position-x: 93%;
+  background-position-y: 50%;
+  cursor: pointer;
+}
+/* todo ~~~~~~~~~~~~~~~~ FOR CREATE-SHARE.HTML PAGE ~~~~~~~~~~~~~~~~ */
+.join-us .input-section .input-item-grid select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  outline: none;
+  color: #8f9098;
+  border: 1px solid #c5c6cc;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("../assets/arrow.svg");
+  background-repeat: no-repeat;
+  background-position-x: 92%;
+  background-position-y: 50%;
+  cursor: pointer;
+}
+
+.join-us .input-section .input-item-grid select:focus {
+  border-color: var(--yellow-color);
+}
+
+.join-us .input-section .input-item-three input:focus {
+  border-color: var(--yellow-color);
+}
+
+.join-us .input-section .creating-account {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17.07px;
+}
+
+.join-us .input-section .btn-selection {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.join-us .input-section .btn-selection .family-mem-btn {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: var(--white-color);
+  border: 1px solid #d2ae33;
+  color: var(--yellow-color);
+  padding: 10px 25px;
+  border-radius: 100px;
+  transition: 0.2s;
+}
+
+.activeBar {
+  background-color: var(--yellow-color) !important;
+  color: var(--white-color) !important;
+  transition: 0.2s;
+}
+
+.join-us .input-section .btn-selection .myself-btn {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: var(--white-color);
+  border: 1px solid #d2ae33;
+  color: var(--yellow-color);
+  padding: 10px 25px;
+  border-radius: 100px;
+  transition: 0.3s;
+}
+
+.join-us .input-section .next-btn-sec {
+  text-align: right;
+  margin-top: 30px;
+}
+
+.join-us .input-section .next-btn-sec .next-btn {
+  padding: 10px 25px;
+  background-color: var(--yellow-color);
+  color: var(--white-color);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 100px;
+  border: none;
+}
+
+/* todo ~~~~~~~~~~~~~~~~ FOR CREATE-SHARE.HTML PAGE ~~~~~~~~~~~~~~~~ */
+
+.next-btn-sec .back-btn {
+  padding: 10px 40px;
+  background-color: var(--green-color);
+  color: var(--white-color);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 100px;
+  border: 1px solid var(--text-color);
+  text-transform: capitalize;
+}
+
+.next-btn-sec .save-btn {
+  padding: 10px 40px;
+  background-color: var(--yellow-color);
+  color: var(--white-color);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 100px;
+  border: 1px solid var(--text-color);
+  text-transform: capitalize;
+}
+
+/* todo ~~~~~~~~~~~~~~~~ FOR CREATE-COMMUNITY.HTML PAGE ~~~~~~~~~~~~~~~~ */
+
+.create-community .user-profile {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.create-community .user-profile .img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.create-community .user-profile .img img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.create-community .right {
+  padding: 30px 50px;
+}
+
+.create-community .user-info .name {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--black-color);
+}
+
+.create-community .user-info .country {
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-gray-color);
+}
+
+.create-community .invite-btn {
+  padding: 10px 40px;
+  background-color: var(--text-color);
+  text-align: center;
+  color: var(--white-color);
+  border-radius: 100px;
+  border: none;
+  margin-top: 20px;
+  text-transform: capitalize;
+}
+
+.create-community .add-items {
+  margin-top: 30px;
+}
+
+.create-community .add-items .item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #dde2e5;
+  padding: 12px 15px;
+  border-radius: 4px;
+  margin-top: 15px;
+}
+
+.create-community .add-items .item .title {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.create-community .add-items .item .add-btn {
+  padding: 5px 25px;
+  text-align: center;
+  background-color: var(--green-color);
+  color: var(--white-color);
+  font-weight: 500;
+  font-size: 16px;
+  text-transform: capitalize;
+  border-radius: 30px;
+  border: none;
+}
+
+@media screen and (max-width: 1350px) {
+  .join-us .left-section .title {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .join-us .input-section {
+    padding: 50px 30px;
+  }
+
+  .join-us .input-section .btn-selection .family-mem-btn {
+    padding: 8px 18px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .join-us .input-section .btn-item-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .join-us .left-section .title {
+    font-size: 32px;
+    line-height: 38px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .join-us {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .join-us .input-section {
+    padding: 50px 100px;
+  }
+
+  .join-us .left-section {
+    width: 100%;
+    position: relative;
+    height: 350px;
+  }
+
+  .join-us .right {
+    width: 100%;
+    position: relative;
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .join-us .input-section {
+    padding: 50px 20px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .join-us .input-section {
+    padding: 40px 12px;
+  }
+
+  .join-us .input-section .input-item {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column-reverse;
+    gap: 30px;
+  }
+
+  .join-us .input-section {
+    padding: 20px;
+    width: 100%;
+  }
+
+  .join-us .input-section .input-item-grid {
+    grid-template-columns: 1fr;
+    margin-top: 20px;
+    gap: 20px;
+  }
+
+  .join-us .left-section .title {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  /* ***************** CREATE-COMMUNITY-PAGE ***************** */
+  .create-community .right {
+    padding: 30px 20px;
+  }
+
+  .create-community .user-profile .img {
+    height: 70px;
+    width: 70px;
+  }
+
+  .create-community .user-info .name {
+    font-size: 22px;
+  }
+
+  .create-community .user-info .country {
+    font-size: 14px;
+  }
+
+  .create-community .invite-btn {
+    padding: 10px 30px;
+  }
+
+  .create-community .add-items .item .title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+  }
+
+  .create-community .add-items .item .add-btn {
+    font-size: 14px;
+  }
+}

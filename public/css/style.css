@@ -1,0 +1,546 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oleo+Script:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+:root {
+  --yellow-color: #d2ae33;
+  --green-color: #2a804e;
+  --text-color: #26517e;
+  --text-gray-color: #808080;
+  --white-color: #fff;
+  --black-color: #212121;
+}
+
+/* ************** NAVBAR-SECTION ************** */
+
+.navbar-section {
+  height: 90px;
+  background-color: var(--white-color);
+  width: 100%;
+}
+
+.navbar-section .container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-section .logo,
+.footer-section .logo {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navbar-section .logo .logo-text,
+.footer-section .logo .logo-text {
+  font-family: "Oleo Script", system-ui;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 41.49px;
+  letter-spacing: -0.02em;
+  color: var(--black-color);
+}
+
+.btn-sec {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-sec .loginBtn {
+  padding: 7px 30px;
+  color: var(--white-color);
+  background-color: var(--green-color);
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  border: 2px solid var(--text-color);
+  border-radius: 100px;
+  text-transform: capitalize;
+  transition: 0.3s;
+}
+
+.btn-sec .loginBtn:hover {
+  opacity: 0.8;
+}
+
+.btn-sec .registerBtn {
+  padding: 7px 30px;
+  color: var(--white-color);
+  background-color: var(--yellow-color);
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  border: 2px solid var(--text-color);
+  border-radius: 100px;
+  text-transform: capitalize;
+  transition: 0.3s;
+}
+
+.btn-sec .registerBtn:hover {
+  opacity: 0.8;
+}
+
+.border-part {
+  height: 9px;
+  background-color: var(--yellow-color);
+  border-top: 3px solid var(--text-color);
+  border-bottom: 3px solid var(--green-color);
+}
+
+/* ************** HERO-SECTION ************** */
+
+.hero-section {
+  padding: 70px 0px;
+  background-color: var(--white-color);
+  width: 100%;
+  border-bottom: 5px solid var(--yellow-color);
+}
+
+.hero-section .container {
+  height: 100%;
+  padding-top: 50px;
+}
+
+.hero-section .left {
+  padding-right: 20px;
+}
+
+.hero-section .title {
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 50px;
+  color: var(--text-color);
+}
+
+.hero-section .sub-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 30px;
+  color: var(--yellow-color);
+  margin-top: 25px;
+}
+
+.hero-section .desc {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  text-align: justify;
+  margin-top: 25px;
+  color: var(--text-gray-color);
+}
+
+.hero-section .right {
+  padding-left: 30px;
+}
+
+.hero-section .right img {
+  width: 100%;
+}
+
+/* ************** JOIN-FAMLACY ************** */
+
+.join-famlacy {
+  padding: 80px 0px;
+  background-color: var(--white-color);
+  border-bottom: 5px solid var(--green-color);
+}
+
+.join-famlacy .card-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.join-famlacy .card-section .card-item {
+  padding: 20px 15px;
+  border: 2px solid var(--text-color);
+  background-color: var(--white-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.join-famlacy .card-section .card-item .number {
+  height: 35px;
+  width: 35px;
+  background-color: var(--yellow-color);
+  color: var(--white-color);
+  font-size: 20px;
+  line-height: 35px;
+  font-weight: 500;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.join-famlacy .card-section .card-item .title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--text-color);
+  margin-top: 30px;
+}
+
+.join-famlacy .card-section .card-item .desc {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--text-gray-color);
+  margin-top: 20px;
+  margin-bottom: 30px;
+  min-height: 150px;
+}
+
+.join-famlacy .card-section .card-item .img img {
+  width: 100%;
+}
+
+/* ************** STORY-SECTION ************** */
+
+.story-section {
+  padding: 80px 0px;
+  background-color: var(--white-color);
+  width: 100%;
+}
+
+.story-section .content {
+  width: 80%;
+}
+
+.story-section .title {
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 46px;
+  color: var(--text-color);
+}
+
+.story-section .sub-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 30px;
+  color: var(--yellow-color);
+  margin-top: 25px;
+}
+
+.story-section .desc {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  text-align: justify;
+  margin-top: 25px;
+  color: var(--text-gray-color);
+}
+
+.story-section .img img {
+  width: 100%;
+}
+
+/* ************** REFER-FRIEND ************** */
+
+.refer-friend {
+  background-color: var(--text-color);
+  color: var(--white-color);
+  padding: 80px 0px;
+  border-top: 5px solid var(--yellow-color);
+}
+
+.refer-friend .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refer-friend .container .content {
+  text-align: center;
+}
+
+.refer-friend .container .content .title {
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 50px;
+  color: var(--white-color);
+}
+
+.refer-friend .container .content .desc {
+  color: var(--white-color);
+  opacity: 80%;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  margin-top: 15px;
+}
+
+.refer-friend .container .content .input-box {
+  margin-top: 20px;
+  height: 60px;
+  width: 500px;
+  background-color: var(--white-color);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+
+.refer-friend .container .content .input-box input {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.refer-friend .container .content .input-box .joinBtn {
+  padding: 8px 20px;
+  background-color: var(--yellow-color);
+  color: var(--white-color);
+  font-weight: 500;
+  text-transform: capitalize;
+  text-align: center;
+  border: none;
+  border-radius: 6px;
+}
+
+.refer-friend .container .content .input-box:focus-within {
+  border: 2px solid var(--yellow-color);
+  transition: 0.2s;
+}
+
+/* ************** FOOTER-SECTION ************** */
+
+.footer-section {
+  padding: 60px 0px;
+  width: 100%;
+}
+
+.footer-section .desc {
+  margin-top: 15px;
+  width: 50%;
+}
+
+.footer-section .mail {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.footer-section .tele i,
+.footer-section .mail i {
+  font-size: 22px;
+}
+
+.footer-section .tele {
+  display: flex;
+  gap: 6px;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.footer-section .tele a,
+.footer-section .mail a {
+  text-decoration: none;
+  color: #212121;
+  font-size: 14px;
+}
+
+.footer-section .info .title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 29.26px;
+}
+
+.footer-section .info a {
+  display: block;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.94px;
+  color: var(--text-gray-color);
+  margin-top: 10px;
+}
+
+.footer-section .follow .title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 29.26px;
+}
+
+.footer-section .icon {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.footer-section .icon .item {
+  background-color: var(--green-color);
+  color: var(--white-color);
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 30px;
+}
+
+/* ! **************** RESPONSIVE **************** */
+
+@media screen and (max-width: 1200px) {
+  /* Join-famlacy */
+
+  .join-famlacy .card-section {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .hero-section .right {
+    margin-top: 40px;
+  }
+  /* Join-famlacy */
+
+  .join-famlacy .card-section {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  /*stoty section */
+
+  .story-section {
+    padding: 80px 0px;
+    background-color: var(--white-color);
+    width: 100%;
+  }
+
+  .story-section .content {
+    width: 100%;
+  }
+
+  .story-section .right {
+    margin-top: 50px;
+  }
+
+  .footer-section .desc {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* Join-famlacy */
+
+  .join-famlacy .card-section {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .join-famlacy .card-section .card-item .desc {
+    min-height: auto;
+    margin-bottom: 30px;
+  }
+
+  .footer-section .info,
+  .footer-section .follow {
+    margin-top: 30px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .navbar-section .logo .logo-text,
+  .footer-section .logo .logo-text {
+    font-size: 26px;
+  }
+
+  .btn-sec {
+    gap: 5px;
+  }
+
+  .btn-sec .loginBtn {
+    padding: 5px 15px;
+    font-size: 14px;
+  }
+
+  .btn-sec .registerBtn {
+    padding: 5px 15px;
+    font-size: 14px;
+  }
+
+  /* hero-section */
+
+  .hero-section {
+    padding: 50px 12px;
+  }
+
+  .hero-section .col-lg-7,
+  .hero-section .col-lg-5 {
+    padding: 0;
+  }
+
+  .hero-section .container {
+    padding-top: 30px;
+    width: 100%;
+  }
+
+  .hero-section .left {
+    padding-right: 0px;
+  }
+
+  .hero-section .title,
+  .story-section .title {
+    font-size: 30px;
+    line-height: 38px;
+  }
+
+  .hero-section .sub-title,
+  .story-section .sub-title {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .hero-section .desc,
+  .story-section .desc {
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .hero-section .right {
+    padding-left: 0px;
+  }
+
+  /* Join-famlacy */
+  .join-famlacy .card-section {
+    grid-template-columns: 1fr;
+  }
+
+  /* REFER-FRIEND */
+
+  .refer-friend .container .content .title {
+    font-size: 30px;
+    line-height: 38px;
+  }
+
+  .refer-friend .container .content .desc {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .refer-friend .container .content .input-box {
+    height: 50px;
+    width: 100%;
+  }
+}
