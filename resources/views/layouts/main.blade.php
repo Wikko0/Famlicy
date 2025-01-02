@@ -23,13 +23,13 @@
 
 <section class="navbar-section">
     <div class="container">
-        <a href="#" class="logo">
+        <a href="{{route('home')}}" class="logo">
             <img src="{{asset('images/fam-logo.png')}}" alt="">
             <span class="logo-text">Famlicy</span>
         </a>
         <div class="btn-sec">
             <button class="registerBtn" onclick="window.location.href='{{route('register')}}';">register</button>
-            <button class="loginBtn" onclick="window.location.href='{{route('register')}}';">login</button>
+            <button class="loginBtn" onclick="window.location.href='{{route('login')}}';">login</button>
         </div>
     </div>
 </section>
