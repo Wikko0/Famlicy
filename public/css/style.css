@@ -689,7 +689,7 @@ body {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("../assets/arrow.svg");
+    background-image: url("../images/arrow.svg");
     background-repeat: no-repeat;
     background-position-x: 90%;
     background-position-y: 50%;
@@ -785,7 +785,7 @@ body {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("../assets/arrow.svg");
+    background-image: url("../images/arrow.svg");
     background-repeat: no-repeat;
     background-position-x: 93%;
     background-position-y: 50%;
@@ -802,7 +802,7 @@ body {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("../assets/arrow.svg");
+    background-image: url("../images/arrow.svg");
     background-repeat: no-repeat;
     background-position-x: 92%;
     background-position-y: 50%;

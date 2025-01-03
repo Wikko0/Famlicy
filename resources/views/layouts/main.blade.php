@@ -27,10 +27,54 @@
             <img src="{{asset('images/fam-logo.png')}}" alt="">
             <span class="logo-text">Famlicy</span>
         </a>
-        <div class="btn-sec">
-            <button class="registerBtn" onclick="window.location.href='{{route('register')}}';">register</button>
-            <button class="loginBtn" onclick="window.location.href='{{route('login')}}';">login</button>
-        </div>
+        @if(Auth::user())
+            <div class="user-details">
+                <div class="icon">
+                    <svg
+                        width="24"
+                        height="25"
+                        viewBox="0 0 24 25"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <g clip-path="url(#clip0_2226_702)">
+                            <path
+                                d="M21.3946 17.4131C19.8827 16.135 19.0157 14.267 19.0157 12.288V9.5C19.0157 5.98108 16.4017 3.06805 13.0157 2.58008V1.49994C13.0157 0.94696 12.5676 0.5 12.0156 0.5C11.4637 0.5 11.0156 0.94696 11.0156 1.49994V2.58008C7.62854 3.06805 5.01562 5.98108 5.01562 9.5V12.288C5.01562 14.267 4.14862 16.135 2.62756 17.421C2.23865 17.754 2.01562 18.238 2.01562 18.7499C2.01562 19.7151 2.8006 20.5001 3.76556 20.5001H20.2656C21.2307 20.5001 22.0157 19.7151 22.0157 18.7499C22.0157 18.238 21.7927 17.754 21.3946 17.4131Z"
+                                fill="#D2AE33"
+                            />
+                            <path
+                                d="M12.0158 24.5C13.8269 24.5 15.3419 23.2089 15.6898 21.5H8.3418C8.68988 23.2089 10.2049 24.5 12.0158 24.5Z"
+                                fill="#D2AE33"
+                            />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_2226_702">
+                                <rect
+                                    width="24"
+                                    height="24"
+                                    fill="white"
+                                    transform="translate(0 0.5)"
+                                />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="user-img">
+                    <img src="{{asset('images/user.png')}}" alt="" />
+                </div>
+            </div>
+        @elseif(Request::is('register'))
+            <div class="btn-sec">
+                Already on Famlacy?
+                <button class="loginBtn" onclick="window.location.href='{{route('login')}}';">login</button>
+            </div>
+        @else
+            <div class="btn-sec">
+                <button class="registerBtn" onclick="window.location.href='{{route('register')}}';">register</button>
+                <button class="loginBtn" onclick="window.location.href='{{route('login')}}';">login</button>
+            </div
+        @endif
+
     </div>
 </section>
 <div class="border-part"></div>
