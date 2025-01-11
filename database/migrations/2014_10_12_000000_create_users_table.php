@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('photo')->nullable();
             $table->string('birthday');
+            $table->string('died')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

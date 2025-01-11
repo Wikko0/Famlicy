@@ -113,6 +113,29 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="input-with-label">
+                        <label for="">Enter transition date</label>
+                        <div class="input-item-three">
+                            <select name="family_transition_day" id="family_transition_day">
+                                <option value="">Day</option>
+                                @for ($i = 1; $i <= 31; $i++)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
+                            <select name="family_transition_month" id="family_transition_month">
+                                <option value="">Month</option>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
+                            <select name="family_transition_year" id="family_transition_year">
+                                @for ($i = date('Y'); $i >= date('Y') - 100; $i--)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="next-btn-sec">

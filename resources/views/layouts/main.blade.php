@@ -60,7 +60,7 @@
                     </svg>
                 </div>
                 <div class="user-img">
-                    <img src="{{asset('images/user.png')}}" alt="" />
+                    <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="" />
                 </div>
             </div>
         @elseif(Request::is('register'))

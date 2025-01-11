@@ -96,6 +96,25 @@ body {
   opacity: 0.8;
 }
 
+.navbar-section .user-details {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.navbar-section .user-details .user-img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.navbar-section .user-details .user-img img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
 .border-part {
   height: 9px;
   background-color: var(--yellow-color);

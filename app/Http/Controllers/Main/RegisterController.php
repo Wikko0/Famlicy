@@ -22,6 +22,7 @@ class RegisterController extends Controller
 
     public function registerUser(Request $request): RedirectResponse
     {
+
         $request->validate([
             'title' => 'required',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -50,6 +51,12 @@ class RegisterController extends Controller
             $birthday = $request->input('family_dob_day') . '/' . $request->input('family_dob_month') . '/' . $request->input('family_dob_year');
         }
 
+        $died = null;
+
+        if ($request->input('family_transition_day')) {
+            $died = $request->input('family_transition_day') . '/' . $request->input('family_transition_month') . '/' . $request->input('family_transition_year');
+        }
+
         $photoPath = null;
 
         $user = User::create([
@@ -61,6 +68,7 @@ class RegisterController extends Controller
             'phone' => $request->input('phone'),
             'photo' => $photoPath,
             'birthday' => $birthday,
+            'died' => $died,
         ]);
 
 
