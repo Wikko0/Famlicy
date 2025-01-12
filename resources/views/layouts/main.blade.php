@@ -63,7 +63,7 @@
                     <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="User Image" />
                 </div>
                 <div class="dropdown-menu" id="dropdownMenu">
-                    <a href="/profile" class="menu-item">
+                    <a href="/{{Auth::user()->username}}" class="menu-item">
                         <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="User Image" />
                         <span>{{ Auth::user()->name }}</span>
                     </a>

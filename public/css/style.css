@@ -2046,6 +2046,17 @@ body {
     text-transform: capitalize;
 }
 
+.my-favourites .follow-btn {
+    padding: 12px 35px;
+    background-color: var(--yellow-color);
+    text-align: center;
+    font-size: 16px;
+    color: var(--white-color);
+    border-radius: 100px;
+    border: none;
+    text-transform: capitalize;
+}
+
 .my-favourites .favourite-items {
     padding: 50px 200px;
 }
@@ -2061,7 +2072,7 @@ body {
     font-size: 18px;
     font-weight: 500;
     color: var(--black-color);
-    width: 40%;
+    width: 100%;
 }
 
 .my-favourites .favourite-items .item .input-box {
@@ -2072,7 +2083,6 @@ body {
 }
 
 .my-favourites .favourite-items .item .input-box input {
-    width: 100%;
     height: 40px;
     padding: 10px;
     border: 1px solid #dde2e5;
@@ -2564,4 +2574,68 @@ body {
 }
 .edit-info-btn a {
     text-decoration: none;
+}
+.my-favourites .favourite-sec .container {
+    max-width: 1200px; /* Увеличаваме ширината на контейнера */
+    margin: 0 auto;
+}
+
+.favourite-items .item {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.favourite-items .name {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 18px;
+    color: #333;
+}
+
+.favourite-items .input-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%; /* Разширяваме секцията за въвеждане */
+    max-width: 700px; /* Формите ще са широки до 700px */
+}
+
+.favourite-items input[type="text"] {
+    flex: 1;
+    padding: 14px 16px; /* Увеличаваме вътрешното отстояние на полетата */
+    font-size: 18px; /* Увеличаваме текста */
+    border-radius: 6px; /* Леко закръгление за по-добър изглед */
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+.favourite-items input[type="text"]:focus {
+    border-color: #007bff; /* Подчертаваме с цвят при фокус */
+}
+
+.favourite-items button.add-btn {
+    padding: 14px 24px; /* Увеличаваме размера на бутоните */
+    font-size: 18px; /* По-голям шрифт за бутоните */
+    background-color: #28a745; /* Зелен бутон */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.favourite-items button.add-btn:hover {
+    background-color: #218838; /* По-тъмен зелен при hover */
+}
+
+.favourite-items input[type="text"]::placeholder {
+    color: #aaa;
+    font-size: 16px;
+}
+
+.favourite-items .input-box button {
+    min-width: 100px; /* Увеличаваме ширината на бутоните */
 }

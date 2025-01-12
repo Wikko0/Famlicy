@@ -5,6 +5,7 @@ use App\Http\Controllers\Main\HomeController;
 use App\Http\Controllers\Main\RegisterController;
 use App\Http\Controllers\Main\LoginController;
 use App\Http\Controllers\Main\ProfileController;
+use App\Http\Controllers\Main\UsersInformationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,5 @@ Route::get('/logout', [LoginController::class, 'logoutUser'])->name('logout');
 
 Route::get('{username}', [ProfileController::class, 'index'])->name('profile');
 
+Route::get('/{username}/information', [UsersInformationController::class, 'index'])->name('user.information');
+Route::post('/{username}/information/update', [UsersInformationController::class, 'updateInformation'])->name('user.information.update');
