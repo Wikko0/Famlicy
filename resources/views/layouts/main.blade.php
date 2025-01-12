@@ -59,8 +59,18 @@
                         </defs>
                     </svg>
                 </div>
-                <div class="user-img">
-                    <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="" />
+                <div class="user-img" onclick="toggleMenu()">
+                    <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="User Image" />
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="/profile" class="menu-item">
+                        <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="User Image" />
+                        <span>{{ Auth::user()->name }}</span>
+                    </a>
+                    <a href="{{route('logout')}}" class="menu-item">
+                        <img src="{{asset('images/exit-icon.png')}}" alt="Exit Icon" />
+                        <span>Exit</span>
+                    </a>
                 </div>
             </div>
         @elseif(Request::is('register'))
@@ -125,6 +135,8 @@
 </section>
 
 @yield('scripts')
+<script src="{{asset('js/main.js')}}"></script>
 
 </body>
+
 </html>
