@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Main\CommunityController;
 use App\Http\Controllers\Main\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\HomeController;
@@ -35,23 +36,29 @@ Route::get('/logout', [LoginController::class, 'logoutUser'])->name('logout');
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('{username}', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/user/{username}', [ProfileController::class, 'index'])->name('profile');
     Route::post('/follow/{user}', [ProfileController::class, 'follow'])->name('follow');
     Route::post('/unfollow/{user}', [ProfileController::class, 'unfollow'])->name('unfollow');
 
-    Route::get('/{username}/information', [UsersInformationController::class, 'index'])->name('user.information');
-    Route::post('/{username}/information/update', [UsersInformationController::class, 'updateInformation'])->name('user.information.update');
+    Route::get('/user/{username}/information', [UsersInformationController::class, 'index'])->name('user.information');
+    Route::post('/user/{username}/information/update', [UsersInformationController::class, 'updateInformation'])->name('user.information.update');
 
     Route::post('/send-request/{user}', [ProfileController::class, 'sendRequest'])->name('sendRequest');
 
-    // Одобрение на покана за приятелство
     Route::post('/accept-request/{user}', [ProfileController::class, 'acceptRequest'])->name('acceptRequest');
 
-    // Отхвърляне на покана за приятелство
     Route::post('/decline-request/{user}', [ProfileController::class, 'declineRequest'])->name('declineRequest');
 
-    // Премахване на приятелство
     Route::post('/remove-friend/{user}', [ProfileController::class, 'removeFriend'])->name('removeFriend');
 
     Route::get('notifications/{notificationId}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+
+    Route::get('/community', [CommunityController::class, 'index'])->name('community');
+    Route::post('/community/create', [CommunityController::class, 'createCommunity'])->name('community.create');
+    Route::post('/community/{communityId}/invite/{friendId}', [CommunityController::class, 'joinCommunity'])->name('community.join');
+    Route::post('/community/{communityId}/accept', [CommunityController::class, 'acceptInvitation'])->name('community.accept');
+
+    Route::get('/community/{communityId}', [CommunityController::class, 'communityPage'])->name('community.page');
 });
+
+

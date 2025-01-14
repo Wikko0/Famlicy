@@ -3,44 +3,7 @@
     @if(Auth::user())
         <section class="welcome-section">
             <div class="container">
-                <div class="aside-left">
-                    <div class="user-profile">
-                        <div class="img">
-                            <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="User Image" />
-                        </div>
-                        <div class="user-info">
-                            <div class="name">Jake Roberts</div>
-                            <div class="country">Russia</div>
-                        </div>
-                    </div>
-
-                    <div class="add-items">
-                        <a href="../html/education.html" class="item ">
-                            <div class="title">Education</div>
-                            <button class="add-btn">add</button>
-                        </a>
-                        <a href="../html/employment.html" class="item">
-                            <div class="title">Employment & vocation</div>
-                            <button class="add-btn">add</button>
-                        </a>
-                        <a href="../html/interests.html" class="item">
-                            <div class="title">Interests & favourites</div>
-                            <button class="add-btn">add</button>
-                        </a>
-                        <a href="../html/goals.html" class="item">
-                            <div class="title">Goals & ambitions</div>
-                            <button class="add-btn">add</button>
-                        </a>
-                        <a href="../html/life-events.html" class="item">
-                            <div class="title">Life events & accomplishments</div>
-                            <button class="add-btn">add</button>
-                        </a>
-                        <a href="../html/my-favourites.html" class="item">
-                            <div class="title">My Favourites</div>
-                            <button class="add-btn">add</button>
-                        </a>
-                    </div>
-                </div>
+               @include('include.leftMenu')
                 <div class="main">
                     <div class="share-memory">
                         <div class="img">
@@ -226,42 +189,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="aside-right">
-                    <div class="title">Invite people to add content</div>
-                    <div class="invite-box">
-                        <input type="email" placeholder="Email" />
-                        <textarea name="" id="" placeholder="Enter a message"></textarea>
-                    </div>
-
-                    <div class="share-details">
-                        <div class="icon">
-                            <div class="img">
-                                <a href=""><img src="../assets/facebook.png" alt="" /></a>
-                            </div>
-                            <div class="img">
-                                <a href=""><img src="../assets/messenger.png" alt="" /></a>
-                            </div>
-                            <div class="img">
-                                <a href=""><img src="../assets/whatsapp.png" alt="" /></a>
-                            </div>
-                            <div class="img">
-                                <a href=""><img src="../assets/twitter.png" alt="" /></a>
-                            </div>
-                            <div class="img">
-                                <a href=""><img src="../assets/flipboard.png" alt="" /></a>
-                            </div>
-                            <div class="img">
-                                <a href=""><img src="../assets/email.png" alt="" /></a>
-                            </div>
-                            <div class="img">
-                                <a href=""><img src="../assets/share.png" alt="" /></a>
-                            </div>
-                        </div>
-                        <button class="invite-btn">
-                            <span><i class="ri-user-add-line"></i></span> invite
-                        </button>
-                    </div>
-                </div>
+                @include('include.invite')
             </div>
         </section>
     @else

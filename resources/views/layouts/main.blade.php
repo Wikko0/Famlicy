@@ -102,9 +102,13 @@
                     <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="User Image" />
                 </div>
                 <div class="dropdown-menu" id="dropdownMenu">
-                    <a href="/{{Auth::user()->username}}" class="menu-item">
+                    <a href="{{route('profile', Auth::user()->username)}}" class="menu-item">
                         <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="User Image" />
                         <span>{{ Auth::user()->name }}</span>
+                    </a>
+                    <a href="{{route('community')}}" class="menu-item">
+                        <img src="{{asset('images/community-icon.png')}}" alt="Community Icon" />
+                        <span>Create Community</span>
                     </a>
                     <a href="{{route('logout')}}" class="menu-item">
                         <img src="{{asset('images/exit-icon.png')}}" alt="Exit Icon" />

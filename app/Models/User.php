@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -70,12 +71,19 @@ class User extends Authenticatable
 
     public function friends()
     {
-        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
-            ->wherePivot('status', 'friends')
-            ->orWhere(function ($query) {
-                $query->where('friend_id', $this->id)
-                    ->where('status', 'friends');
+
+        $friendIds = DB::table('friendships')
+            ->where(function ($query) {
+                $query->where('user_id', $this->id)
+                    ->orWhere('friend_id', $this->id);
+            })
+            ->where('status', 'friends')
+            ->get()
+            ->map(function ($friendship) {
+                return $friendship->user_id == $this->id ? $friendship->friend_id : $friendship->user_id;
             });
+
+        return self::whereIn('id', $friendIds)->get();
     }
 
 

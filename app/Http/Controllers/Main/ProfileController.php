@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Models\Community;
 use App\Models\User;
 use App\Notifications\FriendAcceptNotification;
 use App\Notifications\FriendDeclineNotification;
 use App\Notifications\FriendRequestNotification;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -15,7 +18,9 @@ class ProfileController extends Controller
     public function index($username): View
     {
         $user = User::where('username', $username)->firstOrFail();
-        return view('main.profile', compact('user'));
+        $communities = Community::whereJsonContains('users', $user->id)->get();
+        $friends = $user->friends();
+        return view('main.profile', compact('user', 'friends', 'communities'));
     }
 
     public function follow(User $user)

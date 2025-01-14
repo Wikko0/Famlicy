@@ -317,77 +317,37 @@
 
 
                     <div class="active-user-items">
-                        <div
-                            class="item accept-item active-user-item"
-                            data-target=".hide-item-one"
-                        >
-                            <div class="item-details">
-                                <div class="img">
-                                    <img src="../assets/user-1.webp" alt=""/>
-                                </div>
-                                <div class="details">
-                                    <div class="name">Carles Vendas</div>
-                                    <div class="status accept">Accepted</div>
-                                </div>
-                            </div>
-                        </div>
+                            @foreach ($friends as $i => $friend)
+                                <div class="item accept-item" data-target=".hide-item-{{$i}}">
+                                    <div class="item-details">
+                                        <div class="img">
+                                            <img src="{{ asset('images/users/user-' . $friend->id . '.jpg') }}" alt=""/>
+                                        </div>
+                                        <div class="details">
+                                            <div class="name">{{ $friend->name }}</div>
+                                            <div class="status accept">Friends</div>
+                                        </div>
+                                    </div>
 
-                        <div class="item accept-item" data-target=".hide-item-two">
-                            <div class="item-details">
-                                <div class="img">
-                                    <img src="../assets/user-3.webp" alt=""/>
-                                </div>
-                                <div class="details">
-                                    <div class="name">Richard miad</div>
-                                    <div class="status accept">Accepted</div>
-                                </div>
-                            </div>
-                        </div>
+                                    <div class="hide-items hide-item-{{$i}}">
+                                        <div class="hide-item-details">
+                                        @foreach ($communities as $community)
+                                        @if ($community->isUserMember(Auth::id()) && $community->isNotUserMember($friend->id) && !$community->hasPendingInvitation($friend->id))
+                                            <form action="{{ route('community.join', ['communityId' => $community->id, 'friendId' => $friend->id]) }}" method="POST">
+                                                @csrf
 
-                        <div class="item accept-item" data-target=".hide-item-three">
-                            <div class="item-details">
-                                <div class="img">
-                                    <img src="../assets/user-7.webp" alt=""/>
+                                                <button type="submit" class="circle">Add to {{ $community->name }}</button>
+
+                                            </form>
+                                        @endif
+
+                                        @endforeach
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="details">
-                                    <div class="name">stepine matthe</div>
-                                    <div class="status accept">Accepted</div>
-                                </div>
-                            </div>
-                        </div>
+                            @endforeach
 
-                        <div class="hide-items hide-item-one">
-                            <div class="hide-item-details">
-                                <div class="circle">Add to Family circle</div>
-                                <div class="circle">Add to Vocational circle</div>
-                                <div class="circle">Add to Inner circle</div>
-                                <div class="circle">Add to Educational circle</div>
-                                <div class="circle">Add to Spritual circle</div>
-                                <div class="circle">Add to Financial circle</div>
-                            </div>
-                        </div>
 
-                        <div class="hide-items hide-item-two">
-                            <div class="hide-item-details">
-                                <div class="circle">Add to Financial circle</div>
-                                <div class="circle">Add to Family circle</div>
-                                <div class="circle">Add to Educational circle</div>
-                                <div class="circle">Add to Spritual circle</div>
-                                <div class="circle">Add to Vocational circle</div>
-                                <div class="circle">Add to Inner circle</div>
-                            </div>
-                        </div>
-
-                        <div class="hide-items hide-item-three">
-                            <div class="hide-item-details">
-                                <div class="circle">Add to Inner circle</div>
-                                <div class="circle">Add to Family circle</div>
-                                <div class="circle">Add to Vocational circle</div>
-                                <div class="circle">Add to Educational circle</div>
-                                <div class="circle">Add to Spritual circle</div>
-                                <div class="circle">Add to Financial circle</div>
-                            </div>
-                        </div>
 
                         <div class="item">
                             <div class="item-details">
@@ -453,7 +413,6 @@
                                 </button>
                             </form>
                         @elseif(auth()->user()->hasReceivedRequest($user))
-                            <!-- Ако е получил покана -->
                             <form action="{{ route('acceptRequest', $user->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="invite-btn accept">
@@ -471,7 +430,6 @@
                                 <span><i class="ri-time-line"></i></span> Invite Sent
                             </button>
                         @else
-                            <!-- Ако няма нито покана изпратена, нито получена -->
                             <form action="{{ route('sendRequest', $user->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="invite-btn">
