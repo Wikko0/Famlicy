@@ -98,6 +98,10 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'friendships', 'friend_id', 'user_id')->wherePivot('status_friend', 'pending');
     }
 
+    public function pendingFriend()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')->wherePivot('status_friend', 'pending');
+    }
 
     public function isFriendWith(User $user)
     {

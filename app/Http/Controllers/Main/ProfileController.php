@@ -20,7 +20,8 @@ class ProfileController extends Controller
         $user = User::where('username', $username)->firstOrFail();
         $communities = Community::whereJsonContains('users', $user->id)->get();
         $friends = $user->friends();
-        return view('main.profile', compact('user', 'friends', 'communities'));
+        $pendingFriend = $user->pendingFriend;
+        return view('main.profile', compact('user', 'friends', 'communities', 'pendingFriend'));
     }
 
     public function follow(User $user)

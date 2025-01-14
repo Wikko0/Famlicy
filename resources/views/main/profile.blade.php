@@ -348,42 +348,19 @@
                             @endforeach
 
 
-
+                    @foreach($pendingFriend as $pending)
                         <div class="item">
                             <div class="item-details">
                                 <div class="img">
-                                    <img src="../assets/avater.png" alt=""/>
+                                    <img src="{{ asset('images/users/user-' . $pending->id . '.jpg') }}" alt=""/>
                                 </div>
                                 <div class="details">
-                                    <div class="name">Carles Vendas</div>
+                                    <div class="name">{{$pending->name}}</div>
                                     <div class="status pending">pending</div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="item">
-                            <div class="item-details">
-                                <div class="img">
-                                    <img src="../assets/avater.png" alt=""/>
-                                </div>
-                                <div class="details">
-                                    <div class="name">Richard miad</div>
-                                    <div class="status pending">pending</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="item-details">
-                                <div class="img">
-                                    <img src="../assets/avater.png" alt=""/>
-                                </div>
-                                <div class="details">
-                                    <div class="name">stepine matthe</div>
-                                    <div class="status pending">pending</div>
-                                </div>
-                            </div>
-                        </div>
+                    @endforeach
                     </div>
                 </div>
             </div>
