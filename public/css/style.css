@@ -2046,6 +2046,17 @@ body {
     text-transform: capitalize;
 }
 
+.my-favourites .friends-btn {
+    padding: 12px 35px;
+    background-color: var(--green-color);
+    text-align: center;
+    font-size: 16px;
+    color: var(--white-color);
+    border-radius: 100px;
+    border: none;
+    text-transform: capitalize;
+}
+
 .my-favourites .follow-btn {
     padding: 12px 35px;
     background-color: var(--yellow-color);
@@ -2576,7 +2587,7 @@ body {
     text-decoration: none;
 }
 .my-favourites .favourite-sec .container {
-    max-width: 1200px; /* Увеличаваме ширината на контейнера */
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -2598,28 +2609,28 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 100%; /* Разширяваме секцията за въвеждане */
-    max-width: 700px; /* Формите ще са широки до 700px */
+    width: 100%;
+    max-width: 700px;
 }
 
 .favourite-items input[type="text"] {
     flex: 1;
-    padding: 14px 16px; /* Увеличаваме вътрешното отстояние на полетата */
-    font-size: 18px; /* Увеличаваме текста */
-    border-radius: 6px; /* Леко закръгление за по-добър изглед */
+    padding: 14px 16px;
+    font-size: 18px;
+    border-radius: 6px;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
     transition: border-color 0.3s ease;
 }
 
 .favourite-items input[type="text"]:focus {
-    border-color: #007bff; /* Подчертаваме с цвят при фокус */
+    border-color: #007bff;
 }
 
 .favourite-items button.add-btn {
-    padding: 14px 24px; /* Увеличаваме размера на бутоните */
-    font-size: 18px; /* По-голям шрифт за бутоните */
-    background-color: #28a745; /* Зелен бутон */
+    padding: 14px 24px;
+    font-size: 18px;
+    background-color: #28a745;
     color: white;
     border: none;
     border-radius: 6px;
@@ -2628,7 +2639,7 @@ body {
 }
 
 .favourite-items button.add-btn:hover {
-    background-color: #218838; /* По-тъмен зелен при hover */
+    background-color: #218838;
 }
 
 .favourite-items input[type="text"]::placeholder {
@@ -2637,5 +2648,74 @@ body {
 }
 
 .favourite-items .input-box button {
-    min-width: 100px; /* Увеличаваме ширината на бутоните */
+    min-width: 100px;
+}
+
+.notification-icon {
+    position: relative;
+}
+
+.notification-svg {
+    cursor: pointer;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 1px 6px;
+    font-size: 9px;
+}
+
+.dropdown-menu {
+    width: 350px;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notification-header {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.notification-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.notification-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.notification-item.unread {
+    background-color: #e0f7fa;
+}
+
+.notification-item p {
+    margin: 0;
+}
+
+.notification-item a {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.notification-item a:hover {
+    background-color: #0056b3;
 }

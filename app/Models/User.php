@@ -52,4 +52,83 @@ class User extends Authenticatable
     {
         return $this->hasOne(UsersInformation::class);
     }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'following_id');
+    }
+
+    public function isFollowing(User $user)
+    {
+        return $this->following()->where('following_id', $user->id)->exists();
+    }
+
+    public function friends()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
+            ->wherePivot('status', 'friends')
+            ->orWhere(function ($query) {
+                $query->where('friend_id', $this->id)
+                    ->where('status', 'friends');
+            });
+    }
+
+
+    public function sentFriendRequests()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')->wherePivot('status', 'invite');
+    }
+
+
+    public function receivedFriendRequests()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'friend_id', 'user_id')->wherePivot('status_friend', 'pending');
+    }
+
+
+    public function isFriendWith(User $user)
+    {
+        return \DB::table('friendships')
+            ->where(function ($query) use ($user) {
+                $query->where('user_id', $this->id)
+                    ->where('friend_id', $user->id)
+                    ->where('status', 'friends');
+            })
+            ->orWhere(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                    ->where('friend_id', $this->id)
+                    ->where('status', 'friends');
+            })
+            ->exists();
+    }
+
+
+    public function hasSentRequest(User $user)
+    {
+        return $this->sentFriendRequests()->where('friend_id', $user->id)->exists();
+    }
+
+
+    public function hasReceivedRequest(User $user)
+    {
+        return $this->receivedFriendRequests()->where('user_id', $user->id)->exists();
+    }
+
+    public function markAllNotificationsAsRead()
+    {
+        $this->unreadNotifications->markAsRead();
+    }
+
+    public function markNotificationAsRead($notificationId)
+    {
+        $notification = $this->notifications()->find($notificationId);
+        if ($notification) {
+            $notification->markAsRead();
+        }
+    }
 }

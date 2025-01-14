@@ -29,13 +29,17 @@
         </a>
         @if(Auth::user())
             <div class="user-details">
-                <div class="icon">
+                <div class="notification-icon">
+                    <!-- Икона за нотификации -->
                     <svg
                         width="24"
                         height="25"
                         viewBox="0 0 24 25"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
+                        class="notification-svg"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
                     >
                         <g clip-path="url(#clip0_2226_702)">
                             <path
@@ -58,7 +62,42 @@
                             </clipPath>
                         </defs>
                     </svg>
+
+
+                    @if(auth()->user()->unreadNotifications->count() > 0)
+                        <span class="notification-badge">{{ auth()->user()->unreadNotifications->count() }}</span>
+                    @endif
+
+
+                    <div class="dropdown-menu" id="notification-dropdown">
+                        <div class="notification-header">
+                            <h4>Notifications</h4>
+                        </div>
+                        <div class="notification-list">
+                            @php
+                                $allNotifications = auth()->user()->notifications;
+                                $unreadNotifications = $allNotifications->filter(fn($n) => !$n->read());
+                                $readNotifications = $allNotifications->filter(fn($n) => $n->read());
+
+                                $unreadCount = $unreadNotifications->count();
+                                $additionalReadCount = max(0, 5 - $unreadCount);
+                                $readToShow = $readNotifications->take($additionalReadCount);
+
+                                $notificationsToShow = $unreadNotifications->merge($readToShow);
+                            @endphp
+
+                            @foreach($notificationsToShow as $notification)
+                                <div class="notification-item @if(!$notification->read()) unread @endif">
+                                    <p>{{ $notification->data['message'] }}</p>
+                                    <a href="{{ route('notifications.read', $notification->id) }}" class="btn accept-btn">Read</a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
                 </div>
+
+
                 <div class="user-img" onclick="toggleMenu()">
                     <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="User Image" />
                 </div>
