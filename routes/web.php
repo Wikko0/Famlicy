@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Main\CommunityController;
 use App\Http\Controllers\Main\NotificationController;
+use App\Http\Controllers\Main\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\HomeController;
 use App\Http\Controllers\Main\RegisterController;
@@ -59,6 +60,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/community/{communityId}/accept', [CommunityController::class, 'acceptInvitation'])->name('community.accept');
 
     Route::get('/community/{communityId}', [CommunityController::class, 'communityPage'])->name('community.page');
+
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+    Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like');
+    Route::post('/posts/{id}/comment', [PostController::class, 'comment'])->name('posts.comment');
 });
 
 
