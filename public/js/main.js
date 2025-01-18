@@ -94,3 +94,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const shareButtons = document.querySelectorAll('.dropdown-item');
+
+    shareButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const url = this.getAttribute('href');
+            window.open(url, '_blank', 'width=600,height=400');
+        });
+    });
+});

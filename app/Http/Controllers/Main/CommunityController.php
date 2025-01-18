@@ -29,7 +29,7 @@ class CommunityController extends Controller
                 ->where('type', $community->name)
                 ->whereDate('created_at', '>=', Carbon::now()->subMonths(6))
                 ->latest()
-                ->get();
+                ->paginate(10);
 
         return view('main.communityPage', compact('community', 'posts'));
     }

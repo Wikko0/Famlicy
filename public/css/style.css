@@ -2925,3 +2925,29 @@ a {
 .send-btn:hover {
     background-color: #246c3c;
 }
+.dropdown-menu {
+    min-width: 200px;
+    padding: 10px 0;
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item i {
+    margin-right: 10px;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+.share-text {
+    margin-left: 5px;
+}
+
+.fab, .fas {
+    font-size: 18px;
+}

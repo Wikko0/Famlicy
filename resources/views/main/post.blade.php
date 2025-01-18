@@ -66,10 +66,19 @@
                                         <span><i class="ri-chat-1-line"></i></span>
                                         <span class="engage-text">Comments</span>
                                     </a>
-                                    <a href="" class="share">
+                                    <a href="" class="share" data-bs-toggle="dropdown" aria-expanded="false">
                                         <span><i class="ri-share-forward-line"></i></span>
                                         <span class="share-text">Share</span>
                                     </a>
+
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
+                                        <li><a class="dropdown-item" href="https://m.me/?text={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-facebook-messenger"></i> Messenger</a></li>
+                                        <li><a class="dropdown-item" href="https://wa.me/?text={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                                        <li><a class="dropdown-item" href="https://twitter.com/intent/tweet?url={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-twitter"></i> X (Twitter)</a></li>
+                                        <li><a class="dropdown-item" href="https://flipboard.com/subscribe/bookmarklet?url={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-flipboard"></i> Flipboard</a></li>
+                                        <li><a class="dropdown-item" href="mailto:?subject=Check this out&body={{ urlencode(route('posts.show', $post->id)) }}"><i class="fas fa-envelope"></i> Email</a></li>
+                                    </ul>
                                 </div>
                                 <div class="right">
                                     <form

@@ -35,7 +35,7 @@ class HomeController extends Controller
                 })
                 ->whereDate('created_at', '>=', Carbon::now()->subMonths(6))
                 ->latest()
-                ->get();
+                ->paginate(10);
         } else {
             $posts = null;
         }
