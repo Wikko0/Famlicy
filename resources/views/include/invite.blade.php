@@ -8,7 +8,7 @@
     <div class="share-details">
         <div class="icon">
             <div class="img">
-                <a href=""><img src="{{asset('images/')}}../assets/facebook.png" alt="" /></a>
+                <a href=""><img src="{{asset('images/facebook.png')}}" alt="" /></a>
             </div>
             <div class="img">
                 <a href=""><img src="{{asset('images/messenger.png')}}" alt="" /></a>

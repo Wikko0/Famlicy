@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Community;
+use App\Models\Post;
 use App\Models\User;
 use App\Notifications\JoinCommunityNotification;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class CommunityController extends Controller
@@ -21,7 +24,14 @@ class CommunityController extends Controller
     public function communityPage($communityId): View
     {
         $community = Community::findOrFail($communityId);
-        return view('main.communityPage', compact('community'));
+
+            $posts = Post::with('user')
+                ->where('type', $community->name)
+                ->whereDate('created_at', '>=', Carbon::now()->subMonths(6))
+                ->latest()
+                ->get();
+
+        return view('main.communityPage', compact('community', 'posts'));
     }
 
     public function createCommunity(Request $request): RedirectResponse

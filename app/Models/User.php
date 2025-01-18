@@ -86,6 +86,10 @@ class User extends Authenticatable
         return self::whereIn('id', $friendIds)->get();
     }
 
+    public function communities()
+    {
+        return $this->belongsToMany(Community::class, 'community_user', 'user_id', 'community_id');
+    }
 
     public function sentFriendRequests()
     {

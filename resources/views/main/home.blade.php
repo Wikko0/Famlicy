@@ -19,7 +19,11 @@
                                         <img src="{{ asset('images/users/user-' . $post->user->id . '.jpg') }}" alt="User Image" />
                                     </div>
                                     <div class="user-details">
-                                        <div class="name">{{ $post->user->name }}</div>
+
+                                            <a class="name" href="{{ route('profile', $post->user->username) }}">
+                                                {{ $post->user->name }}
+                                            </a>
+
                                         <a class="time" href="{{ route('posts.show', $post->id) }}">
                                             {{ $post->created_at->diffForHumans() }}
                                         </a>
@@ -291,83 +295,3 @@
 
 @endsection
 
-@section('scripts')
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var infoModal = document.getElementById("infoModal");
-
-            infoModal.addEventListener("show.bs.modal", function (event) {
-                var button = event.relatedTarget;
-                var postId = button.getAttribute("data-post-id");
-                var type = button.getAttribute("data-type");
-                var modalTitle = document.getElementById("infoModalLabel");
-                var infoList = document.getElementById("infoList");
-
-                modalTitle.innerText = type === "likes" ? "People who liked this post" : "Comments";
-                infoList.innerHTML = "<li class='list-group-item'>Loading...</li>";
-
-                var url = type === "likes" ? `/posts/${postId}/likes` : `/posts/${postId}/comments`;
-
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        infoList.innerHTML = "";
-
-                        if (data.items.length > 0) {
-                            data.items.forEach(function (item) {
-                                var li = document.createElement("li");
-                                li.classList.add("list-group-item");
-
-                                if (type === "likes") {
-                                    li.innerHTML = `
-                                <div class="d-flex align-items-start">
-                                    <img src="/images/users/user-${item.user_id}.jpg" width="30" class="rounded-circle me-2">
-                                    <strong>${item.user_name}</strong>
-                                </div>
-                            `;
-                                } else {
-                                    li.innerHTML = `
-                                <div class="d-flex align-items-start">
-                                    <img src="/images/users/user-${item.user_id}.jpg" width="30" class="rounded-circle me-2">
-                                    <div>
-                                        <strong>${item.user_name}</strong>
-                                        <p class="mb-0">${item.content}</p>
-                                        <small class="text-muted">${item.created_at}</small>
-                                    </div>
-                                </div>
-                            `;
-                                }
-
-                                infoList.appendChild(li);
-                            });
-                        } else {
-                            infoList.innerHTML = `<li class='list-group-item'>No ${type} yet.</li>`;
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error fetching data:", error);
-                        infoList.innerHTML = "<li class='list-group-item text-danger'>Error loading data.</li>";
-                    });
-            });
-        });
-
-        function previewImage() {
-            const file = document.getElementById('image-input').files[0];
-            const reader = new FileReader();
-
-            reader.onloadend = function() {
-                const imagePreviewContainer = document.getElementById('image-preview-container');
-                const imagePreview = document.getElementById('image-preview');
-
-
-                imagePreview.src = reader.result;
-                imagePreviewContainer.style.display = 'block';
-            }
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
-
-@endsection

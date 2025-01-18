@@ -11,6 +11,7 @@ use App\Notifications\FriendRequestNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -109,13 +110,24 @@ class ProfileController extends Controller
 
     public function removeFriend(User $user)
     {
+
         if (!auth()->user()->isFriendWith($user)) {
             return back()->withErrors('You are not friends with this user!');
         }
 
-        auth()->user()->friends()->detach($user->id);
-        $user->friends()->detach(auth()->user()->id);
+
+        DB::table('friendships')
+            ->where(function ($query) use ($user) {
+                $query->where('user_id', auth()->user()->id)
+                    ->where('friend_id', $user->id);
+            })
+            ->orWhere(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                    ->where('friend_id', auth()->user()->id);
+            })
+            ->delete();
 
         return back()->withSuccess('The friendship was removed!');
     }
+
 }
