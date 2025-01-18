@@ -4,109 +4,130 @@
         <section class="welcome-section">
             <div class="container">
                @include('include.leftMenu')
-                <div class="main">
-                    <!-- Форма за добавяне на пост -->
-                    <div class="share-memory">
-                        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="img">
-                                <img src="{{ asset('images/users/user-' . Auth::user()->id . '.jpg') }}" alt="User Image" />
-                            </div>
-                            <div class="input-box">
-                                <input
-                                    type="text"
-                                    name="content"
-                                    placeholder="Share your memory with everyone"
-                                    required
-                                />
-                                <input type="file" name="image" accept="image/*" />
-                                <button type="submit">
-                                    <svg
-                                        width="17"
-                                        height="17"
-                                        viewBox="0 0 17 17"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M3.8125 16L11.7812 8.5L15.5312 12.25M3.8125 16H13.1875C14.7408 16 16 14.7408 16 13.1875V8.5M3.8125 16C2.2592 16 1 14.7408 1 13.1875V3.8125C1 2.2592 2.2592 1 3.8125 1H9.90625M12.25 2.90826L14.1674 1M14.1674 1L16 2.822M14.1674 1V5.6875M6.625 5.21875C6.625 5.9954 5.9954 6.625 5.21875 6.625C4.4421 6.625 3.8125 5.9954 3.8125 5.21875C3.8125 4.4421 4.4421 3.8125 5.21875 3.8125C5.9954 3.8125 6.625 4.4421 6.625 5.21875Z"
-                                            stroke="#2A804E"
-                                            stroke-width="1.5"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                    </svg>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
 
-                    <!-- Секция с постове -->
+                <div class="main">
+                    @include('include.alert')
+
+                    @include('include.shareMemory')
+
                     <div class="post-items-sec">
                         @foreach ($posts as $post)
-                            <div class="post-item">
-                                <div class="post-header">
-                                    <div class="user">
-                                        <div class="img">
-                                            <img src="{{ asset('images/users/user-' . $post->user->id . '.jpg') }}" alt="User Image" />
-                                        </div>
-                                        <div class="user-details">
-                                            <div class="name">{{ $post->user->name }}</div>
-                                            <div class="time">{{ $post->created_at->diffForHumans() }}</div>
-                                        </div>
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="user">
+                                    <div class="img">
+                                        <img src="{{ asset('images/users/user-' . $post->user->id . '.jpg') }}" alt="User Image" />
                                     </div>
-                                </div>
-                                <div class="post-content">
-                                    <div class="desc">{{ $post->content }}</div>
-                                </div>
-                                @if ($post->image_path)
-                                    <div class="post-image">
-                                        <div class="img">
-                                            <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post Image" />
-                                        </div>
-                                    </div>
-                                @endif
-
-                                <!-- Пост детайли -->
-                                <div class="post-details">
-                                    <div class="left">
-                                        <form action="{{ route('posts.like', $post->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit">
-                                                <i class="ri-thumb-up-line"></i> {{ $post->likes->count() }} Likes
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="right">
-                                        <a href="{{ route('posts.show', $post->id) }}" class="total-share">
-                                            View Post
+                                    <div class="user-details">
+                                        <div class="name">{{ $post->user->name }}</div>
+                                        <a class="time" href="{{ route('posts.show', $post->id) }}">
+                                            {{ $post->created_at->diffForHumans() }}
                                         </a>
                                     </div>
                                 </div>
-
-                                <!-- Коментари -->
-                                <div class="comments">
-                                    <h3>Comments</h3>
-                                    <form action="{{ route('posts.comment', $post->id) }}" method="POST">
-                                        @csrf
-                                        <textarea name="content" placeholder="Add a comment..." required></textarea>
-                                        <button type="submit">Comment</button>
-                                    </form>
-                                    <ul>
-                                        @foreach ($post->comments as $comment)
-                                            <li>
-                                                <strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                <div class="type-name">
+                                    <div class="type">{{ $post->type }}</div>
                                 </div>
                             </div>
+                            <div class="post-content">
+                                <div class="desc">{{ $post->content }}</div>
+                            </div>
+                            @if ($post->image_path)
+                                <div class="post-image">
+                                    <div class="img">
+                                        <img src="{{ asset($post->image_path) }}" alt="Post Image" />
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="post-details">
+                                <div class="left">
+                                    <div class="date-time">{{ $post->created_at->format('d-M-Y') }}</div>
+                                    <a href="#" class="total-react" data-bs-toggle="modal" data-bs-target="#infoModal" data-type="likes" data-post-id="{{ $post->id }}">
+                                        <span><i class="ri-thumb-up-line"></i></span>
+                                        {{ $post->likes->count() }} Likes
+                                    </a>
+                                </div>
+                                <div class="right">
+                                    <div class="total-engage">
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal" data-type="comments" data-post-id="{{ $post->id }}">
+                                            {{ $post->comments->count() }} comments
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="react-section">
+                                <div class="left">
+                                    <form id="like-form-{{ $post->id }}" action="{{ route('posts.like', $post->id) }}" method="POST">
+                                        @csrf
+                                        <a href="#" onclick="event.preventDefault(); document.getElementById('like-form-{{ $post->id }}').submit();" class="like">
+                                            <span><i class="ri-thumb-up-{{ $post->likes->where('user_id', auth()->id())->isNotEmpty() ? 'fill' : 'line' }}"></i></span>
+                                            <span class="like-text">Like</span>
+                                        </a>
+                                    </form>
+
+                                    <a href="#" class="engage" data-bs-toggle="modal" data-bs-target="#infoModal" data-type="comments" data-post-id="{{ $post->id }}">
+                                        <span><i class="ri-chat-1-line"></i></span>
+                                        <span class="engage-text">Comments</span>
+                                    </a>
+                                    <a href="" class="share">
+                                        <span><i class="ri-share-forward-line"></i></span>
+                                        <span class="share-text">Share</span>
+                                    </a>
+                                </div>
+                                <div class="right">
+                                    <form
+                                        action="{{ route(auth()->user()->isFollowing($post->user) ? 'unfollow' : 'follow', $post->user->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                                class="follow-btn {{ auth()->user()->isFollowing($post->user) ? 'unfollow' : '' }}">
+                                    <span>
+                                      <i class="ri-user-{{ auth()->user()->isFollowing($post->user) ? 'minus-fill' : 'add-line' }}"></i>
+                                    </span>
+                                            {{ auth()->user()->isFollowing($post->user) ? 'Unfollow' : 'Follow' }}
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <form action="{{ route('posts.comment', $post->id) }}" method="POST">
+                                @csrf
+                            <div class="add-engage">
+                                <div class="img">
+                                    <img src="{{ asset('images/users/user-' . Auth::user()->id . '.jpg') }}" alt="User Image" />
+                                </div>
+                                <div class="engage-box">
+                                    <input type="text" name="content" placeholder="Add a comment..." required />
+                                    <button type="submit" class="send-btn">
+                                        <i class="ri-send-plane-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+
                         @endforeach
                     </div>
                 </div>
                 @include('include.invite')
             </div>
         </section>
+
+        <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">Title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul id="infoList" class="list-group">
+                            <li class="list-group-item">Loading...</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     @else
         <section class="hero-section">
             <div class="container">
@@ -267,5 +288,86 @@
             </div>
         </section>
     @endif
+
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var infoModal = document.getElementById("infoModal");
+
+            infoModal.addEventListener("show.bs.modal", function (event) {
+                var button = event.relatedTarget;
+                var postId = button.getAttribute("data-post-id");
+                var type = button.getAttribute("data-type");
+                var modalTitle = document.getElementById("infoModalLabel");
+                var infoList = document.getElementById("infoList");
+
+                modalTitle.innerText = type === "likes" ? "People who liked this post" : "Comments";
+                infoList.innerHTML = "<li class='list-group-item'>Loading...</li>";
+
+                var url = type === "likes" ? `/posts/${postId}/likes` : `/posts/${postId}/comments`;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        infoList.innerHTML = "";
+
+                        if (data.items.length > 0) {
+                            data.items.forEach(function (item) {
+                                var li = document.createElement("li");
+                                li.classList.add("list-group-item");
+
+                                if (type === "likes") {
+                                    li.innerHTML = `
+                                <div class="d-flex align-items-start">
+                                    <img src="/images/users/user-${item.user_id}.jpg" width="30" class="rounded-circle me-2">
+                                    <strong>${item.user_name}</strong>
+                                </div>
+                            `;
+                                } else {
+                                    li.innerHTML = `
+                                <div class="d-flex align-items-start">
+                                    <img src="/images/users/user-${item.user_id}.jpg" width="30" class="rounded-circle me-2">
+                                    <div>
+                                        <strong>${item.user_name}</strong>
+                                        <p class="mb-0">${item.content}</p>
+                                        <small class="text-muted">${item.created_at}</small>
+                                    </div>
+                                </div>
+                            `;
+                                }
+
+                                infoList.appendChild(li);
+                            });
+                        } else {
+                            infoList.innerHTML = `<li class='list-group-item'>No ${type} yet.</li>`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching data:", error);
+                        infoList.innerHTML = "<li class='list-group-item text-danger'>Error loading data.</li>";
+                    });
+            });
+        });
+
+        function previewImage() {
+            const file = document.getElementById('image-input').files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = function() {
+                const imagePreviewContainer = document.getElementById('image-preview-container');
+                const imagePreview = document.getElementById('image-preview');
+
+
+                imagePreview.src = reader.result;
+                imagePreviewContainer.style.display = 'block';
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 
 @endsection

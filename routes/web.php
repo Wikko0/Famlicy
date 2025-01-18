@@ -61,10 +61,34 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/community/{communityId}', [CommunityController::class, 'communityPage'])->name('community.page');
 
-    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+    Route::post('/posts/{contentType}', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/post/{id}', [PostController::class, 'show'])->name('posts.show');
     Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like');
     Route::post('/posts/{id}/comment', [PostController::class, 'comment'])->name('posts.comment');
+
+    Route::get('/posts/{post}/likes', function (\App\Models\Post $post) {
+        return response()->json([
+            'items' => $post->likes()->with('user')->get()->map(function ($like) {
+                return [
+                    'user_id' => $like->user->id,
+                    'user_name' => $like->user->name,
+                ];
+            })
+        ]);
+    });
+
+    Route::get('/posts/{post}/comments', function (\App\Models\Post $post) {
+        return response()->json([
+            'items' => $post->comments()->with('user')->get()->map(function ($comment) {
+                return [
+                    'user_id' => $comment->user->id,
+                    'user_name' => $comment->user->name,
+                    'content' => $comment->content,
+                    'created_at' => $comment->created_at->diffForHumans(),
+                ];
+            })
+        ]);
+    });
 });
 
 

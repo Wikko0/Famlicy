@@ -9,11 +9,12 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
 
-    public function store(Request $request)
+    public function store(Request $request, $contentType)
     {
         $request->validate([
             'content' => 'required|string|max:255',
@@ -21,16 +22,29 @@ class PostController extends Controller
         ]);
 
         $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public');
-        }
 
-        Post::create([
+        $post = Post::create([
             'user_id' => Auth::id(),
             'content' => $request->input('content'),
-            'type' => $request->type,
+            'type' => $contentType,
             'image_path' => $imagePath,
         ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+
+            $photoPath = $image->storeAs(
+                '/images/posts',
+                'post-' . $post->id . '.jpg',
+                ['disk' => 'public_uploads']
+            );
+
+            $image = Image::make(public_path("{$photoPath}"));
+            $image->save();
+
+
+            $post->update(['image_path' => $photoPath]);
+        }
 
         return redirect()->back()->withSuccess('Post added successfully!');
     }
@@ -38,7 +52,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::with(['user', 'likes.user', 'comments.user'])->findOrFail($id);
-        return view('posts.show', compact('post'));
+        return view('main.post', compact('post'));
     }
 
     public function like($id)
@@ -49,6 +63,7 @@ class PostController extends Controller
 
         if ($like) {
             $like->delete();
+            return redirect()->back()->withSuccess('Unliked successfully!');
         } else {
             Like::create([
                 'post_id' => $id,
@@ -56,7 +71,7 @@ class PostController extends Controller
             ]);
         }
 
-        return redirect()->back();
+        return redirect()->back()->withSuccess('Liked successfully!');
     }
 
     public function comment(Request $request, $id)
@@ -66,9 +81,9 @@ class PostController extends Controller
         Comment::create([
             'post_id' => $id,
             'user_id' => Auth::id(),
-            'content' => $request->content,
+            'content' => $request->input('content'),
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->withSuccess('Comment added successfully!');
     }
 }

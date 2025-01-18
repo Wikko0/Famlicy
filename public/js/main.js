@@ -16,3 +16,4 @@ document.querySelector('.notification-icon').addEventListener('click', function(
     var menu = document.getElementById('notification-dropdown');
     menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
 });
+

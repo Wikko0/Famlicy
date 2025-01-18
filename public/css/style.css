@@ -2889,3 +2889,35 @@ body {
     text-transform: capitalize;
     display: inline-block;
 }
+
+.engage-box {
+    position: relative;
+}
+
+.engage-box textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none; /* Препоръчително да скрием ръчното разширяване */
+    min-height: 40px; /* Минимална височина */
+    box-sizing: border-box;
+}
+
+.send-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background-color: #2a804e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+.send-btn:hover {
+    background-color: #246c3c;
+}

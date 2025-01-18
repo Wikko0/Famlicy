@@ -8,25 +8,25 @@
     <div class="share-details">
         <div class="icon">
             <div class="img">
-                <a href=""><img src="../assets/facebook.png" alt="" /></a>
+                <a href=""><img src="{{asset('images/')}}../assets/facebook.png" alt="" /></a>
             </div>
             <div class="img">
-                <a href=""><img src="../assets/messenger.png" alt="" /></a>
+                <a href=""><img src="{{asset('images/messenger.png')}}" alt="" /></a>
             </div>
             <div class="img">
-                <a href=""><img src="../assets/whatsapp.png" alt="" /></a>
+                <a href=""><img src="{{asset('images/whatsapp.png')}}" alt="" /></a>
             </div>
             <div class="img">
-                <a href=""><img src="../assets/twitter.png" alt="" /></a>
+                <a href=""><img src="{{asset('images/twitter.png')}}" alt="" /></a>
             </div>
             <div class="img">
-                <a href=""><img src="../assets/flipboard.png" alt="" /></a>
+                <a href=""><img src="{{asset('images/flipboard.png')}}" alt="" /></a>
             </div>
             <div class="img">
-                <a href=""><img src="../assets/email.png" alt="" /></a>
+                <a href=""><img src="{{asset('images/email.png')}}" alt="" /></a>
             </div>
             <div class="img">
-                <a href=""><img src="../assets/share.png" alt="" /></a>
+                <a href=""><img src="{{asset('images/share.png')}}" alt="" /></a>
             </div>
         </div>
         <button class="invite-btn">
