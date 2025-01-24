@@ -10,6 +10,7 @@ use App\Http\Controllers\Main\LoginController;
 use App\Http\Controllers\Main\ProfileController;
 use App\Http\Controllers\Main\UsersInformationController;
 use App\Http\Controllers\Main\UsersEducationController;
+use App\Http\Controllers\Main\UsersEmploymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/user/education/college', [UsersEducationController::class, 'updateCollege'])->name('user.education.college');
     Route::post('/user/education/university', [UsersEducationController::class, 'updateUniversity'])->name('user.education.university');
 
+//    Employment
+    Route::get('/user/{username}/employment', [UsersEmploymentController::class, 'index'])->name('user.employment');
+    Route::post('/user/{username}/employment/update', [UsersEmploymentController::class, 'updateInformation'])->name('user.employment.update');
+    Route::delete('/user/employment/{id}/delete', [UsersEmploymentController::class, 'destroy'])->name('user.employment.delete');
 
     Route::post('/send-request/{user}', [ProfileController::class, 'sendRequest'])->name('sendRequest');
 

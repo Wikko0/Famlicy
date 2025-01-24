@@ -17,6 +17,10 @@
             <div class="title">Education</div>
             <button class="add-btn">Visit</button>
         </a>
+        <a href="{{route('user.employment', Auth::user()->username)}}" class="item ">
+            <div class="title">Employment & vocation</div>
+            <button class="add-btn">Visit</button>
+        </a>
 
     </div>
 </div>

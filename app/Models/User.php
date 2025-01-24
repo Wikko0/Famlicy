@@ -59,6 +59,11 @@ class User extends Authenticatable
         return $this->hasOne(UsersEducation::class);
     }
 
+    public function userEmployment()
+    {
+        return $this->hasMany(UsersEmployment::class);
+    }
+
     public function followers()
     {
         return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');

@@ -374,6 +374,50 @@
                     @endisset
 
 
+                    <!-- Employment Section -->
+                    @isset($user->userEmployment)
+                        <div class="card introduction-section">
+                            <div class="card-header">
+                                <h3>Employment History</h3>
+                            </div>
+                            <div class="card-body">
+                                @foreach($user->userEmployment as $employment)
+                                    <div class="item introduction-item mb-3">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{ asset('images/job-icon.png') }}" alt="Company Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">{{ $employment->name }}</div>
+                                                <div class="info">
+                                                    <strong>Job Title:</strong> {{ $employment->title ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($employment->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($employment->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($employment->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $employment->description ?? 'Not specified' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="edit-info-btn">
+                                <a href="{{ route('user.employment', $user->username) }}">
+                                    <button class="btn-invite btn btn-primary">Edit Information</button>
+                                </a>
+                            </div>
+                        </div>
+                    @endisset
+
+
                     <div class="active-user-items">
                             @foreach ($friends as $i => $friend)
                                 <div class="item accept-item" data-target=".hide-item-{{$i}}">
