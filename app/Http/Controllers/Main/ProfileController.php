@@ -25,7 +25,7 @@ class ProfileController extends Controller
         return view('main.profile', compact('user', 'friends', 'communities', 'pendingFriend'));
     }
 
-    public function follow(User $user)
+    public function follow(User $user): RedirectResponse
     {
         if ($user->id == auth()->id()) {
             return back()->withErrors('You can\'t follow yourself!');
@@ -40,7 +40,7 @@ class ProfileController extends Controller
         return back()->withSuccess('You started following ' . $user->name);
     }
 
-    public function unfollow(User $user)
+    public function unfollow(User $user): RedirectResponse
     {
 
         if ($user->id == auth()->id()) {
@@ -53,7 +53,7 @@ class ProfileController extends Controller
         return back()->withSuccess('Stop following ' . $user->name);
     }
 
-    public function sendRequest(User $user)
+    public function sendRequest(User $user): RedirectResponse
     {
         if (auth()->user()->id == $user->id) {
             return back()->withErrors('You can\'t send an invitation to yourself!');
@@ -72,13 +72,13 @@ class ProfileController extends Controller
         return back()->withSuccess('Friend request sent!');
     }
 
-    public function acceptRequest(User $user)
+    public function acceptRequest(User $user): RedirectResponse
     {
         if (!auth()->user()->hasReceivedRequest($user)) {
-            return back()->with('error', 'There is no friend request from this user!');
+            return back()->withErrors('There is no friend request from this user!');
         }
 
-        // Променяме статуса на поканата на "приятели"
+
         auth()->user()->receivedFriendRequests()->updateExistingPivot($user->id, [
             'status' => 'friends',
             'status_friend' => null,
@@ -90,25 +90,25 @@ class ProfileController extends Controller
 
         $user->notify(new FriendAcceptNotification(auth()->user()));
 
-        return back()->with('success', 'Friend request approved!');
+        return back()->withSuccess('Friend request approved!');
     }
 
-// Отхвърляне на покана за приятелство
-    public function declineRequest(User $user)
+
+    public function declineRequest(User $user): RedirectResponse
     {
         if (!auth()->user()->hasReceivedRequest($user)) {
-            return back()->with('error', 'There is no friend request from this user!');
+            return back()->withErrors('There is no friend request from this user!');
         }
 
-        // Отказваме поканата
+
         auth()->user()->receivedFriendRequests()->detach($user->id);
         $user->sentFriendRequests()->detach(auth()->user()->id);
         $user->notify(new FriendDeclineNotification(auth()->user()));
 
-        return back()->with('success', 'Friend request declined!');
+        return back()->withSuccess('Friend request declined!');
     }
 
-    public function removeFriend(User $user)
+    public function removeFriend(User $user): RedirectResponse
     {
 
         if (!auth()->user()->isFriendWith($user)) {

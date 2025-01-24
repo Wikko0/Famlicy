@@ -7,15 +7,21 @@ document.addEventListener('click', function (event) {
     const menu = document.getElementById('dropdownMenu');
     const userDetails = document.querySelector('.user-details');
 
-    if (!userDetails.contains(event.target)) {
+    if (menu && userDetails && !userDetails.contains(event.target)) {
         menu.style.display = 'none';
     }
 });
 
-document.querySelector('.notification-icon').addEventListener('click', function() {
-    var menu = document.getElementById('notification-dropdown');
-    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-});
+const notificationIcon = document.querySelector('.notification-icon');
+if (notificationIcon) {
+    notificationIcon.addEventListener('click', function() {
+        var menu = document.getElementById('notification-dropdown');
+
+        if (menu) {
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+    });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     var infoModal = document.getElementById("infoModal");
@@ -77,23 +83,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function previewImage() {
-        const file = document.getElementById('image-input').files[0];
-        const reader = new FileReader();
-
-        reader.onloadend = function() {
-            const imagePreviewContainer = document.getElementById('image-preview-container');
-            const imagePreview = document.getElementById('image-preview');
-
-            imagePreview.src = reader.result;
-            imagePreviewContainer.style.display = 'block';
-        }
-
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    }
 });
+
+function previewImage() {
+    const file = document.getElementById('image-input').files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = function() {
+        const imagePreviewContainer = document.getElementById('image-preview-container');
+        const imagePreview = document.getElementById('image-preview');
+
+        imagePreview.src = reader.result;
+        imagePreviewContainer.style.display = 'block';
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     const shareButtons = document.querySelectorAll('.dropdown-item');

@@ -9,6 +9,7 @@ use App\Http\Controllers\Main\RegisterController;
 use App\Http\Controllers\Main\LoginController;
 use App\Http\Controllers\Main\ProfileController;
 use App\Http\Controllers\Main\UsersInformationController;
+use App\Http\Controllers\Main\UsersEducationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,8 +42,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/follow/{user}', [ProfileController::class, 'follow'])->name('follow');
     Route::post('/unfollow/{user}', [ProfileController::class, 'unfollow'])->name('unfollow');
 
+//    Information
     Route::get('/user/{username}/information', [UsersInformationController::class, 'index'])->name('user.information');
     Route::post('/user/{username}/information/update', [UsersInformationController::class, 'updateInformation'])->name('user.information.update');
+
+//    Education
+    Route::get('/user/{username}/education', [UsersEducationController::class, 'index'])->name('user.education');
+    Route::post('/user/education/primary', [UsersEducationController::class, 'updatePrimary'])->name('user.education.primary');
+    Route::post('/user/education/secondary', [UsersEducationController::class, 'updateSecondary'])->name('user.education.secondary');
+    Route::post('/user/education/college', [UsersEducationController::class, 'updateCollege'])->name('user.education.college');
+    Route::post('/user/education/university', [UsersEducationController::class, 'updateUniversity'])->name('user.education.university');
+
 
     Route::post('/send-request/{user}', [ProfileController::class, 'sendRequest'])->name('sendRequest');
 

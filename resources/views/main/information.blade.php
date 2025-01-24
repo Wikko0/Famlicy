@@ -7,6 +7,7 @@
             <div class="title">Create a Community That Values Every Memory</div>
         </div>
         @include('include/alert')
+
         <div class="favourite-sec">
             <div class="container">
                 <div class="favourite-items">
@@ -36,11 +37,11 @@
                                     <input
                                         type="text"
                                         name="value"
-                                        value="{{ $user->userInformation->{$key} ?? '' }}"
+                                        value="{{ $user->userInformation && $user->userInformation->{$key} ? $user->userInformation->{$key} : '' }}"
                                         placeholder="Enter your {{ strtolower($label) }}"
-                                        >
+                                    >
                                     <input type="hidden" name="key" value="{{ $key }}">
-                                    <button type="submit" class="add-btn">{{ $user->userInformation->{$key} ? 'Update' : 'Add' }}</button>
+                                    <button type="submit" class="add-btn">{{ $user->userInformation && $user->userInformation->{$key} ? 'Update' : 'Add' }}</button>
                                 </div>
                             </form>
                         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -14,7 +15,7 @@ use Intervention\Image\Facades\Image;
 class PostController extends Controller
 {
 
-    public function store(Request $request, $contentType)
+    public function store(Request $request, $contentType): RedirectResponse
     {
         $request->validate([
             'content' => 'required|string|max:255',
@@ -49,13 +50,13 @@ class PostController extends Controller
         return redirect()->back()->withSuccess('Post added successfully!');
     }
 
-    public function show($id)
+    public function show($id): View
     {
         $post = Post::with(['user', 'likes.user', 'comments.user'])->findOrFail($id);
         return view('main.post', compact('post'));
     }
 
-    public function like($id)
+    public function like($id): RedirectResponse
     {
         $post = Post::findOrFail($id);
 
@@ -74,7 +75,7 @@ class PostController extends Controller
         return redirect()->back()->withSuccess('Liked successfully!');
     }
 
-    public function comment(Request $request, $id)
+    public function comment(Request $request, $id): RedirectResponse
     {
         $request->validate(['content' => 'required|string']);
 

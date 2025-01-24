@@ -315,6 +315,64 @@
                         </div>
                     </div>
 
+                    <!-- Education Section -->
+                    @isset($user->userEducation)
+                        <div class="card introduction-section">
+                            <div class="card-header">
+                                <h3>Education</h3>
+                            </div>
+                            <div class="card-body">
+                                @foreach (['Primary School', 'Secondary School', 'College', 'University'] as $educationLevel)
+                                    @php
+                                        $education = $user->userEducation->where('name', $educationLevel)->first();
+                                    @endphp
+
+                                    @if($education)
+                                        <div class="item introduction-item">
+                                            <div class="item-details">
+                                                <div class="img">
+                                                    <img src="{{ asset('images/' . strtolower(str_replace(' ', '-', $educationLevel)) . '-icon.png') }}" alt="{{ $educationLevel }} Icon"/>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="name">{{ $educationLevel }}:</div>
+                                                    <div class="info">
+                                                        Start Date: {{ \Carbon\Carbon::parse($education->start_date)->format('d-m-Y') ?? 'Not specified'}}
+                                                    </div>
+                                                    <div class="info">
+                                                        End Date: {{ \Carbon\Carbon::parse($education->end_date)->format('d-m-Y') ?? 'Not specified'}}
+                                                    </div>
+
+                                                    {{-- Проверка дали има предмети и ако не са празни --}}
+                                                    @if($education->subject && $education->subject != "{\"\":null}")
+                                                        <div class="info">
+                                                            Subjects and Grades:
+                                                            @php
+                                                                $subjectsAndGrades = json_decode($education->subject, true);
+                                                            @endphp
+                                                            <ul>
+                                                                @foreach($subjectsAndGrades as $subject => $grade)
+                                                                    @if($subject && $grade)
+                                                                        <li>{{ $subject }}: {{ $grade }}</li>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+
+                            <div class="edit-info-btn">
+                                <a href="{{ route('user.education', $user->username) }}">
+                                    <button class="btn-invite">Edit Information</button>
+                                </a>
+                            </div>
+                        </div>
+                    @endisset
+
 
                     <div class="active-user-items">
                             @foreach ($friends as $i => $friend)
@@ -344,6 +402,11 @@
                                         @endforeach
                                         </div>
                                     </div>
+                                    <div class="edit-info-btn">
+                                        <a href="{{route('profile', $friend->username)}}">
+                                            <button class="btn-invite">Visit Profile</button>
+                                        </a>
+                                    </div>
                                 </div>
                             @endforeach
 
@@ -358,6 +421,11 @@
                                     <div class="name">{{$pending->name}}</div>
                                     <div class="status pending">pending</div>
                                 </div>
+                            </div>
+                            <div class="edit-info-btn">
+                                <a href="{{route('profile', $pending->username)}}">
+                                    <button class="btn-invite">Visit Profile</button>
+                                </a>
                             </div>
                         </div>
                     @endforeach

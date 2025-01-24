@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Main;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UsersInformation;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -21,7 +22,7 @@ class UsersInformationController extends Controller
         return view('main.information', compact('user'));
     }
 
-    public function updateInformation(Request $request, $username)
+    public function updateInformation(Request $request, $username): RedirectResponse
     {
         $user = User::where('username', $username)->firstOrFail();
 
@@ -36,6 +37,6 @@ class UsersInformationController extends Controller
         $userInformation->{$validated['key']} = $validated['value'];
         $userInformation->save();
 
-        return redirect()->back()->with('success', ucfirst($validated['key']) . ' updated successfully!');
+        return redirect()->back()->withSuccess(ucfirst($validated['key']) . ' updated successfully!');
     }
 }

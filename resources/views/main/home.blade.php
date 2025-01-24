@@ -53,8 +53,8 @@
                             private and meaningful way to do it.
                         </div>
                         <div class="btn-sec mt-4">
-                            <button class="registerBtn">register</button>
-                            <button class="loginBtn">login</button>
+                            <button class="registerBtn" onclick="window.location.href='{{route('register')}}';">register</button>
+                            <button class="loginBtn" onclick="window.location.href='{{route('login')}}';">login</button>
                         </div>
                     </div>
                     <div class="col-lg-5 right">
@@ -163,8 +163,8 @@
                                 matter most.
                             </div>
                             <div class="btn-sec mt-4">
-                                <button class="registerBtn">register</button>
-                                <button class="loginBtn">login</button>
+                                <button class="registerBtn" onclick="window.location.href='{{route('register')}}';">register</button>
+                                <button class="loginBtn" onclick="window.location.href='{{route('login')}}';">login</button>
                             </div>
                         </div>
                     </div>
