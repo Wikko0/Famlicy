@@ -67,7 +67,6 @@
                     </div>
                 </form>
 
-                <!-- Изброяване на работни места с Bootstrap card -->
                 @if(!$employments->isEmpty())
                     <div class="employment-list mt-4">
                         <h3>Your Employment History</h3>

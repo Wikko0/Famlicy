@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Community;
+use App\Models\ProfileClick;
 use App\Models\User;
 use App\Notifications\FriendAcceptNotification;
 use App\Notifications\FriendDeclineNotification;
@@ -22,7 +23,15 @@ class ProfileController extends Controller
         $communities = Community::whereJsonContains('users', $user->id)->get();
         $friends = $user->friends();
         $pendingFriend = $user->pendingFriend;
-        return view('main.profile', compact('user', 'friends', 'communities', 'pendingFriend'));
+        if (auth()->id() !== $user->id) {
+            ProfileClick::create([
+                'user_id' => auth()->id(),
+                'profile_id' => $user->id,
+            ]);
+        }
+
+        $clickCount = ProfileClick::where('profile_id', $user->id)->count();
+        return view('main.profile', compact('user', 'friends', 'communities', 'pendingFriend', 'clickCount'));
     }
 
     public function follow(User $user): RedirectResponse

@@ -21,6 +21,9 @@
                             <div class="user-info">
                                 <div class="name">{{$user->name}}</div>
                             </div>
+                            <button type="submit" class="friends-btn">
+                                <span><i class="ri-home-2-fill"></i></span> Profile Clicks {{$clickCount}}
+                            </button>
                         </div>
                     </div>
 
@@ -316,11 +319,12 @@
                     </div>
 
                     <!-- Education Section -->
-                    @isset($user->userEducation)
+
                         <div class="card introduction-section">
                             <div class="card-header">
                                 <h3>Education</h3>
                             </div>
+                            @isset($user->userEducation)
                             <div class="card-body">
                                 @foreach (['Primary School', 'Secondary School', 'College', 'University'] as $educationLevel)
                                     @php
@@ -364,22 +368,23 @@
                                     @endif
                                 @endforeach
                             </div>
-
+                            @endisset
                             <div class="edit-info-btn">
                                 <a href="{{ route('user.education', $user->username) }}">
                                     <button class="btn-invite">Edit Information</button>
                                 </a>
                             </div>
                         </div>
-                    @endisset
+
 
 
                     <!-- Employment Section -->
-                    @isset($user->userEmployment)
+
                         <div class="card introduction-section">
                             <div class="card-header">
                                 <h3>Employment History</h3>
                             </div>
+                            @isset($user->userEmployment)
                             <div class="card-body">
                                 @foreach($user->userEmployment as $employment)
                                     <div class="item introduction-item mb-3">
@@ -408,6 +413,7 @@
                                     </div>
                                 @endforeach
                             </div>
+                            @endisset
 
                             <div class="edit-info-btn">
                                 <a href="{{ route('user.employment', $user->username) }}">
@@ -415,7 +421,7 @@
                                 </a>
                             </div>
                         </div>
-                    @endisset
+
 
 
                     <div class="active-user-items">
@@ -824,6 +830,108 @@
                             @endisset
                         </div>
                     </div>
+
+                    <!-- Education Section -->
+                    @isset($user->userEducation)
+                        <div class="card introduction-section">
+                            <div class="card-header">
+                                <h3>Education</h3>
+                            </div>
+                            <div class="card-body">
+                                @foreach (['Primary School', 'Secondary School', 'College', 'University'] as $educationLevel)
+                                    @php
+                                        $education = $user->userEducation->where('name', $educationLevel)->first();
+                                    @endphp
+
+                                    @if($education)
+                                        <div class="item introduction-item">
+                                            <div class="item-details">
+                                                <div class="img">
+                                                    <img src="{{ asset('images/' . strtolower(str_replace(' ', '-', $educationLevel)) . '-icon.png') }}" alt="{{ $educationLevel }} Icon"/>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="name">{{ $educationLevel }}:</div>
+                                                    <div class="info">
+                                                        Start Date: {{ \Carbon\Carbon::parse($education->start_date)->format('d-m-Y') ?? 'Not specified'}}
+                                                    </div>
+                                                    <div class="info">
+                                                        End Date: {{ \Carbon\Carbon::parse($education->end_date)->format('d-m-Y') ?? 'Not specified'}}
+                                                    </div>
+
+                                                    {{-- Проверка дали има предмети и ако не са празни --}}
+                                                    @if($education->subject && $education->subject != "{\"\":null}")
+                                                        <div class="info">
+                                                            Subjects and Grades:
+                                                            @php
+                                                                $subjectsAndGrades = json_decode($education->subject, true);
+                                                            @endphp
+                                                            <ul>
+                                                                @foreach($subjectsAndGrades as $subject => $grade)
+                                                                    @if($subject && $grade)
+                                                                        <li>{{ $subject }}: {{ $grade }}</li>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+
+                            <div class="edit-info-btn">
+                                <a href="{{ route('user.education', $user->username) }}">
+                                    <button class="btn-invite">Edit Information</button>
+                                </a>
+                            </div>
+                        </div>
+                    @endisset
+
+
+                    <!-- Employment Section -->
+                    @if($user->userEmployment->isNotEmpty())
+                        <div class="card introduction-section">
+                            <div class="card-header">
+                                <h3>Employment History</h3>
+                            </div>
+                            <div class="card-body">
+                                @foreach($user->userEmployment as $employment)
+                                    <div class="item introduction-item mb-3">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{ asset('images/job-icon.png') }}" alt="Company Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">{{ $employment->name }}</div>
+                                                <div class="info">
+                                                    <strong>Job Title:</strong> {{ $employment->title ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($employment->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($employment->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($employment->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $employment->description ?? 'Not specified' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="edit-info-btn">
+                                <a href="{{ route('user.employment', $user->username) }}">
+                                    <button class="btn-invite btn btn-primary">Edit Information</button>
+                                </a>
+                            </div>
+                        </div>
+                    @endisset
 
                 </div>
             </div>
