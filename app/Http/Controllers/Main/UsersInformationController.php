@@ -28,7 +28,7 @@ class UsersInformationController extends Controller
 
 
         $validated = $request->validate([
-            'key' => 'required|string|in:location,instagram,color,animal,hobby,fruit,cuisine,drink,dessert,book,author,music,artist,film,actor,sport',
+            'key' => 'required|string|in:location,country,marital,religious,children,grandchildren,instagram,color,animal,hobby,fruit,cuisine,drink,dessert,book,author,music,artist,film,actor,sport',
             'value' => 'nullable|string|max:255',
         ]);
 

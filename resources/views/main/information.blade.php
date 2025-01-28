@@ -13,6 +13,11 @@
                 <div class="favourite-items">
                     @foreach ([
                         'location' => 'Location',
+                        'country' => 'Country of Residence',
+                        'marital' => 'Martial Status',
+                        'religious' => 'Religious Status',
+                        'children' => 'Do you have children?',
+                        'grandchildren' => 'Do you have children?',
                         'instagram' => 'Instagram',
                         'color' => 'Favourite color',
                         'animal' => 'Favourite animal',

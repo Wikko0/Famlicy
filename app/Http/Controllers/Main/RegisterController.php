@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Main;
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeMail;
 use App\Models\User;
+use App\Models\UsersInformation;
+use App\Models\UsersLife;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,19 +26,25 @@ class RegisterController extends Controller
     {
 
         $request->validate([
-            'title' => 'required',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'title' => 'required|string',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'required|string',
             'surname' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string',
-            'username' => 'required|string|min:3|max:25|unique:users|regex:/^[a-z0-9_]+$/',
+            'username' => 'required|string|min:3|max:25|unique:users|regex:/^[a-z0-9._-]+$/i',
             'password' => 'required|string|min:8',
             'dob_day' => 'required',
             'dob_month' => 'required',
             'dob_year' => 'required',
             'family_name' => 'nullable|string',
             'family_surname' => 'nullable|string',
+            'location' => 'nullable|string',
+            'country' => 'nullable|string',
+            'marital' => 'nullable|string',
+            'religious' => 'nullable|string',
+            'children' => 'nullable|string',
+            'grandchildren' => 'nullable|string',
         ]);
 
         $fullName = $request->input('name') . ' ' . $request->input('surname');
@@ -73,6 +81,7 @@ class RegisterController extends Controller
 
 
         if ($request->hasFile('photo')) {
+
             $photo = $request->file('photo');
 
             $photoPath = $photo->storeAs(
@@ -83,12 +92,28 @@ class RegisterController extends Controller
 
             $photo = Image::make(public_path("{$photoPath}"));
             $photo->save();
+        } else {
+
+            $defaultAvatarPath = 'images/default-avatar.png';
+            $photoPath = 'images/users/user-' . $user->id . '.jpg';
 
 
-            $user->update(['photo' => $photoPath]);
+            copy(public_path($defaultAvatarPath), public_path($photoPath));
         }
 
-       Mail::to($user->email)->send(new WelcomeMail($user));
+        $user->update(['photo' => $photoPath]);
+
+        $userInformation = new UsersInformation();
+        $userInformation->user_id = $user->id;
+        $userInformation->location = $request->input('location');
+        $userInformation->country = $request->input('country');
+        $userInformation->marital = $request->input('marital');
+        $userInformation->religious = $request->input('religious');
+        $userInformation->children = $request->input('children');
+        $userInformation->grandchildren = $request->input('grandchildren');
+        $userInformation->save();
+
+        Mail::to($user->email)->send(new WelcomeMail($user));
 
         return redirect()->route('register')->withSuccess('Your account has been created successfully!');
     }

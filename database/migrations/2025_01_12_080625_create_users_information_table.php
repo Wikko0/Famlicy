@@ -18,6 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('location')->nullable();
+            $table->string('country')->nullable();
+            $table->string('marital')->nullable();
+            $table->string('religious')->nullable();
+            $table->string('children')->nullable();
+            $table->string('grandchildren')->nullable();
             $table->string('instagram')->nullable();
             $table->string('color')->nullable();
             $table->string('animal')->nullable();

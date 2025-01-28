@@ -49,6 +49,81 @@
                                 </div>
                             @endisset
 
+                                @isset($user->userInformation->country)
+                                    <div class="item introduction-item">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{asset('images/flag-icon.png')}}" alt="Country Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">Country:</div>
+                                                <div
+                                                    class="info">{{$user->userInformation->country ?? 'Not specified'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endisset
+
+                                @isset($user->userInformation->marital)
+                                    <div class="item introduction-item">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{asset('images/marital-icon.png')}}" alt="Marital Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">Marital Status:</div>
+                                                <div
+                                                    class="info">{{$user->userInformation->marital ?? 'Not specified'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endisset
+
+                                @isset($user->userInformation->religious)
+                                    <div class="item introduction-item">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{asset('images/religion-icon.png')}}" alt="Religious Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">Religious Status:</div>
+                                                <div
+                                                    class="info">{{$user->userInformation->religious ?? 'Not specified'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endisset
+
+                                @isset($user->userInformation->children)
+                                    <div class="item introduction-item">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{asset('images/children-icon.png')}}" alt="Children Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">Do I have children?:</div>
+                                                <div
+                                                    class="info">{{$user->userInformation->children ?? 'Not specified'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endisset
+
+                                @isset($user->userInformation->grandchildren)
+                                    <div class="item introduction-item">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{asset('images/children-icon.png')}}" alt="Children Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">Do I have grandchildren?:</div>
+                                                <div
+                                                    class="info">{{$user->userInformation->grandchildren ?? 'Not specified'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endisset
+
                             @isset($user->userInformation->birthday)
                                 <div class="item introduction-item">
                                     <div class="item-details">
@@ -655,6 +730,81 @@
                                 </div>
                             @endisset
 
+                                @isset($user->userInformation->country)
+                                    <div class="item introduction-item">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{asset('images/flag-icon.png')}}" alt="Country Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">Country:</div>
+                                                <div
+                                                    class="info">{{$user->userInformation->country ?? 'Not specified'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endisset
+
+                                @isset($user->userInformation->marital)
+                                    <div class="item introduction-item">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{asset('images/marital-icon.png')}}" alt="Marital Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">Marital Status:</div>
+                                                <div
+                                                    class="info">{{$user->userInformation->marital ?? 'Not specified'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endisset
+
+                                @isset($user->userInformation->religious)
+                                    <div class="item introduction-item">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{asset('images/religion-icon.png')}}" alt="Religious Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">Religious Status:</div>
+                                                <div
+                                                    class="info">{{$user->userInformation->religious ?? 'Not specified'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endisset
+
+                                @isset($user->userInformation->children)
+                                    <div class="item introduction-item">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{asset('images/children-icon.png')}}" alt="Children Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">Do I have children?:</div>
+                                                <div
+                                                    class="info">{{$user->userInformation->children ?? 'Not specified'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endisset
+
+                                @isset($user->userInformation->grandchildren)
+                                    <div class="item introduction-item">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{asset('images/children-icon.png')}}" alt="Children Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">Do I have grandchildren?:</div>
+                                                <div
+                                                    class="info">{{$user->userInformation->grandchildren ?? 'Not specified'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endisset
+
                             @isset($user->userInformation->birthday)
                                 <div class="item introduction-item">
                                     <div class="item-details">
@@ -1016,7 +1166,7 @@
                     @endif
 
                     <!-- Life Section -->
-                    @isset($user->userLife)
+                    @if($user->userLife->isNotEmpty())
                     <div class="card introduction-section">
                         <div class="card-header">
                             <h3>Life events & accomplishments</h3>
@@ -1052,10 +1202,10 @@
                             </div>
 
                     </div>
-                    @endisset
+                    @endif
 
                     <!-- Goals Section -->
-                    @isset($user->userGoals)
+                    @if($user->userGoals->isNotEmpty())
                         <div class="card introduction-section">
                             <div class="card-header">
                                 <h3>Goals & ambitions</h3>
@@ -1090,7 +1240,7 @@
                             </div>
 
                         </div>
-                    @endisset
+                    @endif
                 </div>
             </div>
         @endif
