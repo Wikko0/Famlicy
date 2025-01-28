@@ -16,7 +16,7 @@
                 <input type="password" name="password" placeholder="Password" />
             </div>
             <div class="forgotten mt-2 text-end">
-                <a href="">Forgotten password</a>
+                <a href="{{route('password.request')}}">Forgotten password</a>
             </div>
             <div class="login-btn-sec mt-3">
                 <button class="login-btn">Login</button>

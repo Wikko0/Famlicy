@@ -88,8 +88,7 @@ class RegisterController extends Controller
             $user->update(['photo' => $photoPath]);
         }
 
-        /* TO DO */
-        // Mail::to($user->email)->send(new WelcomeMail());
+       Mail::to($user->email)->send(new WelcomeMail($user));
 
         return redirect()->route('register')->withSuccess('Your account has been created successfully!');
     }
