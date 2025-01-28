@@ -21,6 +21,10 @@
             <div class="title">Employment & vocation</div>
             <button class="add-btn">Visit</button>
         </a>
+        <a href="{{route('user.life', Auth::user()->username)}}" class="item ">
+            <div class="title">Life events & accomplishments</div>
+            <button class="add-btn">Visit</button>
+        </a>
 
     </div>
 </div>

@@ -320,7 +320,7 @@
 
                     <!-- Education Section -->
 
-                        <div class="card introduction-section">
+                    <div class="card introduction-section">
                             <div class="card-header">
                                 <h3>Education</h3>
                             </div>
@@ -380,7 +380,7 @@
 
                     <!-- Employment Section -->
 
-                        <div class="card introduction-section">
+                    <div class="card introduction-section">
                             <div class="card-header">
                                 <h3>Employment History</h3>
                             </div>
@@ -422,6 +422,49 @@
                             </div>
                         </div>
 
+                    <!-- Life Section -->
+
+                    <div class="card introduction-section">
+                        <div class="card-header">
+                            <h3>Life events & accomplishments</h3>
+                        </div>
+                        @isset($user->userLife)
+                            <div class="card-body">
+                                @foreach($user->userLife as $life)
+                                    <div class="item introduction-item mb-3">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{ asset('images/life-event-icon.png') }}" alt="Life Event Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">{{ $life->name }}</div>
+                                                <div class="info">
+                                                    <strong>Type:</strong> {{ $life->type ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($life->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($life->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($life->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $life->description ?? 'Not specified' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endisset
+
+                        <div class="edit-info-btn">
+                            <a href="{{ route('user.life', $user->username) }}">
+                                <button class="btn-invite btn btn-primary">Edit Life Information</button>
+                            </a>
+                        </div>
+                    </div>
 
 
                     <div class="active-user-items">
@@ -925,14 +968,47 @@
                                 @endforeach
                             </div>
 
-                            <div class="edit-info-btn">
-                                <a href="{{ route('user.employment', $user->username) }}">
-                                    <button class="btn-invite btn btn-primary">Edit Information</button>
-                                </a>
-                            </div>
                         </div>
-                    @endisset
+                    @endif
 
+                    <!-- Life Section -->
+                    @isset($user->userLife)
+                    <div class="card introduction-section">
+                        <div class="card-header">
+                            <h3>Life events & accomplishments</h3>
+                        </div>
+
+                            <div class="card-body">
+                                @foreach($user->userLife as $life)
+                                    <div class="item introduction-item mb-3">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{ asset('images/life-event-icon.png') }}" alt="Life Event Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">{{ $life->name }}</div>
+                                                <div class="info">
+                                                    <strong>Type:</strong> {{ $life->type ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($life->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($life->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($life->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $life->description ?? 'Not specified' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                    </div>
+                    @endisset
                 </div>
             </div>
         @endif

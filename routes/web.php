@@ -11,6 +11,7 @@ use App\Http\Controllers\Main\ProfileController;
 use App\Http\Controllers\Main\UsersInformationController;
 use App\Http\Controllers\Main\UsersEducationController;
 use App\Http\Controllers\Main\UsersEmploymentController;
+use App\Http\Controllers\Main\UsersLifeController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
@@ -67,6 +68,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/{username}/employment', [UsersEmploymentController::class, 'index'])->name('user.employment');
     Route::post('/user/{username}/employment/update', [UsersEmploymentController::class, 'updateInformation'])->name('user.employment.update');
     Route::delete('/user/employment/{id}/delete', [UsersEmploymentController::class, 'destroy'])->name('user.employment.delete');
+
+//    Life Events
+    Route::get('/user/{username}/life', [UsersLifeController::class, 'index'])->name('user.life');
+    Route::post('/user/{username}/life/update', [UsersLifeController::class, 'updateInformation'])->name('user.life.update');
 
     Route::post('/send-request/{user}', [ProfileController::class, 'sendRequest'])->name('sendRequest');
 

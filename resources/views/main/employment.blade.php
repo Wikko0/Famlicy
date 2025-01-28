@@ -29,7 +29,7 @@
                                         <option value="">Year</option>
                                         @php
                                             $currentYear = date('Y');
-                                            $startYear = $currentYear - 100; // 100 години назад
+                                            $startYear = $currentYear - 100;
                                         @endphp
                                         @for($year = $currentYear; $year >= $startYear; $year--)
                                             <option value="{{ $year }}">{{ $year }}</option>

@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->hasMany(UsersEmployment::class);
     }
 
+    public function userLife()
+    {
+        return $this->hasMany(UsersLife::class);
+    }
+
     public function followers()
     {
         return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');
