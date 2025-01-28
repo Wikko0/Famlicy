@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->hasMany(UsersEmployment::class);
     }
 
+    public function userGoals()
+    {
+        return $this->hasMany(UsersGoals::class);
+    }
+
     public function userLife()
     {
         return $this->hasMany(UsersLife::class);

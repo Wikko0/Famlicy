@@ -467,6 +467,50 @@
                     </div>
 
 
+                    <!-- Goals Section -->
+
+                    <div class="card introduction-section">
+                        <div class="card-header">
+                            <h3>Goals & ambitions</h3>
+                        </div>
+                        @isset($user->userGoals)
+                            <div class="card-body">
+                                @foreach($user->userGoals as $goals)
+                                    <div class="item introduction-item mb-3">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{ asset('images/goals-icon.png') }}" alt="Goals Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="info">
+                                                    <strong>Goal:</strong> {{ $goals->name ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($goals->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($goals->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($goals->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $goals->description ?? 'Not specified' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endisset
+
+                        <div class="edit-info-btn">
+                            <a href="{{ route('user.goals', $user->username) }}">
+                                <button class="btn-invite btn btn-primary">Edit Goals & ambitions</button>
+                            </a>
+                        </div>
+                    </div>
+
+
                     <div class="active-user-items">
                             @foreach ($friends as $i => $friend)
                                 <div class="item accept-item" data-target=".hide-item-{{$i}}">
@@ -1008,6 +1052,44 @@
                             </div>
 
                     </div>
+                    @endisset
+
+                    <!-- Goals Section -->
+                    @isset($user->userGoals)
+                        <div class="card introduction-section">
+                            <div class="card-header">
+                                <h3>Goals & ambitions</h3>
+                            </div>
+
+                            <div class="card-body">
+                                @foreach($user->userGoals as $goals)
+                                    <div class="item introduction-item mb-3">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{ asset('images/goals-icon.png') }}" alt="Goals Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="info">
+                                                    <strong>Goal:</strong> {{ $goals->name ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($goals->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($goals->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($goals->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $goals->description ?? 'Not specified' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                        </div>
                     @endisset
                 </div>
             </div>

@@ -25,6 +25,10 @@
             <div class="title">Life events & accomplishments</div>
             <button class="add-btn">Visit</button>
         </a>
+        <a href="{{route('user.goals', Auth::user()->username)}}" class="item ">
+            <div class="title">Goals & ambitions</div>
+            <button class="add-btn">Visit</button>
+        </a>
 
     </div>
 </div>

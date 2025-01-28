@@ -11,6 +11,7 @@ use App\Http\Controllers\Main\ProfileController;
 use App\Http\Controllers\Main\UsersInformationController;
 use App\Http\Controllers\Main\UsersEducationController;
 use App\Http\Controllers\Main\UsersEmploymentController;
+use App\Http\Controllers\Main\UsersGoalsController;
 use App\Http\Controllers\Main\UsersLifeController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -72,6 +73,10 @@ Route::middleware('auth')->group(function () {
 //    Life Events
     Route::get('/user/{username}/life', [UsersLifeController::class, 'index'])->name('user.life');
     Route::post('/user/{username}/life/update', [UsersLifeController::class, 'updateInformation'])->name('user.life.update');
+
+//    Goals Events
+    Route::get('/user/{username}/goals', [UsersGoalsController::class, 'index'])->name('user.goals');
+    Route::post('/user/{username}/goals/update', [UsersGoalsController::class, 'updateInformation'])->name('user.goals.update');
 
     Route::post('/send-request/{user}', [ProfileController::class, 'sendRequest'])->name('sendRequest');
 
