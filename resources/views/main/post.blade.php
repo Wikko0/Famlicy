@@ -95,6 +95,26 @@
                                     </form>
                                 </div>
                             </div>
+                            <div class="comments-section">
+                                @foreach ($post->comments as $comment)
+                                    <div class="comment">
+                                        <div class="comment-user">
+                                            <div class="img">
+                                                <img src="{{ asset('images/users/user-' . $comment->user->id . '.jpg') }}" alt="User Image" />
+                                            </div>
+                                            <div class="comment-details">
+                                                <a class="name" href="{{ route('profile', $comment->user->username) }}">
+                                                    {{ $comment->user->name }}
+                                                </a>
+                                                <span class="time">{{ $comment->created_at->diffForHumans() }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="comment-content">
+                                            {{ $comment->content }}
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                             <form action="{{ route('posts.comment', $post->id) }}" method="POST">
                                 @csrf
                                 <div class="add-engage">
