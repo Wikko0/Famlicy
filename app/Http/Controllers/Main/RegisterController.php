@@ -9,6 +9,7 @@ use App\Models\UsersInformation;
 use App\Models\UsersLife;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
@@ -113,9 +114,11 @@ class RegisterController extends Controller
         $userInformation->grandchildren = $request->input('grandchildren');
         $userInformation->save();
 
-        Mail::to($user->email)->send(new WelcomeMail($user));
+        // Mail::to($user->email)->send(new WelcomeMail($user));
 
-        return redirect()->route('register')->withSuccess('Your account has been created successfully!');
+        Auth::login($user);
+
+        return redirect()->route('welcome')->withSuccess('Your account has been created successfully!');
     }
 
 }

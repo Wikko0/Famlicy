@@ -1239,7 +1239,7 @@ a {
     text-decoration: none;
 }
 
-.welcome-section .add-items .item .title {
+.add-items .item .title {
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
@@ -3156,4 +3156,45 @@ a {
     overflow-wrap: break-word;
     max-width: 100%;
     word-break: break-all;
+}
+.left-section {
+    position: relative;
+    display: inline-block;
+}
+
+.background-image {
+    width: 100%;
+    height: auto;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 2; /* Поставяме текста над псевдоелемента */
+}
+
+.main-text {
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+}
+
+.sub-text {
+    font-size: 22px;
+    font-weight: normal;
+    margin-top: 10px;
+    color: white;
+}
+
+.section-title {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    color: white;
+    font-size: 24px;
+    z-index: 2;
 }

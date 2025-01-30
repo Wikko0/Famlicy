@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Main\WelcomeController;
 use App\Http\Controllers\Main\CommunityController;
 use App\Http\Controllers\Main\NotificationController;
 use App\Http\Controllers\Main\PostController;
@@ -49,6 +50,8 @@ Route::get('password/reset/{token}', [ResetPasswordController::class, 'showReset
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');;
 
 Route::middleware('auth')->group(function () {
+    Route::get('/welcome', [WelcomeController::class, 'index'])->name('welcome');
+    Route::get('/information', [WelcomeController::class, 'index'])->name('information');
 
     Route::get('/user/{username}', [ProfileController::class, 'index'])->name('profile');
     Route::post('/follow/{user}', [ProfileController::class, 'follow'])->name('follow');

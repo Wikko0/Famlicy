@@ -20,8 +20,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <link rel="stylesheet" href="{{asset('css/style.css')}}" />
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1GS1WFQ97M"></script>
+    <script>
+            window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-1GS1WFQ97M');
+    </script>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KHGXNV9W');</script>
 </head>
 <body>
+<!-- ~~~~~~~~~~~~~~~~ GOOGLE ~~~~~~~~~~~~~~ -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KHGXNV9W"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ~~~~~~~~~~~~~~~~ NAVBAR-SECTION ~~~~~~~~~~~~~~ -->
 
 <section class="navbar-section">
@@ -116,6 +133,10 @@
                     <a href="{{route('profile', Auth::user()->username)}}" class="menu-item">
                         <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="User Image" />
                         <span>{{ Auth::user()->name }}</span>
+                    </a>
+                    <a href="{{route('information')}}" class="menu-item">
+                        <img src="{{asset('images/user-information-icon.png')}}" alt="Information Icon" />
+                        <span>User Information</span>
                     </a>
                     <a href="{{route('community')}}" class="menu-item">
                         <img src="{{asset('images/community-icon.png')}}" alt="Community Icon" />
