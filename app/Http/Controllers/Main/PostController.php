@@ -94,7 +94,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
 
         if ($post->user_id !== Auth::id()) {
-            return redirect()->back()->withError('You are not authorized to delete this post.');
+            return redirect()->back()->withErrorS('You are not authorized to delete this post.');
         }
 
         if ($post->image_path && file_exists(public_path($post->image_path))) {
@@ -110,7 +110,7 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         if ($post->user_id !== Auth::id()) {
-            return redirect()->back()->withError('You are not authorized to edit this post.');
+            return redirect()->back()->withErrors('You are not authorized to edit this post.');
         }
 
         return view('main.editPost', compact('post'));
@@ -127,7 +127,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
 
         if ($post->user_id !== Auth::id()) {
-            return redirect()->back()->withError('You are not authorized to update this post.');
+            return redirect()->back()->withErrors('You are not authorized to update this post.');
         }
 
         $post->update([

@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -139,4 +140,31 @@ class ProfileController extends Controller
         return back()->withSuccess('The friendship was removed!');
     }
 
+    public function updateProfileImage(Request $request, $id): RedirectResponse
+    {
+        $user = Auth::user();
+
+        if ($user->id != $id) {
+            return redirect()->back()->withErrors('Unauthorized action.');
+        }
+
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = '/images/users/user-' . $user->id . '.jpg';
+
+            $image->storeAs('/images/users', 'user-' . $user->id . '.jpg', ['disk' => 'public_uploads']);
+
+
+            $resizedImage = Image::make(public_path("{$imagePath}"));
+            $resizedImage->save();
+
+            return redirect()->back()->withSuccess('Profile image updated successfully.');
+        }
+
+        return redirect()->back()->withErrors('Failed to upload image.');
+    }
 }

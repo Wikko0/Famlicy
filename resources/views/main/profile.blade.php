@@ -16,14 +16,52 @@
                     <div class="user-part">
                         <div class="user-profile">
                             <div class="img">
-                                <img src="{{asset('images/users/user-' . $user->id . '.jpg')}}" alt=""/>
+                                <img id="profile-image"
+                                     src="{{ asset('images/users/user-' . $user->id . '.jpg') }}"
+                                     alt="Profile Image"
+                                     data-bs-toggle="modal"
+                                     data-bs-target="#changeProfileImageModal"
+                                     class="img-thumbnail"
+                                     width="100">
                             </div>
                             <div class="user-info">
-                                <div class="name">{{$user->name}}</div>
+                                <div class="name">{{ $user->name }}</div>
                             </div>
                             <button type="submit" class="friends-btn">
                                 <span><i class="ri-home-2-fill"></i></span> Profile Clicks {{$clickCount}}
                             </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal for changing profile picture -->
+                    <div class="modal fade" id="changeProfileImageModal" tabindex="-1" aria-labelledby="changeProfileImageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="changeProfileImageModalLabel">Change Profile Picture</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="text-center">
+                                        <img id="modal-profile-image"
+                                             src="{{ asset('images/users/user-' . $user->id . '.jpg') }}"
+                                             alt="Current Profile Image"
+                                             class="img-thumbnail"
+                                             width="150">
+                                    </div>
+                                    <form id="upload-form" method="POST" action="{{ route('user.updateProfileImage', $user->id) }}" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="mt-3">
+                                            <label for="new-profile-image" class="form-label">Upload New Image</label>
+                                            <input type="file" class="form-control" name="image" id="new-profile-image" accept="image/*">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="profile">
@@ -1300,4 +1338,14 @@
             });
         });
     </script>
+    <script>
+        document.getElementById('new-profile-image').addEventListener('change', function(event) {
+            let reader = new FileReader();
+            reader.onload = function(){
+                document.getElementById('modal-profile-image').src = reader.result; // Показва новата снимка в модала
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+    </script>
+
 @endsection

@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/{username}', [ProfileController::class, 'index'])->name('profile');
     Route::post('/follow/{user}', [ProfileController::class, 'follow'])->name('follow');
     Route::post('/unfollow/{user}', [ProfileController::class, 'unfollow'])->name('unfollow');
+    Route::post('/user/{id}/update-profile-image', [ProfileController::class, 'updateProfileImage'])->name('user.updateProfileImage');
 
 //    Information
     Route::get('/user/{username}/information', [UsersInformationController::class, 'index'])->name('user.information');
