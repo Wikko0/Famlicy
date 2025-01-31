@@ -50,9 +50,9 @@
             document.getElementById('share-twitter').href = "https://twitter.com/intent/tweet?url=" + appUrl + "&text=" + message;
             document.getElementById('share-email').href = "mailto:?subject=Check this out&body=" + message + "%0A%0A" + appUrl;
 
-            links.forEach(link => link.style.display = 'inline-block');  // Показваме линковете
+            links.forEach(link => link.style.display = 'inline-block');
         } else {
-            links.forEach(link => link.style.display = 'none');  // Скриваме линковете
+            links.forEach(link => link.style.display = 'none');
         }
     });
 </script>

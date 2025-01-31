@@ -100,6 +100,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
     Route::get('/post/{id}', [PostController::class, 'show'])->name('posts.show');
+    Route::delete('/post/{id}/delete', [PostController::class, 'destroy'])->name('posts.delete');
+    Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::put('/post/{id}/edit/update', [PostController::class, 'update'])->name('posts.update');
     Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like');
     Route::post('/posts/{id}/comment', [PostController::class, 'comment'])->name('posts.comment');
 

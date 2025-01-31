@@ -21,6 +21,7 @@ body {
   --text-gray-color: #808080;
   --white-color: #fff;
   --black-color: #212121;
+  --red-color: #ff0000;
 }
 
 a {
@@ -3197,4 +3198,69 @@ a {
     color: white;
     font-size: 24px;
     z-index: 2;
+}
+
+/* Profile Add Items */
+.profile .add-items {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.profile .add-items .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #dde2e5;
+    padding: 12px 15px;
+    border-radius: 4px;
+    width: calc(33.33% - 10px);
+    box-sizing: border-box;
+}
+
+.profile .add-items .item .title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.profile .add-items .item .add-btn {
+    padding: 5px 25px;
+    text-align: center;
+    background-color: var(--green-color);
+    color: var(--white-color);
+    font-weight: 500;
+    font-size: 16px;
+    text-transform: capitalize;
+    border-radius: 30px;
+    border: none;
+}
+
+@media screen and (max-width: 768px) {
+    .profile .add-items .item {
+        width: calc(50% - 10px);
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .profile .add-items .item {
+        width: 100%;
+    }
+
+    .profile .add-items .item .title {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 18px;
+    }
+
+    .profile .add-items .item .add-btn {
+        font-size: 14px;
+    }
+}
+.edit-post a{
+    color: var(--green-color) !important;
+}
+.delete-post a{
+    color: var(--red-color) !important;
 }

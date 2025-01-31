@@ -24,10 +24,14 @@
 
                     @include('include.shareMemory')
 
+                @include('include.filterCommunity')
+
                     @include('include.posts')
                 @endif
             </div>
             @include('include.invite')
         </div>
     </section>
+
+    @include('include.modal')
 @endsection

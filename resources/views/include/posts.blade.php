@@ -1,55 +1,4 @@
 <div class="post-items-sec">
-    <div class="filter-section p-4 bg-white rounded shadow-sm mt-3">
-        <div class="row g-3 align-items-center">
-            <div class="col-md-5">
-                <label for="sortBy" class="form-label fw-bold">Sort by:</label>
-                <select class="form-select btn-lg" id="sortBy">
-                    <option value="newest" selected>Newest</option>
-                    <option value="oldest">Oldest</option>
-                </select>
-            </div>
-
-            <div class="col-md-5">
-                <label for="contentT" class="form-label fw-bold">Post Type:</label>
-                <select class="form-select btn-lg" id="contentT">
-                    <option value="all" selected>All</option>
-                    <option value="global">Global Only</option>
-                    @if(isset($userCommunities))
-                        @foreach ($userCommunities as $community)
-                            <option value="{{ $community->name }}">{{ $community->name }}</option>
-                        @endforeach
-                    @endif
-                </select>
-            </div>
-
-            <div class="col-md-1">
-                <button class="btn btn-success btn-md mt-4" onclick="applyFilters()"><i class="fas fa-filter"></i></button>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        // Тази функция ще се изпълни при натискане на бутона за филтри
-        function applyFilters() {
-            const sortBy = document.getElementById('sortBy').value;
-            const contentType = document.getElementById('contentT').value;
-
-
-            let url = `{{ route('home') }}?sortBy=${sortBy}`;
-
-
-            if (contentType !== 'all') {
-                url += `&contentType=${contentType}`;
-            }
-
-            window.location.href = url;
-        }
-    </script>
-
-
-    </script>
-
 
 @foreach ($posts as $post)
         <div class="post-item">
@@ -97,6 +46,23 @@
                             {{ $post->comments->count() }} comments
                         </a>
                     </div>
+                    @if($post->user->id == Auth::user()->id)
+                    <div class="edit-post">
+                        <a href="{{route('posts.edit', $post->id)}}">
+                            Edit
+                        </a>
+                    </div>
+                        <div class="delete-post">
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $post->id }}').submit();">
+                                Delete
+                            </a>
+
+                            <form id="delete-form-{{ $post->id }}" action="{{ route('posts.delete', $post->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                        </div>
+                    @endif
                 </div>
             </div>
 
@@ -124,7 +90,6 @@
                         <li><a class="dropdown-item" href="https://m.me/?text={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-facebook-messenger"></i> Messenger</a></li>
                         <li><a class="dropdown-item" href="https://wa.me/?text={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
                         <li><a class="dropdown-item" href="https://twitter.com/intent/tweet?url={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-twitter"></i> X (Twitter)</a></li>
-                        <li><a class="dropdown-item" href="https://flipboard.com/subscribe/bookmarklet?url={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-flipboard"></i> Flipboard</a></li>
                         <li><a class="dropdown-item" href="mailto:?subject=Check this out&body={{ urlencode(route('posts.show', $post->id)) }}"><i class="fas fa-envelope"></i> Email</a></li>
                     </ul>
                 </div>

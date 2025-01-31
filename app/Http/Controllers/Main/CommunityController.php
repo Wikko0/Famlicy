@@ -21,14 +21,25 @@ class CommunityController extends Controller
         return view('main.community');
     }
 
-    public function communityPage($communityId): View
+    public function communityPage(Request $request,$communityId): View
     {
         $community = Community::findOrFail($communityId);
+        $sortBy = $request->input('sortBy');
 
             $posts = Post::with('user')
                 ->where('type', $community->name)
                 ->whereDate('created_at', '>=', Carbon::now()->subMonths(6))
-                ->latest()
+                ->when($sortBy, function ($query, $sortBy) {
+                    if ($sortBy === 'oldest') {
+                        $query->oldest('created_at');
+                    } else {
+
+                        $query->latest('created_at');
+                    }
+                }, function ($query) {
+
+                    $query->latest('created_at');
+                })
                 ->paginate(10);
 
         return view('main.communityPage', compact('community', 'posts'));

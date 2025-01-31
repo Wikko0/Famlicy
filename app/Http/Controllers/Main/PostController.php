@@ -88,4 +88,75 @@ class PostController extends Controller
 
         return redirect()->back()->withSuccess('Comment added successfully!');
     }
+
+    public function destroy($id): RedirectResponse
+    {
+        $post = Post::findOrFail($id);
+
+        if ($post->user_id !== Auth::id()) {
+            return redirect()->back()->withError('You are not authorized to delete this post.');
+        }
+
+        if ($post->image_path && file_exists(public_path($post->image_path))) {
+            unlink(public_path($post->image_path));
+        }
+
+        $post->delete();
+
+        return redirect()->back()->withSuccess('Post deleted successfully!');
+    }
+
+    public function edit($id): View
+    {
+        $post = Post::findOrFail($id);
+        if ($post->user_id !== Auth::id()) {
+            return redirect()->back()->withError('You are not authorized to edit this post.');
+        }
+
+        return view('main.editPost', compact('post'));
+    }
+
+    public function update(Request $request, $id): RedirectResponse
+    {
+        $request->validate([
+            'content' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'type' => 'required|string'
+        ]);
+
+        $post = Post::findOrFail($id);
+
+        if ($post->user_id !== Auth::id()) {
+            return redirect()->back()->withError('You are not authorized to update this post.');
+        }
+
+        $post->update([
+            'content' => $request->input('content'),
+            'type' => $request->input('type'),
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+
+
+            if ($post->image_path && file_exists(public_path($post->image_path))) {
+                unlink(public_path($post->image_path));
+            }
+
+
+            $photoPath = $image->storeAs(
+                '/images/posts',
+                'post-' . $post->id . '.jpg',
+                ['disk' => 'public_uploads']
+            );
+
+
+            $image = Image::make(public_path("{$photoPath}"));
+            $image->save();
+
+            $post->update(['image_path' => $photoPath]);
+        }
+
+        return redirect()->back()->withSuccess('Post updated successfully!');
+    }
 }
