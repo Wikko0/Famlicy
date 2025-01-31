@@ -15,11 +15,12 @@ use Intervention\Image\Facades\Image;
 class PostController extends Controller
 {
 
-    public function store(Request $request, $contentType): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'content' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'type' => 'required|string'
         ]);
 
         $imagePath = null;
@@ -27,7 +28,7 @@ class PostController extends Controller
         $post = Post::create([
             'user_id' => Auth::id(),
             'content' => $request->input('content'),
-            'type' => $contentType,
+            'type' => $request->input('type'),
             'image_path' => $imagePath,
         ]);
 

@@ -108,7 +108,7 @@ class User extends Authenticatable
 
     public function communities()
     {
-        return $this->belongsToMany(Community::class, 'community_user', 'user_id', 'community_id');
+        return $this->belongsToMany(Community::class, 'communities', 'user_id', 'community_id');
     }
 
     public function sentFriendRequests()
