@@ -100,7 +100,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/community/{communityId}', [CommunityController::class, 'communityPage'])->name('community.page');
 
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/post/{id}', [PostController::class, 'show'])->name('posts.show');
+    Route::get('/post/{username}/{type}/{content}', [PostController::class, 'show'])->name('posts.show');
     Route::delete('/post/{id}/delete', [PostController::class, 'destroy'])->name('posts.delete');
     Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::put('/post/{id}/edit/update', [PostController::class, 'update'])->name('posts.update');

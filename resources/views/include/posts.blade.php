@@ -11,8 +11,13 @@
                         <a class="name" href="{{ route('profile', $post->user->username) }}">
                             {{ $post->user->name }}
                         </a>
-                        <a class="time" href="{{ route('posts.show', $post->id) }}">
-                            {{ $post->created_at->diffForHumans() }}
+                        <a class="time" href="{{ route('posts.show', [
+                            'username' => $post->user->username,
+                            'type' => $post->type,
+                            'content' => Str::words($post->content, 5, '')
+                        ]) }}">
+
+                        {{ $post->created_at->diffForHumans() }}
                         </a>
                     </div>
                 </div>
@@ -81,11 +86,56 @@
                         <span class="share-text">Share</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
-                        <li><a class="dropdown-item" href="https://m.me/?text={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-facebook-messenger"></i> Messenger</a></li>
-                        <li><a class="dropdown-item" href="https://wa.me/?text={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
-                        <li><a class="dropdown-item" href="https://twitter.com/intent/tweet?url={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-twitter"></i> X (Twitter)</a></li>
-                        <li><a class="dropdown-item" href="mailto:?subject=Check this out&body={{ urlencode(route('posts.show', $post->id)) }}"><i class="fas fa-envelope"></i> Email</a></li>
+                        <li>
+                            <a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('posts.show', [
+        'username' => $post->user->username,
+        'type' => $post->type,
+        'content' => Str::words($post->content, 5, '')
+    ])) }}" target="_blank">
+                                <i class="fab fa-facebook"></i> Facebook
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="https://m.me/?text={{ urlencode(route('posts.show', [
+        'username' => $post->user->username,
+        'type' => $post->type,
+        'content' => Str::words($post->content, 5, '')
+    ])) }}" target="_blank">
+                                <i class="fab fa-facebook-messenger"></i> Messenger
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="https://wa.me/?text={{ urlencode(route('posts.show', [
+        'username' => $post->user->username,
+        'type' => $post->type,
+        'content' => Str::words($post->content, 5, '')
+    ])) }}" target="_blank">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="https://twitter.com/intent/tweet?url={{ urlencode(route('posts.show', [
+        'username' => $post->user->username,
+        'type' => $post->type,
+        'content' => Str::words($post->content, 5, '')
+    ])) }}" target="_blank">
+                                <i class="fab fa-twitter"></i> X (Twitter)
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="mailto:?subject=Check this out&body={{ urlencode(route('posts.show', [
+        'username' => $post->user->username,
+        'type' => $post->type,
+        'content' => Str::words($post->content, 5, '')
+    ])) }}">
+                                <i class="fas fa-envelope"></i> Email
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
                 <div class="right">
@@ -115,7 +165,7 @@
             </form>
         </div>
 
-        
+
         @if (($index + 1) % 3 == 0)
             @include('ads.ad-container-970')
         @endif

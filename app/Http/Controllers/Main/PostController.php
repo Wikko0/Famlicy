@@ -51,9 +51,16 @@ class PostController extends Controller
         return redirect()->back()->withSuccess('Post added successfully!');
     }
 
-    public function show($id): View
+    public function show($username, $type, $content): View
     {
-        $post = Post::with(['user', 'likes.user', 'comments.user'])->findOrFail($id);
+        $post = Post::with(['user', 'likes.user', 'comments.user'])
+            ->whereHas('user', function ($query) use ($username) {
+                $query->where('username', $username);
+            })
+            ->where('type', $type)
+            ->where('content', 'LIKE', "%$content%")
+            ->firstOrFail();
+
         return view('main.post', compact('post'));
     }
 
