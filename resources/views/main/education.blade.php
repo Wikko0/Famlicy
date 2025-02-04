@@ -2,6 +2,7 @@
 
 @section('content')
     <section class="welcome-section education">
+        @include('ads.ad-container-970')
         <div class="container">
             @include('include.leftMenuUser')
 

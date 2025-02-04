@@ -23,4 +23,5 @@
         @endif
 
     </div>
+    @include('ads.ad-container-300')
 </div>

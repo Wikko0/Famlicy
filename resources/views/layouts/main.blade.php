@@ -167,7 +167,7 @@
 @yield('content')
 
 <!-- ~~~~~~~~~~~~~~~~ FOOTER-SECTION ~~~~~~~~~~~~~~ -->
-
+@include('ads.ad-container-970')
 <section class="footer-section">
     <div class="container">
         <div class="row">

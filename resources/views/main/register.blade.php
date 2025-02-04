@@ -51,9 +51,6 @@
                         <input type="password" placeholder="Password" name="password" />
                         <input type="text" placeholder="Username" name="username" id="username" value="{{ old('username') }}" />
                     </div>
-                    <small class="username-requirements">
-                        The username must contain only lowercase letters and cannot contain digits or spaces.
-                    </small>
 
                     <div class="input-item-grid btn-item-grid">
                         <div class="input-with-label">

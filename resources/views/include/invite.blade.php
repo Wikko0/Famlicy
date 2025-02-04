@@ -1,7 +1,7 @@
+
 <div class="aside-right">
     <div class="title">Invite people to add content</div>
     <div class="invite-box">
-        <input type="email" placeholder="Email" id="invite-email" />
         <textarea name="message" id="invite-message" placeholder="Enter a message"></textarea>
     </div>
 
@@ -38,17 +38,19 @@
 
 <script>
     var appUrl = '{{ env('APP_URL') }}';
+    var currentPath = window.location.pathname;
+    var fullUrl = appUrl + currentPath;
 
     document.getElementById('invite-message').addEventListener('input', function() {
         let message = encodeURIComponent(this.value);
         let links = document.querySelectorAll('.img a');
 
         if (message) {
-            document.getElementById('share-facebook').href = "https://www.facebook.com/sharer/sharer.php?u=" + appUrl + "&quote=" + message;
-            document.getElementById('share-messenger').href = "https://m.me/?text=" + message + "%20" + appUrl;
-            document.getElementById('share-whatsapp').href = "https://wa.me/?text=" + message + "%20" + appUrl;
-            document.getElementById('share-twitter').href = "https://twitter.com/intent/tweet?url=" + appUrl + "&text=" + message;
-            document.getElementById('share-email').href = "mailto:?subject=Check this out&body=" + message + "%0A%0A" + appUrl;
+            document.getElementById('share-facebook').href = "https://www.facebook.com/sharer/sharer.php?u=" + fullUrl + "&t=" + message;
+            document.getElementById('share-messenger').href = "https://m.me/?text=" + message + "%20" + fullUrl;
+            document.getElementById('share-whatsapp').href = "https://wa.me/?text=" + message + "%20" + fullUrl;
+            document.getElementById('share-twitter').href = "https://twitter.com/intent/tweet?url=" + fullUrl + "&text=" + message;
+            document.getElementById('share-email').href = "mailto:?subject=Check this out&body=" + message + "%0A%0A" + fullUrl;
 
             links.forEach(link => link.style.display = 'inline-block');
         } else {

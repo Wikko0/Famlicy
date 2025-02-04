@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @section('content')
     <section class="welcome-section">
+        @include('ads.ad-container-970')
         <div class="container">
             @include('include.leftMenu')
 

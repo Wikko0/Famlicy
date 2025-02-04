@@ -2,9 +2,9 @@
 @section('content')
     @if(Auth::user())
         <section class="welcome-section">
+            @include('ads.ad-container-970')
             <div class="container">
                @include('include.leftMenu')
-
                 <div class="main">
                     @include('include.alert')
 

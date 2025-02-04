@@ -47,8 +47,9 @@ class UsersEducationController extends Controller
         }
 
         UsersEducation::updateOrCreate(
-            ['user_id' => Auth::id(), 'name' => 'Primary School'],
+            ['user_id' => Auth::id(), 'school' => 'Primary School'],
             [
+                'name' => $request->input('primary_school'),
                 'start_date' => "{$data['primary_start_year']}-{$data['primary_start_month']}-01",
                 'end_date' => "{$data['primary_end_year']}-{$data['primary_end_month']}-01",
                 'subject' => $subjects
@@ -77,8 +78,9 @@ class UsersEducationController extends Controller
             : null;
 
         UsersEducation::updateOrCreate(
-            ['user_id' => Auth::id(), 'name' => 'Secondary School'],
+            ['user_id' => Auth::id(), 'school' => 'Secondary School'],
             [
+                'name' => $request->input('secondary_school'),
                 'start_date' => "{$data['secondary_start_year']}-{$data['secondary_start_month']}-01",
                 'end_date' => "{$data['secondary_end_year']}-{$data['secondary_end_month']}-01",
                 'subject' => $subjects
@@ -107,8 +109,9 @@ class UsersEducationController extends Controller
             : null;
 
         UsersEducation::updateOrCreate(
-            ['user_id' => Auth::id(), 'name' => 'College'],
+            ['user_id' => Auth::id(), 'school' => 'College'],
             [
+                'name' => $request->input('college'),
                 'start_date' => "{$data['college_start_year']}-{$data['college_start_month']}-01",
                 'end_date' => "{$data['college_end_year']}-{$data['college_end_month']}-01",
                 'subject' => $subjects
@@ -137,8 +140,9 @@ class UsersEducationController extends Controller
             : null;
 
         UsersEducation::updateOrCreate(
-            ['user_id' => Auth::id(), 'name' => 'University'],
+            ['user_id' => Auth::id(), 'school' => 'University'],
             [
+                'name' => $request->input('university'),
                 'start_date' => "{$data['university_start_year']}-{$data['university_start_month']}-01",
                 'end_date' => "{$data['university_end_year']}-{$data['university_end_month']}-01",
                 'subject' => $subjects

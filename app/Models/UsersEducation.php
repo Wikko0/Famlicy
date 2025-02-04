@@ -11,6 +11,7 @@ class UsersEducation extends Model
 
     protected $fillable = [
         'user_id',
+        'school',
         'name',
         'start_date',
         'end_date',

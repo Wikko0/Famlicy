@@ -235,7 +235,7 @@
                                 </div>
                             @endisset
 
-                            @isset($user->userInformation->bio)
+                            @isset($user->userInformation->color)
                                 <div class="item introduction-item">
                                     <div class="item-details">
                                         <div class="img">
@@ -244,7 +244,7 @@
                                         <div class="details">
                                             <div class="name">Favourite color:</div>
                                             <div
-                                                class="info">{{$user->userInformation->bio ?? 'No bio available'}}</div>
+                                                class="info">{{$user->userInformation->color ?? 'No bio available'}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -462,19 +462,15 @@
                             </div>
                             @isset($user->userEducation)
                             <div class="card-body">
-                                @foreach (['Primary School', 'Secondary School', 'College', 'University'] as $educationLevel)
-                                    @php
-                                        $education = $user->userEducation->where('name', $educationLevel)->first();
-                                    @endphp
+                                @foreach ($user->userEducation as $education)
 
-                                    @if($education)
                                         <div class="item introduction-item">
                                             <div class="item-details">
                                                 <div class="img">
-                                                    <img src="{{ asset('images/' . strtolower(str_replace(' ', '-', $educationLevel)) . '-icon.png') }}" alt="{{ $educationLevel }} Icon"/>
+                                                    <img src="{{ asset('images/' . strtolower(str_replace(' ', '-', $education->school)) . '-icon.png') }}" alt="{{ $education->school }} Icon"/>
                                                 </div>
                                                 <div class="details">
-                                                    <div class="name">{{ $educationLevel }}:</div>
+                                                    <div class="name">{{ $education->school }}: {{$education->name}}</div>
                                                     <div class="info">
                                                         Start Date: {{ \Carbon\Carbon::parse($education->start_date)->format('d-m-Y') ?? 'Not specified'}}
                                                     </div>
@@ -501,7 +497,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endif
                                 @endforeach
                             </div>
                             @endisset
@@ -916,7 +911,7 @@
                                 </div>
                             @endisset
 
-                            @isset($user->userInformation->bio)
+                            @isset($user->userInformation->color)
                                 <div class="item introduction-item">
                                     <div class="item-details">
                                         <div class="img">
@@ -925,7 +920,7 @@
                                         <div class="details">
                                             <div class="name">Favourite color:</div>
                                             <div
-                                                class="info">{{$user->userInformation->bio ?? 'No bio available'}}</div>
+                                                class="info">{{$user->userInformation->color ?? 'No bio available'}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1136,46 +1131,41 @@
                                 <h3>Education</h3>
                             </div>
                             <div class="card-body">
-                                @foreach (['Primary School', 'Secondary School', 'College', 'University'] as $educationLevel)
-                                    @php
-                                        $education = $user->userEducation->where('name', $educationLevel)->first();
-                                    @endphp
+                                @foreach ($user->userEducation as $education)
 
-                                    @if($education)
-                                        <div class="item introduction-item">
-                                            <div class="item-details">
-                                                <div class="img">
-                                                    <img src="{{ asset('images/' . strtolower(str_replace(' ', '-', $educationLevel)) . '-icon.png') }}" alt="{{ $educationLevel }} Icon"/>
+                                    <div class="item introduction-item">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{ asset('images/' . strtolower(str_replace(' ', '-', $education->school)) . '-icon.png') }}" alt="{{ $education->school }} Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">{{ $education->school }}: {{$education->name}}</div>
+                                                <div class="info">
+                                                    Start Date: {{ \Carbon\Carbon::parse($education->start_date)->format('d-m-Y') ?? 'Not specified'}}
                                                 </div>
-                                                <div class="details">
-                                                    <div class="name">{{ $educationLevel }}:</div>
-                                                    <div class="info">
-                                                        Start Date: {{ \Carbon\Carbon::parse($education->start_date)->format('d-m-Y') ?? 'Not specified'}}
-                                                    </div>
-                                                    <div class="info">
-                                                        End Date: {{ \Carbon\Carbon::parse($education->end_date)->format('d-m-Y') ?? 'Not specified'}}
-                                                    </div>
+                                                <div class="info">
+                                                    End Date: {{ \Carbon\Carbon::parse($education->end_date)->format('d-m-Y') ?? 'Not specified'}}
+                                                </div>
 
-                                                    {{-- Проверка дали има предмети и ако не са празни --}}
-                                                    @if($education->subject && $education->subject != "{\"\":null}")
-                                                        <div class="info">
-                                                            Subjects and Grades:
-                                                            @php
-                                                                $subjectsAndGrades = json_decode($education->subject, true);
-                                                            @endphp
-                                                            <ul>
-                                                                @foreach($subjectsAndGrades as $subject => $grade)
-                                                                    @if($subject && $grade)
-                                                                        <li>{{ $subject }}: {{ $grade }}</li>
-                                                                    @endif
-                                                                @endforeach
-                                                            </ul>
-                                                        </div>
-                                                    @endif
-                                                </div>
+                                                {{-- Проверка дали има предмети и ако не са празни --}}
+                                                @if($education->subject && $education->subject != "{\"\":null}")
+                                                    <div class="info">
+                                                        Subjects and Grades:
+                                                        @php
+                                                            $subjectsAndGrades = json_decode($education->subject, true);
+                                                        @endphp
+                                                        <ul>
+                                                            @foreach($subjectsAndGrades as $subject => $grade)
+                                                                @if($subject && $grade)
+                                                                    <li>{{ $subject }}: {{ $grade }}</li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
-                                    @endif
+                                    </div>
                                 @endforeach
                             </div>
 

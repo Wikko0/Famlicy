@@ -1,6 +1,6 @@
 <div class="post-items-sec">
 
-@foreach ($posts as $post)
+    @foreach ($posts as $index => $post)
         <div class="post-item">
             <div class="post-header">
                 <div class="user">
@@ -8,11 +8,9 @@
                         <img src="{{ asset('images/users/user-' . $post->user->id . '.jpg') }}" alt="User Image" />
                     </div>
                     <div class="user-details">
-
                         <a class="name" href="{{ route('profile', $post->user->username) }}">
                             {{ $post->user->name }}
                         </a>
-
                         <a class="time" href="{{ route('posts.show', $post->id) }}">
                             {{ $post->created_at->diffForHumans() }}
                         </a>
@@ -47,16 +45,15 @@
                         </a>
                     </div>
                     @if($post->user->id == Auth::user()->id)
-                    <div class="edit-post">
-                        <a href="{{route('posts.edit', $post->id)}}">
-                            Edit
-                        </a>
-                    </div>
+                        <div class="edit-post">
+                            <a href="{{ route('posts.edit', $post->id) }}">
+                                Edit
+                            </a>
+                        </div>
                         <div class="delete-post">
                             <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $post->id }}').submit();">
                                 Delete
                             </a>
-
                             <form id="delete-form-{{ $post->id }}" action="{{ route('posts.delete', $post->id) }}" method="POST" style="display: none;">
                                 @csrf
                                 @method('DELETE')
@@ -75,7 +72,6 @@
                             <span class="like-text">Like</span>
                         </a>
                     </form>
-
                     <a href="#" class="engage" data-bs-toggle="modal" data-bs-target="#infoModal" data-type="comments" data-post-id="{{ $post->id }}">
                         <span><i class="ri-chat-1-line"></i></span>
                         <span class="engage-text">Comments</span>
@@ -84,7 +80,6 @@
                         <span><i class="ri-share-forward-line"></i></span>
                         <span class="share-text">Share</span>
                     </a>
-
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
                         <li><a class="dropdown-item" href="https://m.me/?text={{ urlencode(route('posts.show', $post->id)) }}" target="_blank"><i class="fab fa-facebook-messenger"></i> Messenger</a></li>
@@ -94,20 +89,16 @@
                     </ul>
                 </div>
                 <div class="right">
-                    <form
-                        action="{{ route(auth()->user()->isFollowing($post->user) ? 'unfollow' : 'follow', $post->user->id) }}"
-                        method="POST">
+                    <form action="{{ route(auth()->user()->isFollowing($post->user) ? 'unfollow' : 'follow', $post->user->id) }}" method="POST">
                         @csrf
-                        <button type="submit"
-                                class="follow-btn {{ auth()->user()->isFollowing($post->user) ? 'unfollow' : '' }}">
-                                    <span>
-                                      <i class="ri-user-{{ auth()->user()->isFollowing($post->user) ? 'minus-fill' : 'add-line' }}"></i>
-                                    </span>
+                        <button type="submit" class="follow-btn {{ auth()->user()->isFollowing($post->user) ? 'unfollow' : '' }}">
+                            <span><i class="ri-user-{{ auth()->user()->isFollowing($post->user) ? 'minus-fill' : 'add-line' }}"></i></span>
                             {{ auth()->user()->isFollowing($post->user) ? 'Unfollow' : 'Follow' }}
                         </button>
                     </form>
                 </div>
             </div>
+
             <form action="{{ route('posts.comment', $post->id) }}" method="POST">
                 @csrf
                 <div class="add-engage">
@@ -124,7 +115,12 @@
             </form>
         </div>
 
+        
+        @if (($index + 1) % 3 == 0)
+            @include('ads.ad-container-970')
+        @endif
     @endforeach
+
     <div class="pagination">
         {{ $posts->links('pagination::bootstrap-4') }}
     </div>
