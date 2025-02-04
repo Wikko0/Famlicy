@@ -142,6 +142,10 @@
                         <img src="{{asset('images/community-icon.png')}}" alt="Community Icon" />
                         <span>Create Community</span>
                     </a>
+                    <a href="{{route('family.register', Auth::user()->username)}}" class="menu-item">
+                        <img src="{{asset('images/family-member-icon.png')}}" alt="Family Create Icon" />
+                        <span>Create Family Member Account</span>
+                    </a>
                     <a href="{{route('logout')}}" class="menu-item">
                         <img src="{{asset('images/exit-icon.png')}}" alt="Exit Icon" />
                         <span>Exit</span>

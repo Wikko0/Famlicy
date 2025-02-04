@@ -50,6 +50,9 @@ Route::get('password/reset/{token}', [ResetPasswordController::class, 'showReset
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');;
 
 Route::middleware('auth')->group(function () {
+    Route::get('/{username}/register', [RegisterController::class, 'familyRegister'])->name('family.register');
+    Route::post('/{username}/register', [RegisterController::class, 'familyRegisterUser'])->name('family.register.form');
+
     Route::get('/welcome', [WelcomeController::class, 'index'])->name('welcome');
     Route::get('/information', [WelcomeController::class, 'index'])->name('information');
 

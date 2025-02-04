@@ -86,6 +86,10 @@
                             <div class="title">Goals & ambitions</div>
                             <button class="add-btn">Visit</button>
                         </a>
+                        <a href="{{route('family.register', Auth::user()->username)}}" class="item ">
+                            <div class="title">Create Account for Family Member</div>
+                            <button class="add-btn">Create</button>
+                        </a>
                     </div>
                     </div>
                     <!-- Introduction Section -->
