@@ -150,12 +150,9 @@ class RegisterController extends Controller
 
     public function familyRegisterUser(Request $request, $userId): RedirectResponse
     {
-
         $request->validate([
             'title' => 'required|string',
             'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'name' => 'required|string',
-            'surname' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string',
             'username' => 'required|string|min:3|max:25|unique:users|regex:/^[a-z0-9._-]+$/i',
@@ -171,25 +168,46 @@ class RegisterController extends Controller
             'religious' => 'nullable|string',
             'children' => 'nullable|string',
             'grandchildren' => 'nullable|string',
+            'family_dob_day' => 'nullable',
+            'family_dob_month' => 'nullable',
+            'family_dob_year' => 'nullable',
+            'family_transition_day' => 'nullable',
+            'family_transition_month' => 'nullable',
+            'family_transition_year' => 'nullable',
         ]);
 
-        $fullName = $request->input('name') . ' ' . $request->input('surname');
+        // Проверка дали е избран "Transitioned"
+        $isTransitioned = $request->filled('family_transition_day');
 
-        if ($request->input('family_name')) {
-            $fullName = $request->input('family_name') . ' ' . $request->input('family_surname');
+        if ($isTransitioned) {
+            $request->validate([
+                'family_name' => 'required|string',
+                'family_surname' => 'required|string',
+                'family_dob_day' => 'required',
+                'family_dob_month' => 'required',
+                'family_dob_year' => 'required',
+                'family_transition_day' => 'required',
+                'family_transition_month' => 'required',
+                'family_transition_year' => 'required',
+            ]);
+        } else {
+            $request->validate([
+                'name' => 'required|string',
+                'surname' => 'required|string',
+            ]);
         }
 
-        $birthday = $request->input('dob_day') . '/' . $request->input('dob_month') . '/' . $request->input('dob_year');
+        $fullName = $isTransitioned
+            ? $request->input('family_name') . ' ' . $request->input('family_surname')
+            : $request->input('name') . ' ' . $request->input('surname');
 
-        if ($request->input('family_dob_day')) {
-            $birthday = $request->input('family_dob_day') . '/' . $request->input('family_dob_month') . '/' . $request->input('family_dob_year');
-        }
+        $birthday = $isTransitioned
+            ? $request->input('family_dob_day') . '/' . $request->input('family_dob_month') . '/' . $request->input('family_dob_year')
+            : $request->input('dob_day') . '/' . $request->input('dob_month') . '/' . $request->input('dob_year');
 
-        $died = null;
-
-        if ($request->input('family_transition_day')) {
-            $died = $request->input('family_transition_day') . '/' . $request->input('family_transition_month') . '/' . $request->input('family_transition_year');
-        }
+        $died = $isTransitioned
+            ? $request->input('family_transition_day') . '/' . $request->input('family_transition_month') . '/' . $request->input('family_transition_year')
+            : null;
 
         $photoPath = null;
 
@@ -205,25 +223,17 @@ class RegisterController extends Controller
             'died' => $died,
         ]);
 
-
         if ($request->hasFile('photo')) {
-
             $photo = $request->file('photo');
-
             $photoPath = $photo->storeAs(
                 '/images/users',
                 'user-' . $user->id . '.jpg',
                 ['disk' => 'public_uploads']
             );
-
-            $photo = Image::make(public_path("{$photoPath}"));
-            $photo->save();
+            Image::make(public_path("{$photoPath}"))->save();
         } else {
-
             $defaultAvatarPath = 'images/default-avatar.png';
             $photoPath = 'images/users/user-' . $user->id . '.jpg';
-
-
             copy(public_path($defaultAvatarPath), public_path($photoPath));
         }
 
@@ -240,9 +250,7 @@ class RegisterController extends Controller
         $userInformation->save();
 
         $communities = Community::whereJsonContains('users', intval($userId))->get();
-
         foreach ($communities as $community) {
-
             $community->addUser($user->id);
         }
 

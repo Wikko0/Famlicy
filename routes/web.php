@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Main\SeeMoreController;
 use App\Http\Controllers\Main\WelcomeController;
 use App\Http\Controllers\Main\CommunityController;
 use App\Http\Controllers\Main\NotificationController;
@@ -61,9 +62,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/unfollow/{user}', [ProfileController::class, 'unfollow'])->name('unfollow');
     Route::post('/user/{id}/update-profile-image', [ProfileController::class, 'updateProfileImage'])->name('user.updateProfileImage');
 
-//    Information
-    Route::get('/user/{username}/information', [UsersInformationController::class, 'index'])->name('user.information');
-    Route::post('/user/{username}/information/update', [UsersInformationController::class, 'updateInformation'])->name('user.information.update');
+//    About Me
+    Route::get('/user/{username}/aboutme', [UsersInformationController::class, 'aboutMe'])->name('user.aboutme');
+    Route::post('/user/{username}/information/aboutme', [UsersInformationController::class, 'updateAboutMe'])->name('user.aboutme.update');
+
+    //    My Interests
+    Route::get('/user/{username}/myinterests', [UsersInformationController::class, 'myInterests'])->name('user.myinterests');
+    Route::post('/user/{username}/myinterests/update', [UsersInformationController::class, 'updateMyInterests'])->name('user.myinterests.update');
 
 //    Education
     Route::get('/user/{username}/education', [UsersEducationController::class, 'index'])->name('user.education');
@@ -84,6 +89,14 @@ Route::middleware('auth')->group(function () {
 //    Goals Events
     Route::get('/user/{username}/goals', [UsersGoalsController::class, 'index'])->name('user.goals');
     Route::post('/user/{username}/goals/update', [UsersGoalsController::class, 'updateInformation'])->name('user.goals.update');
+
+    //    See More
+    Route::get('/aboutme/{username}', [SeeMoreController::class, 'aboutMe'])->name('seemore.aboutme');
+    Route::get('/myinterests/{username}', [SeeMoreController::class, 'myInterests'])->name('seemore.myinterests');
+    Route::get('/education/{username}', [SeeMoreController::class, 'education'])->name('seemore.education');
+    Route::get('/employment/{username}', [SeeMoreController::class, 'employment'])->name('seemore.employment');
+    Route::get('/life/{username}', [SeeMoreController::class, 'life'])->name('seemore.life');
+    Route::get('/goals/{username}', [SeeMoreController::class, 'goals'])->name('seemore.goals');
 
     Route::post('/send-request/{user}', [ProfileController::class, 'sendRequest'])->name('sendRequest');
 

@@ -27,8 +27,12 @@
             </div>
 
             <div class="add-items">
-                <a href="{{route('user.information', Auth::user()->username)}}" class="item ">
-                    <div class="title">My Information</div>
+                <a href="{{route('user.aboutme', Auth::user()->username)}}" class="item ">
+                    <div class="title">About Me</div>
+                    <button class="add-btn">Visit</button>
+                </a>
+                <a href="{{route('user.myinterests', Auth::user()->username)}}" class="item ">
+                    <div class="title">My interests & favourites</div>
                     <button class="add-btn">Visit</button>
                 </a>
                 <a href="{{route('user.education', Auth::user()->username)}}" class="item ">

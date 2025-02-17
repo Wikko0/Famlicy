@@ -79,7 +79,7 @@
                         <div class="btn-fnc ps-lg-3 ps-md-0 ps-0">
                             <div class="creating-account">I’m creating an account for?</div>
                             <div class="btn-selection">
-                                <button type="button" class="family-mem-btn" id="familyMemberBtn">A family member has died</button>
+                                <button type="button" class="family-mem-btn" id="familyMemberBtn">Transitioned</button>
                                 <button type="button" class="myself-btn activeBar" id="mySelfBtn">Family Member</button>
                             </div>
                         </div>
@@ -202,12 +202,22 @@
         let familyMemberBtn = document.getElementById("familyMemberBtn");
         let mySelfBtn = document.getElementById("mySelfBtn");
         let forFamily = document.getElementById("forFamily");
+        let nameField = document.querySelector("input[name='name']");
+        let surnameField = document.querySelector("input[name='surname']");
+        let dobField = document.querySelector("label[for='dob']").parentElement;
 
         mySelfBtn.addEventListener("click", () => {
             forFamily.style.display = "none";
+            nameField.style.display = "block";
+            surnameField.style.display = "block";
+            dobField.style.display = "block";
         });
+
         familyMemberBtn.addEventListener("click", () => {
             forFamily.style.display = "block";
+            nameField.style.display = "none";
+            surnameField.style.display = "none";
+            dobField.style.display = "none";
         });
 
         let btnItems = [familyMemberBtn, mySelfBtn];
@@ -218,7 +228,6 @@
                     btnItems.forEach((removeClass) => {
                         removeClass.classList.remove("activeBar");
                     });
-
                     item.classList.add("activeBar");
                 });
             }
@@ -233,5 +242,6 @@
             document.getElementById("inputSection1").style.display = "block";
             document.getElementById("inputSection2").style.display = "none";
         }
+
     </script>
 @endsection

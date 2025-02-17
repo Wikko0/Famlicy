@@ -2576,14 +2576,13 @@ a {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    gap: 10px;
 }
 
-/* Медийни заявки за мобилни устройства */
 
-/* За екрани до 1024px */
 @media (max-width: 1024px) {
     .introduction-section .card-body {
-        grid-template-columns: repeat(2, 1fr); /* Подреждаме в 2 колони */
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .introduction-section .item .item-details {
@@ -2783,7 +2782,12 @@ a {
 .notification-header {
     font-size: 18px;
     margin-bottom: 10px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--black-color);
+    padding: 10px;
 }
+
 
 .notification-list {
     display: flex;
@@ -3263,4 +3267,15 @@ a {
 }
 .delete-post a{
     color: var(--red-color) !important;
+}
+.just-button {
+    padding: 10px 15px;
+    text-align: center;
+    color: var(--white-color);
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 500;
+    background-color: var(--green-color);
+    border: none;
+    border-radius: 100px;
 }

@@ -11,7 +11,7 @@ use Illuminate\View\View;
 
 class UsersInformationController extends Controller
 {
-    public function index($username): View
+    public function aboutMe($username): View
     {
         $user = User::where('username', $username)->firstOrFail();
 
@@ -19,16 +19,45 @@ class UsersInformationController extends Controller
             abort(403, 'You are not allowed to edit this profile.');
         }
 
-        return view('main.information', compact('user'));
+        return view('main.aboutme', compact('user'));
     }
 
-    public function updateInformation(Request $request, $username): RedirectResponse
+    public function myInterests($username): View
+    {
+        $user = User::where('username', $username)->firstOrFail();
+
+        if (auth()->user()->username !== $user->username) {
+            abort(403, 'You are not allowed to edit this profile.');
+        }
+
+        return view('main.myinterests', compact('user'));
+    }
+
+    public function updateAboutMe(Request $request, $username): RedirectResponse
     {
         $user = User::where('username', $username)->firstOrFail();
 
 
         $validated = $request->validate([
-            'key' => 'required|string|in:location,country,marital,religious,children,grandchildren,instagram,color,animal,hobby,fruit,cuisine,drink,dessert,book,author,music,artist,film,actor,sport',
+            'key' => 'required|string|in:location,country,marital,religious,children,grandchildren,instagram',
+            'value' => 'nullable|string|max:255',
+        ]);
+
+
+        $userInformation = $user->userInformation ?? new UsersInformation(['user_id' => $user->id]);
+        $userInformation->{$validated['key']} = $validated['value'];
+        $userInformation->save();
+
+        return redirect()->back()->withSuccess(ucfirst($validated['key']) . ' updated successfully!');
+    }
+
+    public function updateMyInterests(Request $request, $username): RedirectResponse
+    {
+        $user = User::where('username', $username)->firstOrFail();
+
+
+        $validated = $request->validate([
+            'key' => 'required|string|in:color,animal,hobby,fruit,cuisine,drink,dessert,book,author,music,artist,film,actor,sport',
             'value' => 'nullable|string|max:255',
         ]);
 

@@ -20,16 +20,16 @@
 
     <div class="row">
         <div class="buttons mt-3">
-            <div class="d-flex justify-content-between gap-3">
-                <select name="type" id="contentType" class="form-select form-select-lg">
-                    <option value="Global" selected>🌍 Global</option>
+            <div class="d-flex justify-content-between gap-3 item">
+                <select name="type" id="contentType" class="form-select ">
+                    <option value="Global" selected>Global</option>
                     @if(isset($userCommunities))
                         @foreach ($userCommunities as $community)
-                            <option value="{{ $community->name }}">🏠 {{ $community->name }}</option>
+                            <option value="{{ $community->name }}">{{ $community->name }}</option>
                         @endforeach
                     @endif
                 </select>
-                <button type="submit" class="btn btn-success">Post</button>
+                <button type="submit" class="just-button">Post</button>
             </div>
         </div>
     </div>

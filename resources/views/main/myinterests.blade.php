@@ -12,13 +12,6 @@
             <div class="container">
                 <div class="favourite-items">
                     @foreach ([
-                        'location' => 'Location',
-                        'country' => 'Country of Residence',
-                        'marital' => 'Martial Status',
-                        'religious' => 'Religious Status',
-                        'children' => 'Do you have children?',
-                        'grandchildren' => 'Do you have children?',
-                        'instagram' => 'Instagram',
                         'color' => 'Favourite color',
                         'animal' => 'Favourite animal',
                         'hobby' => 'Favourite hobby',
@@ -35,7 +28,7 @@
                         'sport' => 'Favourite sport'
                     ] as $key => $label)
                         <div class="item">
-                            <form method="POST" action="{{ route('user.information.update', ['username' => $user->username]) }}">
+                            <form method="POST" action="{{ route('user.myinterests.update', ['username' => $user->username]) }}">
                                 @csrf
                                 <div class="name">{{ $label }}</div>
                                 <div class="input-box">

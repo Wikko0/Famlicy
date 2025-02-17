@@ -90,7 +90,7 @@
 
                     <div class="dropdown-menu" id="notification-dropdown">
                         <div class="notification-header">
-                            <h4>Notifications</h4>
+                            Notifications
                         </div>
                         <div class="notification-list">
                             @php

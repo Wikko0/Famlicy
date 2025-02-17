@@ -66,8 +66,12 @@
                     </div>
                     <div class="profile">
                     <div class="add-items">
-                        <a href="{{route('user.information', Auth::user()->username)}}" class="item ">
-                            <div class="title">My Information</div>
+                        <a href="{{route('user.aboutme', Auth::user()->username)}}" class="item ">
+                            <div class="title">About Me</div>
+                            <button class="add-btn">Visit</button>
+                        </a>
+                        <a href="{{route('user.myinterests', Auth::user()->username)}}" class="item ">
+                            <div class="title">My interests & favourites</div>
                             <button class="add-btn">Visit</button>
                         </a>
                         <a href="{{route('user.education', Auth::user()->username)}}" class="item ">
@@ -92,11 +96,11 @@
                         </a>
                     </div>
                     </div>
-                    <!-- Introduction Section -->
+                    <!-- About Me Section -->
 
                     <div class="card introduction-section">
                         <div class="card-header">
-                            <h3>Introduction</h3>
+                            <h3>About me</h3>
                         </div>
                         <div class="card-body">
                             @isset($user->userInformation->location)
@@ -159,86 +163,222 @@
                                     </div>
                                 @endisset
 
-                                @isset($user->userInformation->children)
-                                    <div class="item introduction-item">
+
+                        </div>
+                        <div class="edit-info-btn">
+                            <a href="{{route('seemore.aboutme', $user->username)}}">
+                                <button class="btn-invite">See More</button>
+                            </a>
+                            <a href="{{route('user.aboutme', $user->username)}}">
+                                <button class="btn-invite">Edit Information</button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Education Section -->
+
+                    <div class="card introduction-section">
+                            <div class="card-header">
+                                <h3>Education</h3>
+                            </div>
+                            @isset($user->userEducation)
+                            <div class="card-body">
+                                @foreach ($user->userEducation->take(4) as $education)
+
+                                        <div class="item introduction-item">
+                                            <div class="item-details">
+                                                <div class="img">
+                                                    <img src="{{ asset('images/' . strtolower(str_replace(' ', '-', $education->school)) . '-icon.png') }}" alt="{{ $education->school }} Icon"/>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="name">{{ $education->school }}: {{$education->name}}</div>
+                                                    <div class="info">
+                                                        Start Date: {{ \Carbon\Carbon::parse($education->start_date)->format('d-m-Y') ?? 'Not specified'}}
+                                                    </div>
+                                                    <div class="info">
+                                                        End Date: {{ \Carbon\Carbon::parse($education->end_date)->format('d-m-Y') ?? 'Not specified'}}
+                                                    </div>
+
+                                                    {{-- Проверка дали има предмети и ако не са празни --}}
+                                                    @if($education->subject && $education->subject != "{\"\":null}")
+                                                        <div class="info">
+                                                            Subjects and Grades:
+                                                            @php
+                                                                $subjectsAndGrades = json_decode($education->subject, true);
+                                                            @endphp
+                                                            <ul>
+                                                                @foreach($subjectsAndGrades as $subject => $grade)
+                                                                    @if($subject && $grade)
+                                                                        <li>{{ $subject }}: {{ $grade }}</li>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                @endforeach
+                            </div>
+                            @endisset
+                            <div class="edit-info-btn">
+                                <a href="{{route('seemore.education', $user->username)}}">
+                                    <button class="btn-invite">See More</button>
+                                </a>
+                                <a href="{{ route('user.education', $user->username) }}">
+                                    <button class="btn-invite">Edit Information</button>
+                                </a>
+                            </div>
+                        </div>
+
+
+                    <!-- Employment Section -->
+
+                    <div class="card introduction-section">
+                            <div class="card-header">
+                                <h3>Employment History</h3>
+                            </div>
+                            @isset($user->userEmployment)
+                            <div class="card-body">
+                                @foreach($user->userEmployment->take(4) as $employment)
+                                    <div class="item introduction-item mb-3">
                                         <div class="item-details">
                                             <div class="img">
-                                                <img src="{{asset('images/children-icon.png')}}" alt="Children Icon"/>
+                                                <img src="{{ asset('images/job-icon.png') }}" alt="Company Icon"/>
                                             </div>
                                             <div class="details">
-                                                <div class="name">Do I have children?:</div>
-                                                <div
-                                                    class="info">{{$user->userInformation->children ?? 'Not specified'}}</div>
+                                                <div class="name">{{ $employment->name }}</div>
+                                                <div class="info">
+                                                    <strong>Job Title:</strong> {{ $employment->title ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($employment->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($employment->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($employment->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $employment->description ?? 'Not specified' }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                @endisset
+                                @endforeach
+                            </div>
+                            @endisset
 
-                                @isset($user->userInformation->grandchildren)
-                                    <div class="item introduction-item">
+                            <div class="edit-info-btn">
+                                <a href="{{route('seemore.employment', $user->username)}}">
+                                    <button class="btn-invite">See More</button>
+                                </a>
+                                <a href="{{ route('user.employment', $user->username) }}">
+                                    <button class="btn-invite btn btn-primary">Edit Information</button>
+                                </a>
+                            </div>
+                        </div>
+
+                    <!-- Life Section -->
+
+                    <div class="card introduction-section">
+                        <div class="card-header">
+                            <h3>Life events & accomplishments</h3>
+                        </div>
+                        @isset($user->userLife)
+                            <div class="card-body">
+                                @foreach($user->userLife->take(4) as $life)
+                                    <div class="item introduction-item mb-3">
                                         <div class="item-details">
                                             <div class="img">
-                                                <img src="{{asset('images/children-icon.png')}}" alt="Children Icon"/>
+                                                <img src="{{ asset('images/life-event-icon.png') }}" alt="Life Event Icon"/>
                                             </div>
                                             <div class="details">
-                                                <div class="name">Do I have grandchildren?:</div>
-                                                <div
-                                                    class="info">{{$user->userInformation->grandchildren ?? 'Not specified'}}</div>
+                                                <div class="name">{{ $life->name }}</div>
+                                                <div class="info">
+                                                    <strong>Type:</strong> {{ $life->type ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($life->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($life->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($life->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $life->description ?? 'Not specified' }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                @endisset
+                                @endforeach
+                            </div>
+                        @endisset
 
-                            @isset($user->userInformation->birthday)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/calendar-icon.png')}}" alt="Calendar Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Date of Birth:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->birthday ?? 'No birthday available'}} @if(!empty($user->died))
-                                                    - {{$user->died}}
-                                                @endif</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
+                        <div class="edit-info-btn">
+                            <a href="{{route('seemore.life', $user->username)}}">
+                                <button class="btn-invite">See More</button>
+                            </a>
+                            <a href="{{ route('user.life', $user->username) }}">
+                                <button class="btn-invite btn btn-primary">Edit Life Information</button>
+                            </a>
+                        </div>
+                    </div>
 
-                            @isset($user->created_at)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/member-icon.png')}}" alt="Member Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Member since:</div>
-                                            <div class="info">{{$user->created_at->format('Y-m-d')}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
+                    <!-- Goals Section -->
 
-                            @isset($user->userInformation->instagram)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/instagram-icon.png')}}" alt="Instagram Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Instagram:</div>
-                                            <div class="info">
-                                                <a href="https://instagram.com/{{$user->userInformation->instagram}}"
-                                                   target="_blank">
-                                                    {{$user->userInformation->instagram ?? 'Not specified'}}
-                                                </a>
+                    <div class="card introduction-section">
+                        <div class="card-header">
+                            <h3>Goals & ambitions</h3>
+                        </div>
+                        @isset($user->userGoals)
+                            <div class="card-body">
+                                @foreach($user->userGoals->take(4) as $goals)
+                                    <div class="item introduction-item mb-3">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{ asset('images/goals-icon.png') }}" alt="Goals Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="info">
+                                                    <strong>Goal:</strong> {{ $goals->name ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($goals->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($goals->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($goals->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $goals->description ?? 'Not specified' }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endisset
+                                @endforeach
+                            </div>
+                        @endisset
 
+                        <div class="edit-info-btn">
+                            <a href="{{route('seemore.goals', $user->username)}}">
+                                <button class="btn-invite">See More</button>
+                            </a>
+                            <a href="{{ route('user.goals', $user->username) }}">
+                                <button class="btn-invite btn btn-primary">Edit Goals & ambitions</button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- My interests & favourites Section -->
+
+                    <div class="card introduction-section">
+                        <div class="card-header">
+                            <h3>My interests & favourites</h3>
+                        </div>
+                        <div class="card-body">
                             @isset($user->userInformation->color)
                                 <div class="item introduction-item">
                                     <div class="item-details">
@@ -299,352 +439,16 @@
                                 </div>
                             @endisset
 
-                            @isset($user->userInformation->cuisine)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/cuisine-icon.png')}}" alt="Cuisine Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite cuisine:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->cuisine ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->drink)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/drink-icon.png')}}" alt="Drink Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite drink:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->drink ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->dessert)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/dessert-icon.png')}}" alt="Dessert Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite dessert:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->dessert ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->book)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/book-icon.png')}}" alt="Book Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite book:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->book ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->author)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/author-icon.png')}}" alt="Author Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite author:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->author ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->music_genre)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/music-icon.png')}}" alt="Music genre Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite music genre:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->music_genre ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->music_artist)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/music-artist-icon.png')}}"
-                                                 alt="Musical artist Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite musical artist:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->music_artist ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->film)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/film-icon.png')}}" alt="Film Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite film:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->film ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->actor)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/actor-icon.png')}}" alt="Actor Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite actor:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->actor ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->sport)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/sport-icon.png')}}" alt="Sport Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite sport:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->sport ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
                         </div>
                         <div class="edit-info-btn">
-                            <a href="{{route('user.information', $user->username)}}">
+                            <a href="{{route('seemore.myinterests', $user->username)}}">
+                                <button class="btn-invite">See More</button>
+                            </a>
+                            <a href="{{route('user.myinterests', $user->username)}}">
                                 <button class="btn-invite">Edit Information</button>
                             </a>
                         </div>
                     </div>
-
-                    <!-- Education Section -->
-
-                    <div class="card introduction-section">
-                            <div class="card-header">
-                                <h3>Education</h3>
-                            </div>
-                            @isset($user->userEducation)
-                            <div class="card-body">
-                                @foreach ($user->userEducation as $education)
-
-                                        <div class="item introduction-item">
-                                            <div class="item-details">
-                                                <div class="img">
-                                                    <img src="{{ asset('images/' . strtolower(str_replace(' ', '-', $education->school)) . '-icon.png') }}" alt="{{ $education->school }} Icon"/>
-                                                </div>
-                                                <div class="details">
-                                                    <div class="name">{{ $education->school }}: {{$education->name}}</div>
-                                                    <div class="info">
-                                                        Start Date: {{ \Carbon\Carbon::parse($education->start_date)->format('d-m-Y') ?? 'Not specified'}}
-                                                    </div>
-                                                    <div class="info">
-                                                        End Date: {{ \Carbon\Carbon::parse($education->end_date)->format('d-m-Y') ?? 'Not specified'}}
-                                                    </div>
-
-                                                    {{-- Проверка дали има предмети и ако не са празни --}}
-                                                    @if($education->subject && $education->subject != "{\"\":null}")
-                                                        <div class="info">
-                                                            Subjects and Grades:
-                                                            @php
-                                                                $subjectsAndGrades = json_decode($education->subject, true);
-                                                            @endphp
-                                                            <ul>
-                                                                @foreach($subjectsAndGrades as $subject => $grade)
-                                                                    @if($subject && $grade)
-                                                                        <li>{{ $subject }}: {{ $grade }}</li>
-                                                                    @endif
-                                                                @endforeach
-                                                            </ul>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                @endforeach
-                            </div>
-                            @endisset
-                            <div class="edit-info-btn">
-                                <a href="{{ route('user.education', $user->username) }}">
-                                    <button class="btn-invite">Edit Information</button>
-                                </a>
-                            </div>
-                        </div>
-
-
-
-                    <!-- Employment Section -->
-
-                    <div class="card introduction-section">
-                            <div class="card-header">
-                                <h3>Employment History</h3>
-                            </div>
-                            @isset($user->userEmployment)
-                            <div class="card-body">
-                                @foreach($user->userEmployment as $employment)
-                                    <div class="item introduction-item mb-3">
-                                        <div class="item-details">
-                                            <div class="img">
-                                                <img src="{{ asset('images/job-icon.png') }}" alt="Company Icon"/>
-                                            </div>
-                                            <div class="details">
-                                                <div class="name">{{ $employment->name }}</div>
-                                                <div class="info">
-                                                    <strong>Job Title:</strong> {{ $employment->title ?? 'Not specified' }}
-                                                </div>
-                                                <div class="info">
-                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($employment->start_date)->format('d-m-Y') ?? 'Not specified' }}
-                                                </div>
-                                                @if($employment->end_date)
-                                                    <div class="info">
-                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($employment->end_date)->format('d-m-Y') }}
-                                                    </div>
-                                                @endif
-                                                <div class="info">
-                                                    <strong>Description:</strong> {{ $employment->description ?? 'Not specified' }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            @endisset
-
-                            <div class="edit-info-btn">
-                                <a href="{{ route('user.employment', $user->username) }}">
-                                    <button class="btn-invite btn btn-primary">Edit Information</button>
-                                </a>
-                            </div>
-                        </div>
-
-                    <!-- Life Section -->
-
-                    <div class="card introduction-section">
-                        <div class="card-header">
-                            <h3>Life events & accomplishments</h3>
-                        </div>
-                        @isset($user->userLife)
-                            <div class="card-body">
-                                @foreach($user->userLife as $life)
-                                    <div class="item introduction-item mb-3">
-                                        <div class="item-details">
-                                            <div class="img">
-                                                <img src="{{ asset('images/life-event-icon.png') }}" alt="Life Event Icon"/>
-                                            </div>
-                                            <div class="details">
-                                                <div class="name">{{ $life->name }}</div>
-                                                <div class="info">
-                                                    <strong>Type:</strong> {{ $life->type ?? 'Not specified' }}
-                                                </div>
-                                                <div class="info">
-                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($life->start_date)->format('d-m-Y') ?? 'Not specified' }}
-                                                </div>
-                                                @if($life->end_date)
-                                                    <div class="info">
-                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($life->end_date)->format('d-m-Y') }}
-                                                    </div>
-                                                @endif
-                                                <div class="info">
-                                                    <strong>Description:</strong> {{ $life->description ?? 'Not specified' }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endisset
-
-                        <div class="edit-info-btn">
-                            <a href="{{ route('user.life', $user->username) }}">
-                                <button class="btn-invite btn btn-primary">Edit Life Information</button>
-                            </a>
-                        </div>
-                    </div>
-
-
-                    <!-- Goals Section -->
-
-                    <div class="card introduction-section">
-                        <div class="card-header">
-                            <h3>Goals & ambitions</h3>
-                        </div>
-                        @isset($user->userGoals)
-                            <div class="card-body">
-                                @foreach($user->userGoals as $goals)
-                                    <div class="item introduction-item mb-3">
-                                        <div class="item-details">
-                                            <div class="img">
-                                                <img src="{{ asset('images/goals-icon.png') }}" alt="Goals Icon"/>
-                                            </div>
-                                            <div class="details">
-                                                <div class="info">
-                                                    <strong>Goal:</strong> {{ $goals->name ?? 'Not specified' }}
-                                                </div>
-                                                <div class="info">
-                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($goals->start_date)->format('d-m-Y') ?? 'Not specified' }}
-                                                </div>
-                                                @if($goals->end_date)
-                                                    <div class="info">
-                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($goals->end_date)->format('d-m-Y') }}
-                                                    </div>
-                                                @endif
-                                                <div class="info">
-                                                    <strong>Description:</strong> {{ $goals->description ?? 'Not specified' }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endisset
-
-                        <div class="edit-info-btn">
-                            <a href="{{ route('user.goals', $user->username) }}">
-                                <button class="btn-invite btn btn-primary">Edit Goals & ambitions</button>
-                            </a>
-                        </div>
-                    </div>
-
 
                     <div class="active-user-items">
                             @foreach ($friends as $i => $friend)
@@ -769,10 +573,10 @@
                         </form>
                     </div>
 
-                    <!-- Introduction Section -->
+                    <!-- About me Section -->
                     <div class="card introduction-section">
                         <div class="card-header">
-                            <h3>Introduction</h3>
+                            <h3>About me</h3>
                         </div>
                         <div class="card-body">
                             @isset($user->userInformation->location)
@@ -835,86 +639,202 @@
                                     </div>
                                 @endisset
 
-                                @isset($user->userInformation->children)
+
+                        </div>
+                        <div class="edit-info-btn">
+                            <a href="{{route('seemore.aboutme', $user->username)}}">
+                                <button class="btn-invite">See More</button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Education Section -->
+                    @if($user->userEducation->isNotEmpty())
+                        <div class="card introduction-section">
+                            <div class="card-header">
+                                <h3>Education</h3>
+                            </div>
+                            <div class="card-body">
+                                @foreach ($user->userEducation->take(4) as $education)
+
                                     <div class="item introduction-item">
                                         <div class="item-details">
                                             <div class="img">
-                                                <img src="{{asset('images/children-icon.png')}}" alt="Children Icon"/>
+                                                <img src="{{ asset('images/' . strtolower(str_replace(' ', '-', $education->school)) . '-icon.png') }}" alt="{{ $education->school }} Icon"/>
                                             </div>
                                             <div class="details">
-                                                <div class="name">Do I have children?:</div>
-                                                <div
-                                                    class="info">{{$user->userInformation->children ?? 'Not specified'}}</div>
+                                                <div class="name">{{ $education->school }}: {{$education->name}}</div>
+                                                <div class="info">
+                                                    Start Date: {{ \Carbon\Carbon::parse($education->start_date)->format('d-m-Y') ?? 'Not specified'}}
+                                                </div>
+                                                <div class="info">
+                                                    End Date: {{ \Carbon\Carbon::parse($education->end_date)->format('d-m-Y') ?? 'Not specified'}}
+                                                </div>
+
+                                                {{-- Проверка дали има предмети и ако не са празни --}}
+                                                @if($education->subject && $education->subject != "{\"\":null}")
+                                                    <div class="info">
+                                                        Subjects and Grades:
+                                                        @php
+                                                            $subjectsAndGrades = json_decode($education->subject, true);
+                                                        @endphp
+                                                        <ul>
+                                                            @foreach($subjectsAndGrades as $subject => $grade)
+                                                                @if($subject && $grade)
+                                                                    <li>{{ $subject }}: {{ $grade }}</li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
-                                @endisset
+                                @endforeach
+                            </div>
 
-                                @isset($user->userInformation->grandchildren)
-                                    <div class="item introduction-item">
+                            <div class="edit-info-btn">
+                                <a href="{{route('seemore.education', $user->username)}}">
+                                    <button class="btn-invite">See More</button>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+
+
+                    <!-- Employment Section -->
+                    @if($user->userEmployment->isNotEmpty())
+                        <div class="card introduction-section">
+                            <div class="card-header">
+                                <h3>Employment History</h3>
+                            </div>
+                            <div class="card-body">
+                                @foreach($user->userEmployment->take(4) as $employment)
+                                    <div class="item introduction-item mb-3">
                                         <div class="item-details">
                                             <div class="img">
-                                                <img src="{{asset('images/children-icon.png')}}" alt="Children Icon"/>
+                                                <img src="{{ asset('images/job-icon.png') }}" alt="Company Icon"/>
                                             </div>
                                             <div class="details">
-                                                <div class="name">Do I have grandchildren?:</div>
-                                                <div
-                                                    class="info">{{$user->userInformation->grandchildren ?? 'Not specified'}}</div>
+                                                <div class="name">{{ $employment->name }}</div>
+                                                <div class="info">
+                                                    <strong>Job Title:</strong> {{ $employment->title ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($employment->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($employment->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($employment->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $employment->description ?? 'Not specified' }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                @endisset
+                                @endforeach
+                            </div>
+                            <div class="edit-info-btn">
+                                <a href="{{route('seemore.education', $user->username)}}">
+                                    <button class="btn-invite">See More</button>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
 
-                            @isset($user->userInformation->birthday)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/calendar-icon.png')}}" alt="Calendar Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Date of Birth:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->birthday ?? 'No birthday available'}} @if(!empty($user->died))
-                                                    - {{$user->died}}
-                                                @endif</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
+                    <!-- Life Section -->
+                    @if($user->userLife->isNotEmpty())
+                    <div class="card introduction-section">
+                        <div class="card-header">
+                            <h3>Life events & accomplishments</h3>
+                        </div>
 
-                            @isset($user->created_at)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/member-icon.png')}}" alt="Member Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Member since:</div>
-                                            <div class="info">{{$user->created_at->format('Y-m-d')}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->instagram)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/instagram-icon.png')}}" alt="Instagram Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Instagram:</div>
-                                            <div class="info">
-                                                <a href="https://instagram.com/{{$user->userInformation->instagram}}"
-                                                   target="_blank">
-                                                    {{$user->userInformation->instagram ?? 'Not specified'}}
-                                                </a>
+                            <div class="card-body">
+                                @foreach($user->userLife->take(4) as $life)
+                                    <div class="item introduction-item mb-3">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{ asset('images/life-event-icon.png') }}" alt="Life Event Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="name">{{ $life->name }}</div>
+                                                <div class="info">
+                                                    <strong>Type:</strong> {{ $life->type ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($life->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($life->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($life->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $life->description ?? 'Not specified' }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endisset
+                                @endforeach
+                            </div>
+                        <div class="edit-info-btn">
+                            <a href="{{route('seemore.life', $user->username)}}">
+                                <button class="btn-invite">See More</button>
+                            </a>
+                        </div>
+                    </div>
+                    @endif
 
+                    <!-- Goals Section -->
+                    @if($user->userGoals->isNotEmpty())
+                        <div class="card introduction-section">
+                            <div class="card-header">
+                                <h3>Goals & ambitions</h3>
+                            </div>
+
+                            <div class="card-body">
+                                @foreach($user->userGoals->take(4) as $goals)
+                                    <div class="item introduction-item mb-3">
+                                        <div class="item-details">
+                                            <div class="img">
+                                                <img src="{{ asset('images/goals-icon.png') }}" alt="Goals Icon"/>
+                                            </div>
+                                            <div class="details">
+                                                <div class="info">
+                                                    <strong>Goal:</strong> {{ $goals->name ?? 'Not specified' }}
+                                                </div>
+                                                <div class="info">
+                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($goals->start_date)->format('d-m-Y') ?? 'Not specified' }}
+                                                </div>
+                                                @if($goals->end_date)
+                                                    <div class="info">
+                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($goals->end_date)->format('d-m-Y') }}
+                                                    </div>
+                                                @endif
+                                                <div class="info">
+                                                    <strong>Description:</strong> {{ $goals->description ?? 'Not specified' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="edit-info-btn">
+                                <a href="{{route('seemore.goals', $user->username)}}">
+                                    <button class="btn-invite">See More</button>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- My interests & favourites Section -->
+                    <div class="card introduction-section">
+                        <div class="card-header">
+                            <h3>My interests & favourites</h3>
+                        </div>
+                        <div class="card-body">
                             @isset($user->userInformation->color)
                                 <div class="item introduction-item">
                                     <div class="item-details">
@@ -975,327 +895,13 @@
                                 </div>
                             @endisset
 
-                            @isset($user->userInformation->cuisine)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/cuisine-icon.png')}}" alt="Cuisine Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite cuisine:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->cuisine ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->drink)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/drink-icon.png')}}" alt="Drink Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite drink:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->drink ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->dessert)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/dessert-icon.png')}}" alt="Dessert Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite dessert:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->dessert ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->book)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/book-icon.png')}}" alt="Book Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite book:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->book ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->author)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/author-icon.png')}}" alt="Author Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite author:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->author ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->music_genre)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/music-icon.png')}}" alt="Music genre Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite music genre:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->music_genre ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->music_artist)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/music-artist-icon.png')}}"
-                                                 alt="Musical artist Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite musical artist:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->music_artist ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->film)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/film-icon.png')}}" alt="Film Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite film:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->film ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->actor)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/actor-icon.png')}}" alt="Actor Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite actor:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->actor ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
-
-                            @isset($user->userInformation->sport)
-                                <div class="item introduction-item">
-                                    <div class="item-details">
-                                        <div class="img">
-                                            <img src="{{asset('images/sport-icon.png')}}" alt="Sport Icon"/>
-                                        </div>
-                                        <div class="details">
-                                            <div class="name">Favourite sport:</div>
-                                            <div
-                                                class="info">{{$user->userInformation->sport ?? 'No bio available'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endisset
+                        </div>
+                        <div class="edit-info-btn">
+                            <a href="{{route('seemore.myinterests', $user->username)}}">
+                                <button class="btn-invite">See More</button>
+                            </a>
                         </div>
                     </div>
-
-                    <!-- Education Section -->
-                    @isset($user->userEducation)
-                        <div class="card introduction-section">
-                            <div class="card-header">
-                                <h3>Education</h3>
-                            </div>
-                            <div class="card-body">
-                                @foreach ($user->userEducation as $education)
-
-                                    <div class="item introduction-item">
-                                        <div class="item-details">
-                                            <div class="img">
-                                                <img src="{{ asset('images/' . strtolower(str_replace(' ', '-', $education->school)) . '-icon.png') }}" alt="{{ $education->school }} Icon"/>
-                                            </div>
-                                            <div class="details">
-                                                <div class="name">{{ $education->school }}: {{$education->name}}</div>
-                                                <div class="info">
-                                                    Start Date: {{ \Carbon\Carbon::parse($education->start_date)->format('d-m-Y') ?? 'Not specified'}}
-                                                </div>
-                                                <div class="info">
-                                                    End Date: {{ \Carbon\Carbon::parse($education->end_date)->format('d-m-Y') ?? 'Not specified'}}
-                                                </div>
-
-                                                {{-- Проверка дали има предмети и ако не са празни --}}
-                                                @if($education->subject && $education->subject != "{\"\":null}")
-                                                    <div class="info">
-                                                        Subjects and Grades:
-                                                        @php
-                                                            $subjectsAndGrades = json_decode($education->subject, true);
-                                                        @endphp
-                                                        <ul>
-                                                            @foreach($subjectsAndGrades as $subject => $grade)
-                                                                @if($subject && $grade)
-                                                                    <li>{{ $subject }}: {{ $grade }}</li>
-                                                                @endif
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <div class="edit-info-btn">
-                                <a href="{{ route('user.education', $user->username) }}">
-                                    <button class="btn-invite">Edit Information</button>
-                                </a>
-                            </div>
-                        </div>
-                    @endisset
-
-
-                    <!-- Employment Section -->
-                    @if($user->userEmployment->isNotEmpty())
-                        <div class="card introduction-section">
-                            <div class="card-header">
-                                <h3>Employment History</h3>
-                            </div>
-                            <div class="card-body">
-                                @foreach($user->userEmployment as $employment)
-                                    <div class="item introduction-item mb-3">
-                                        <div class="item-details">
-                                            <div class="img">
-                                                <img src="{{ asset('images/job-icon.png') }}" alt="Company Icon"/>
-                                            </div>
-                                            <div class="details">
-                                                <div class="name">{{ $employment->name }}</div>
-                                                <div class="info">
-                                                    <strong>Job Title:</strong> {{ $employment->title ?? 'Not specified' }}
-                                                </div>
-                                                <div class="info">
-                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($employment->start_date)->format('d-m-Y') ?? 'Not specified' }}
-                                                </div>
-                                                @if($employment->end_date)
-                                                    <div class="info">
-                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($employment->end_date)->format('d-m-Y') }}
-                                                    </div>
-                                                @endif
-                                                <div class="info">
-                                                    <strong>Description:</strong> {{ $employment->description ?? 'Not specified' }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                        </div>
-                    @endif
-
-                    <!-- Life Section -->
-                    @if($user->userLife->isNotEmpty())
-                    <div class="card introduction-section">
-                        <div class="card-header">
-                            <h3>Life events & accomplishments</h3>
-                        </div>
-
-                            <div class="card-body">
-                                @foreach($user->userLife as $life)
-                                    <div class="item introduction-item mb-3">
-                                        <div class="item-details">
-                                            <div class="img">
-                                                <img src="{{ asset('images/life-event-icon.png') }}" alt="Life Event Icon"/>
-                                            </div>
-                                            <div class="details">
-                                                <div class="name">{{ $life->name }}</div>
-                                                <div class="info">
-                                                    <strong>Type:</strong> {{ $life->type ?? 'Not specified' }}
-                                                </div>
-                                                <div class="info">
-                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($life->start_date)->format('d-m-Y') ?? 'Not specified' }}
-                                                </div>
-                                                @if($life->end_date)
-                                                    <div class="info">
-                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($life->end_date)->format('d-m-Y') }}
-                                                    </div>
-                                                @endif
-                                                <div class="info">
-                                                    <strong>Description:</strong> {{ $life->description ?? 'Not specified' }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                    </div>
-                    @endif
-
-                    <!-- Goals Section -->
-                    @if($user->userGoals->isNotEmpty())
-                        <div class="card introduction-section">
-                            <div class="card-header">
-                                <h3>Goals & ambitions</h3>
-                            </div>
-
-                            <div class="card-body">
-                                @foreach($user->userGoals as $goals)
-                                    <div class="item introduction-item mb-3">
-                                        <div class="item-details">
-                                            <div class="img">
-                                                <img src="{{ asset('images/goals-icon.png') }}" alt="Goals Icon"/>
-                                            </div>
-                                            <div class="details">
-                                                <div class="info">
-                                                    <strong>Goal:</strong> {{ $goals->name ?? 'Not specified' }}
-                                                </div>
-                                                <div class="info">
-                                                    <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($goals->start_date)->format('d-m-Y') ?? 'Not specified' }}
-                                                </div>
-                                                @if($goals->end_date)
-                                                    <div class="info">
-                                                        <strong>End Date:</strong> {{ \Carbon\Carbon::parse($goals->end_date)->format('d-m-Y') }}
-                                                    </div>
-                                                @endif
-                                                <div class="info">
-                                                    <strong>Description:</strong> {{ $goals->description ?? 'Not specified' }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                        </div>
-                    @endif
                 </div>
             </div>
         @endif
