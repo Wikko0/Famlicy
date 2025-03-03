@@ -5,7 +5,7 @@
             <img src="{{ asset('images/users/user-' . Auth::user()->id . '.jpg') }}" alt="User Image" />
         </div>
         <div class="input-box">
-            <input type="text" name="content" id="content" placeholder="Share your memory with everyone" />
+            <textarea name="content" id="content" placeholder="Share your memory with everyone"></textarea>
             <input type="file" name="image" id="image-input" accept="image/*" style="display: none;" onchange="previewImage()" />
             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"
                  onclick="document.getElementById('image-input').click();">
@@ -13,6 +13,7 @@
                       stroke="#2A804E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </div>
+
         <div id="image-preview-container" style="display: none" class="img">
             <img id="image-preview" src="" alt="Post Image" />
         </div>

@@ -1294,14 +1294,18 @@ a {
     height: 42px;
 }
 
-.welcome-section .main .share-memory .input-box input {
+.welcome-section .main .share-memory .input-box textarea {
     height: 100%;
+    overflow-y: hidden; /* Скрива скролбара, докато не се достигне max-height */
+    resize: none;
+
     width: 100%;
     outline: none;
     border: none;
 }
 
-.welcome-section .main .share-memory .input-box input::placeholder {
+
+.welcome-section .main .share-memory .input-box textarea::placeholder {
     font-size: 14px;
     font-weight: 400;
     line-height: 18px;
@@ -1901,7 +1905,7 @@ a {
         line-height: 18px;
     }
 
-    .welcome-section .main .share-memory .input-box input::placeholder {
+    .welcome-section .main .share-memory .input-box textarea::placeholder {
         font-size: 12px;
     }
 
@@ -2099,6 +2103,7 @@ a {
 }
 
 .my-favourites .favourite-items .item .input-box input {
+    width: 100%;
     height: 40px;
     padding: 10px;
     border: 1px solid #dde2e5;
@@ -2685,70 +2690,6 @@ a {
 .edit-info-btn a {
     text-decoration: none;
 }
-.my-favourites .favourite-sec .container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.favourite-items .item {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.favourite-items .name {
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 18px;
-    color: #333;
-}
-
-.favourite-items .input-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    max-width: 700px;
-}
-
-.favourite-items input[type="text"] {
-    flex: 1;
-    padding: 14px 16px;
-    font-size: 18px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    transition: border-color 0.3s ease;
-}
-
-.favourite-items input[type="text"]:focus {
-    border-color: #007bff;
-}
-
-.favourite-items button.add-btn {
-    padding: 14px 24px;
-    font-size: 18px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.favourite-items button.add-btn:hover {
-    background-color: #218838;
-}
-
-.favourite-items input[type="text"]::placeholder {
-    color: #aaa;
-    font-size: 16px;
-}
-
-.favourite-items .input-box button {
-    min-width: 100px;
-}
 
 .notification-icon {
     position: relative;
@@ -3279,3 +3220,7 @@ a {
     border: none;
     border-radius: 100px;
 }
+.item form {
+    display: contents;
+}
+

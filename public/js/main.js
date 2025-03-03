@@ -113,3 +113,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+// Text area extend
+function initTextareaResize() {
+    let textarea = document.getElementById("content");
+    if (!textarea) return;
+
+    textarea.addEventListener("input", function () {
+        this.style.height = "auto";
+        this.style.height = (this.scrollHeight + 5) + "px";
+
+        let inputBox = this.parentElement;
+        inputBox.style.height = (this.scrollHeight + 5) + "px";
+
+        let shareMemory = document.querySelector(".share-memory");
+        if (shareMemory) {
+            shareMemory.style.height = (inputBox.offsetHeight + 20) + "px";
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", initTextareaResize);
