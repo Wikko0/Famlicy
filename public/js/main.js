@@ -85,22 +85,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-function previewImage() {
-    const file = document.getElementById('image-input').files[0];
-    const reader = new FileReader();
+function previewFile() {
+    let input = document.getElementById('file-input');
+    let previewContainer = document.getElementById('preview-container');
+    previewContainer.innerHTML = '';
 
-    reader.onloadend = function() {
-        const imagePreviewContainer = document.getElementById('image-preview-container');
-        const imagePreview = document.getElementById('image-preview');
+    if (input.files.length > 0) {
+        let file = input.files[0];
+        let fileType = file.type.split('/')[0];
 
-        imagePreview.src = reader.result;
-        imagePreviewContainer.style.display = 'block';
-    }
+        let previewElement;
+        if (fileType === 'image') {
+            previewElement = document.createElement('img');
+            previewElement.src = URL.createObjectURL(file);
+            previewElement.style.maxWidth = '100px';
+        } else if (fileType === 'audio') {
+            previewElement = document.createElement('audio');
+            previewElement.controls = true;
+            previewElement.src = URL.createObjectURL(file);
+        } else if (fileType === 'video') {
+            previewElement = document.createElement('video');
+            previewElement.controls = true;
+            previewElement.style.maxWidth = '150px';
+            previewElement.src = URL.createObjectURL(file);
+        }
 
-    if (file) {
-        reader.readAsDataURL(file);
+        if (previewElement) {
+            previewContainer.appendChild(previewElement);
+            previewContainer.style.display = 'block';
+        }
     }
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const shareButtons = document.querySelectorAll('.dropdown-item');

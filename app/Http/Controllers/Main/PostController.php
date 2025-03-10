@@ -19,33 +19,38 @@ class PostController extends Controller
     {
         $request->validate([
             'content' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'type' => 'required|string'
+            'file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp3,wav,ogg,mp4,mov,avi,wmv|max:51200',
+            'type' => 'required|string',
         ]);
 
-        $imagePath = null;
+        $filePath = null;
 
         $post = Post::create([
             'user_id' => Auth::id(),
             'content' => $request->input('content'),
             'type' => $request->input('type'),
-            'image_path' => $imagePath,
+            'image_path' => null,
         ]);
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-
-            $photoPath = $image->storeAs(
-                '/images/posts',
-                'post-' . $post->id . '.jpg',
-                ['disk' => 'public_uploads']
-            );
-
-            $image = Image::make(public_path("{$photoPath}"));
-            $image->save();
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $mimeType = $file->getMimeType();
 
 
-            $post->update(['image_path' => $photoPath]);
+            $filePath = "/images/posts/post-{$post->id}.{$extension}";
+
+
+            $file->storeAs('images/posts', "post-{$post->id}.{$extension}", 'public_uploads');
+
+
+            if (str_starts_with($mimeType, 'image')) {
+                $image = Image::make(public_path($filePath));
+                $image->save();
+            }
+
+
+            $post->update(['image_path' => $filePath]);
         }
 
         return redirect()->back()->withSuccess('Post added successfully!');
@@ -127,7 +132,7 @@ class PostController extends Controller
     {
         $request->validate([
             'content' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp3,wav,ogg,mp4,mov,avi,wmv|max:51200',
             'type' => 'required|string'
         ]);
 
@@ -142,28 +147,31 @@ class PostController extends Controller
             'type' => $request->input('type'),
         ]);
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $filePath = "/images/posts/post-{$post->id}.{$extension}";
 
             if ($post->image_path && file_exists(public_path($post->image_path))) {
                 unlink(public_path($post->image_path));
             }
 
-
-            $photoPath = $image->storeAs(
-                '/images/posts',
-                'post-' . $post->id . '.jpg',
-                ['disk' => 'public_uploads']
-            );
+            $file->move(public_path('/images/posts'), "post-{$post->id}.{$extension}");
 
 
-            $image = Image::make(public_path("{$photoPath}"));
-            $image->save();
+            if (in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
+                $image = Image::make(public_path($filePath));
+                $image->save();
+            }
 
-            $post->update(['image_path' => $photoPath]);
+            $post->update(['image_path' => $filePath]);
         }
 
-        return redirect()->back()->withSuccess('Post updated successfully!');
+        return redirect()->route('posts.show', [
+            'username' => $post->user->username,
+            'type' => $post->type,
+            'content' => $post->content
+        ])->withSuccess('Post updated successfully!');
     }
+
 }

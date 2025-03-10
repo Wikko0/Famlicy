@@ -1,7 +1,9 @@
-<div class="filter-section p-4 bg-white rounded shadow-sm mt-3">
+@if((isset($posts) && $posts->isNotEmpty()))
+
+<div class="filter-section">
     <div class="row g-3 align-items-center">
         <div class="col-md-5">
-            <label for="sortBy" class="form-label fw-bold">Sort by:</label>
+            <label for="sortBy" class="form-label fw-bold text-white">Sort by:</label>
             <select class="form-select btn-lg" id="sortBy">
                 <option value="newest" selected>Newest</option>
                 <option value="oldest">Oldest</option>
@@ -9,12 +11,12 @@
         </div>
 
         <div class="col-md-1">
-            <button class="btn btn-success btn-md mt-4" onclick="applyFilters()"><i class="fas fa-filter"></i></button>
+            <button class="btn-filter mt-4" onclick="applyFilters()"><i class="fas fa-filter"></i></button>
         </div>
     </div>
 
 </div>
-
+@endif
 <script>
     function applyFilters() {
         const sortBy = document.getElementById('sortBy').value;

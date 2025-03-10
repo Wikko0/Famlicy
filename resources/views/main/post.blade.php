@@ -35,10 +35,35 @@
                                 <div class="desc">{{ $post->content }}</div>
                             </div>
                             @if ($post->image_path)
-                                <div class="post-image">
-                                    <div class="img">
-                                        <img src="{{ asset($post->image_path) }}" alt="Post Image" />
-                                    </div>
+                                @php
+                                    $fileExtension = pathinfo($post->image_path, PATHINFO_EXTENSION);
+                                    $imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                                    $audioExtensions = ['mp3', 'wav', 'ogg'];
+                                    $videoExtensions = ['mp4', 'mov', 'avi', 'wmv'];
+                                @endphp
+
+                                <div class="post-media">
+                                    @if (in_array($fileExtension, $imageExtensions))
+                                        <div class="post-image">
+                                            <div class="img">
+                                                <img src="{{ asset($post->image_path) }}" alt="Post Image" />
+                                            </div>
+                                        </div>
+                                    @elseif (in_array($fileExtension, $audioExtensions))
+                                        <div class="post-audio">
+                                            <audio controls>
+                                                <source src="{{ asset($post->image_path) }}" type="audio/{{ $fileExtension }}">
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        </div>
+                                    @elseif (in_array($fileExtension, $videoExtensions))
+                                        <div class="post-video">
+                                            <video controls width="100%">
+                                                <source src="{{ asset($post->image_path) }}" type="video/{{ $fileExtension }}">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </div>
+                                    @endif
                                 </div>
                             @endif
                             <div class="post-details">
@@ -55,6 +80,22 @@
                                             {{ $post->comments->count() }} comments
                                         </a>
                                     </div>
+                                    @if($post->user->id == Auth::user()->id)
+                                        <div class="edit-post">
+                                            <a href="{{ route('posts.edit', $post->id) }}">
+                                                Edit
+                                            </a>
+                                        </div>
+                                        <div class="delete-post">
+                                            <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $post->id }}').submit();">
+                                                Delete
+                                            </a>
+                                            <form id="delete-form-{{ $post->id }}" action="{{ route('posts.delete', $post->id) }}" method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
 
