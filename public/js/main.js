@@ -150,4 +150,76 @@ function initTextareaResize() {
     });
 }
 
+document.querySelectorAll(".toggle-comments").forEach(button => {
+    button.addEventListener("click", function (event) {
+        event.preventDefault();
+        let postId = this.getAttribute("data-post-id");
+        let commentsContainer = document.getElementById("comments-container-" + postId);
+        commentsContainer.style.display = commentsContainer.style.display === "none" || commentsContainer.style.display === "" ? "block" : "none";
+    });
+});
+
+document.querySelectorAll(".load-more-comments").forEach(button => {
+    button.addEventListener("click", function () {
+        let postId = this.getAttribute("data-post-id");
+        let offset = parseInt(this.getAttribute("data-offset"));
+        let loadMoreButton = this;
+        let commentsList = document.getElementById("comments-list-" + postId);
+
+
+        fetch(`/posts/${postId}/comment?offset=${offset}`)
+            .then(response => response.json())
+            .then(data => {
+
+                if (!data.items || data.items.length === 0) {
+                    console.warn("No comments returned from server.");
+                    return;
+                }
+
+
+                let existingCommentIds = new Set();
+                commentsList.querySelectorAll(".single-comment").forEach(commentDiv => {
+                    existingCommentIds.add(commentDiv.getAttribute("data-comment-id"));
+                });
+
+                let newCommentsCount = 0;
+
+
+                data.items.forEach(comment => {
+                    if (!existingCommentIds.has(String(comment.id))) {
+                        let commentHTML = `
+                            <div class="single-comment" data-comment-id="${comment.id}">
+                                <div class="comment-header">
+                                    <div class="comment-img">
+                                        <img src="/images/users/user-${comment.user_id}.jpg" alt="User Image">
+                                    </div>
+                                    <div class="comment-info">
+                                        <a href="/profile/${comment.user_id}" class="comment-author">
+                                            ${comment.user_name}
+                                        </a>
+                                        <span class="comment-time">${comment.created_at}</span>
+                                    </div>
+                                </div>
+                                <div class="comment-body">
+                                    <p>${comment.content}</p>
+                                </div>
+                            </div>
+                        `;
+                        commentsList.insertAdjacentHTML('beforeend', commentHTML);
+                        newCommentsCount++;
+                    }
+                });
+
+                if (newCommentsCount > 0) {
+                    loadMoreButton.setAttribute("data-offset", offset + newCommentsCount);
+                }
+
+                if (!data.hasMore) {
+                    loadMoreButton.remove();
+                }
+            })
+            .catch(error => console.error("Error loading comments:", error));
+    });
+});
+
 document.addEventListener("DOMContentLoaded", initTextareaResize);

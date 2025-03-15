@@ -135,7 +135,7 @@ class RegisterController extends Controller
             $community->addUser($user->id);
         }
 
-//        Mail::to($user->email)->send(new WelcomeMail($user));
+        Mail::to($user->email)->send(new WelcomeMail($user));
 
         Auth::login($user);
 

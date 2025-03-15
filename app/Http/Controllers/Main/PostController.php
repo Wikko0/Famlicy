@@ -174,4 +174,24 @@ class PostController extends Controller
         ])->withSuccess('Post updated successfully!');
     }
 
+    public function loadMore(Request $request, Post $post)
+    {
+        $offset = (int) $request->get('offset', 0); // Без -5
+        $comments = $post->comments()->orderBy('created_at', 'asc')->skip($offset)->take(5)->get();
+        $hasMore = $post->comments()->count() > ($offset + 5);
+
+        return response()->json([
+            'items' => $comments->map(function ($comment) {
+                return [
+                    'id' => $comment->id,
+                    'user_id' => $comment->user->id,
+                    'user_name' => $comment->user->name,
+                    'content' => $comment->content,
+                    'created_at' => $comment->created_at->diffForHumans()
+                ];
+            }),
+            'hasMore' => $hasMore
+        ]);
+    }
+
 }

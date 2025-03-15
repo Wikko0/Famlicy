@@ -122,6 +122,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/post/{id}/edit/update', [PostController::class, 'update'])->name('posts.update');
     Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like');
     Route::post('/posts/{id}/comment', [PostController::class, 'comment'])->name('posts.comment');
+    Route::get('/posts/{post}/comment', [PostController::class, 'loadMore'])->name('posts.comment.load');
 
     Route::get('/posts/{post}/likes', function (\App\Models\Post $post) {
         return response()->json([
