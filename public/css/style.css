@@ -2086,12 +2086,11 @@ a {
 .my-favourites .favourite-items {
     padding: 50px 200px;
 }
-
 .my-favourites .favourite-items .item {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 8px;
+    flex-direction: column;
+    margin-top: 15px;
+    margin-bottom: 25px;
 }
 
 .my-favourites .favourite-items .item .name {
@@ -2099,17 +2098,18 @@ a {
     font-weight: 500;
     color: var(--black-color);
     width: 100%;
+    margin-bottom: 10px;
 }
 
 .my-favourites .favourite-items .item .input-box {
-    width: 60%;
+    width: 100%;
     display: flex;
-    gap: 15px;
+    gap: 10px;
     align-items: center;
 }
 
 .my-favourites .favourite-items .item .input-box input {
-    width: 100%;
+    width: calc(100% - 130px);
     height: 40px;
     padding: 10px;
     border: 1px solid #dde2e5;
@@ -3312,5 +3312,34 @@ a {
     font-size: 15px;
     color: #333;
     line-height: 1.5;
+}
+.load-more-comments {
+    background: none;
+    color: #0073b1;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 0;
+    margin-top: 10px;
+}
+
+.load-more-comments i {
+    font-size: 20px;
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+.load-more-comments:hover i {
+    transform: translateY(5px);
+}
+
+.load-more-comments:hover {
+    color: #004b87;
+}
+
+.load-more-comments .load-more-text {
+    font-weight: 500;
 }
 

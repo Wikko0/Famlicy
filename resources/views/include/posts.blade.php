@@ -213,9 +213,11 @@
 
                 @if ($post->comments->count() > 5)
                     <button class="load-more-comments" data-post-id="{{ $post->id }}" data-offset="5">
-                        Load more comments
+                        <i class="ri-arrow-down-s-line"></i>
+                        <span class="load-more-text">Load more comments</span>
                     </button>
                 @endif
+
             </div>
         </div>
 

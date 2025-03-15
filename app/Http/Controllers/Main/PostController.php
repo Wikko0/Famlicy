@@ -176,7 +176,7 @@ class PostController extends Controller
 
     public function loadMore(Request $request, Post $post)
     {
-        $offset = (int) $request->get('offset', 0); // Без -5
+        $offset = (int) $request->get('offset', 0);
         $comments = $post->comments()->orderBy('created_at', 'asc')->skip($offset)->take(5)->get();
         $hasMore = $post->comments()->count() > ($offset + 5);
 

@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="right">
                                     <div class="total-engage">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal" data-type="comments" data-post-id="{{ $post->id }}">
+                                        <a href="#" class="toggle-comments" data-post-id="{{ $post->id }}">
                                             {{ $post->comments->count() }} comments
                                         </a>
                                     </div>
@@ -109,7 +109,7 @@
                                         </a>
                                     </form>
 
-                                    <a href="#" class="engage" data-bs-toggle="modal" data-bs-target="#infoModal" data-type="comments" data-post-id="{{ $post->id }}">
+                                    <a href="#" class="toggle-comments" data-post-id="{{ $post->id }}">
                                         <span><i class="ri-chat-1-line"></i></span>
                                         <span class="engage-text">Comments</span>
                                     </a>
@@ -186,40 +186,52 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="comments-section">
-                                @foreach ($post->comments as $comment)
-                                    <div class="comment">
-                                        <div class="comment-user">
-                                            <div class="img">
-                                                <img src="{{ asset('images/users/user-' . $comment->user->id . '.jpg') }}" alt="User Image" />
-                                            </div>
-                                            <div class="comment-details">
-                                                <a class="name" href="{{ route('profile', $comment->user->username) }}">
-                                                    {{ $comment->user->name }}
-                                                </a>
-                                                <span class="time">{{ $comment->created_at->diffForHumans() }}</span>
-                                            </div>
+                            <div class="comments-container" id="comments-container-{{ $post->id }}" style="display: none;">
+                                <form action="{{ route('posts.comment', $post->id) }}" method="POST">
+                                    @csrf
+                                    <div class="add-engage">
+                                        <div class="img">
+                                            <img src="{{ asset('images/users/user-' . Auth::user()->id . '.jpg') }}" alt="User Image" />
                                         </div>
-                                        <div class="comment-content">
-                                            {{ $comment->content }}
+                                        <div class="engage-box">
+                                            <input type="text" name="content" placeholder="Add a comment..." required />
+                                            <button type="submit" class="send-btn">
+                                                <i class="ri-send-plane-fill"></i>
+                                            </button>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
-                            <form action="{{ route('posts.comment', $post->id) }}" method="POST">
-                                @csrf
-                                <div class="add-engage">
-                                    <div class="img">
-                                        <img src="{{ asset('images/users/user-' . Auth::user()->id . '.jpg') }}" alt="User Image" />
-                                    </div>
-                                    <div class="engage-box">
-                                        <input type="text" name="content" placeholder="Add a comment..." required />
-                                        <button type="submit" class="send-btn">
-                                            <i class="ri-send-plane-fill"></i>
-                                        </button>
-                                    </div>
+                                </form>
+
+                                <div class="comments-list" id="comments-list-{{ $post->id }}">
+                                    @foreach ($post->comments->take(5) as $comment)
+                                        <div class="single-comment" data-comment-id="{{ $comment->id }}">
+                                            <div class="comment-header">
+                                                <div class="comment-img">
+                                                    <img src="{{ asset('images/users/user-' . $comment->user->id . '.jpg') }}" alt="User Image">
+                                                </div>
+                                                <div class="comment-info">
+                                                    <a href="{{ route('profile', $comment->user->username) }}" class="comment-author">
+                                                        {{ $comment->user->name }}
+                                                    </a>
+                                                    <span class="comment-time">{{ $comment->created_at->diffForHumans() }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="comment-body">
+                                                <p>{{ $comment->content }}</p>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
-                            </form>
+
+                                @if ($post->comments->count() > 5)
+                                    <button class="load-more-comments" data-post-id="{{ $post->id }}" data-offset="5">
+                                        <i class="ri-arrow-down-s-line"></i>
+                                        <span class="load-more-text">Load more comments</span>
+                                    </button>
+                                @endif
+
+                            </div>
+
                         </div>
 
                 </div>

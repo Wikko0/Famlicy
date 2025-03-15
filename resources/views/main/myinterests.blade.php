@@ -28,7 +28,7 @@
                         'sport' => 'Favourite sport'
                     ] as $key => $label)
                         <div class="item">
-                            <form method="POST" action="{{ route('user.myinterests.update', ['username' => $user->username]) }}" >
+                            <form method="POST" action="{{ route('user.myinterests.update', ['username' => $user->username]) }}">
                                 @csrf
                                 <div class="name">{{ $label }}</div>
                                 <div class="input-box">
@@ -43,6 +43,7 @@
                                 </div>
                             </form>
                         </div>
+
                     @endforeach
                 </div>
             </div>
