@@ -223,3 +223,17 @@ document.querySelectorAll(".load-more-comments").forEach(button => {
 });
 
 document.addEventListener("DOMContentLoaded", initTextareaResize);
+
+document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const addItems = document.querySelector('.add-items');
+    const arrowContainer = document.querySelector('.arrow-container');
+
+
+    if (menuToggle && addItems && arrowContainer) {
+        menuToggle.addEventListener('click', function () {
+            addItems.classList.toggle('active');
+            arrowContainer.classList.toggle('active');
+        });
+    }
+});

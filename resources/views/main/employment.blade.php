@@ -30,10 +30,11 @@
                                         <option value="">Year</option>
                                         @php
                                             $currentYear = date('Y');
-                                            $startYear = $currentYear - 100;
+                                            $startYear = $currentYear + 20;
+                                            $endYear = $currentYear - 100;
                                         @endphp
-                                        @for($year = $currentYear; $year >= $startYear; $year--)
-                                            <option value="{{ $year }}">{{ $year }}</option>
+                                        @for ($i = $startYear; $i >= $endYear; $i--)
+                                            <option value="{{ $i }}">{{ $i }}</option>
                                         @endfor
                                     </select>
                                 </div>
@@ -50,8 +51,8 @@
                                     </select>
                                     <select name="end_year" id="end_year">
                                         <option value="">Year</option>
-                                        @for($year = $currentYear; $year >= $startYear; $year--)
-                                            <option value="{{ $year }}">{{ $year }}</option>
+                                        @for ($i = $startYear; $i >= $endYear; $i--)
+                                            <option value="{{ $i }}">{{ $i }}</option>
                                         @endfor
                                     </select>
                                 </div>

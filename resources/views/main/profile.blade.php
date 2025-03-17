@@ -16,13 +16,18 @@
                     <div class="user-part">
                         <div class="user-profile">
                             <div class="img">
-                                <img id="profile-image"
-                                     src="{{ asset('images/users/user-' . $user->id . '.jpg') }}"
-                                     alt="Profile Image"
-                                     data-bs-toggle="modal"
-                                     data-bs-target="#changeProfileImageModal"
-                                     class="img-thumbnail"
-                                     width="100">
+                                <div class="profile-image-container" data-bs-toggle="modal" data-bs-target="#changeProfileImageModal">
+                                    <img id="profile-image"
+                                         src="{{ asset('images/users/user-' . $user->id . '.jpg') }}"
+                                         alt="Profile Image"
+                                         class="img-thumbnail">
+
+                                    <div class="profile-overlay">
+                                        <div class="top-text">Add Profile Picture</div>
+                                        <div class="plus-icon">+</div>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="user-info">
                                 <div class="name">{{ $user->name }}</div>
@@ -37,7 +42,9 @@
                     @include('include.profileIn')
 
                     <!-- About Me Section -->
+                    <div class="row">
 
+                        <div class="col-md-6">
                     <div class="card introduction-section">
                         <div class="card-header">
                             <h3>About me</h3>
@@ -114,9 +121,11 @@
                             </a>
                         </div>
                     </div>
+                        </div>
 
                     <!-- Education Section -->
 
+                        <div class="col-md-6">
                     <div class="card introduction-section">
                             <div class="card-header">
                                 <h3>Education</h3>
@@ -170,10 +179,11 @@
                                 </a>
                             </div>
                         </div>
+                        </div>
 
 
                     <!-- Employment Section -->
-
+                        <div class="col-md-6">
                     <div class="card introduction-section">
                             <div class="card-header">
                                 <h3>Employment History</h3>
@@ -218,9 +228,10 @@
                                 </a>
                             </div>
                         </div>
+                        </div>
 
                     <!-- Life Section -->
-
+                        <div class="col-md-6">
                     <div class="card introduction-section">
                         <div class="card-header">
                             <h3>Life events & accomplishments</h3>
@@ -267,9 +278,9 @@
                             </a>
                         </div>
                     </div>
-
+                        </div>
                     <!-- Goals Section -->
-
+                        <div class="col-md-6">
                     <div class="card introduction-section">
                         <div class="card-header">
                             <h3>Goals & ambitions</h3>
@@ -315,9 +326,9 @@
                             </a>
                         </div>
                     </div>
-
+                        </div>
                     <!-- My interests & favourites Section -->
-
+                        <div class="col-md-6">
                     <div class="card introduction-section">
                         <div class="card-header">
                             <h3>My interests & favourites</h3>
@@ -391,6 +402,8 @@
                             <a href="{{route('user.myinterests', $user->username)}}">
                                 <button class="btn-invite">Edit Information</button>
                             </a>
+                        </div>
+                    </div>
                         </div>
                     </div>
 
@@ -518,6 +531,8 @@
                     </div>
 
                     <!-- About me Section -->
+                    <div class="row">
+                        <div class="col-md-6">
                     <div class="card introduction-section">
                         <div class="card-header">
                             <h3>About me</h3>
@@ -591,9 +606,11 @@
                             </a>
                         </div>
                     </div>
-
+                        </div>
                     <!-- Education Section -->
+
                     @if($user->userEducation->isNotEmpty())
+                            <div class="col-md-6">
                         <div class="card introduction-section">
                             <div class="card-header">
                                 <h3>Education</h3>
@@ -642,11 +659,14 @@
                                 </a>
                             </div>
                         </div>
+                            </div>
                     @endif
 
 
                     <!-- Employment Section -->
+
                     @if($user->userEmployment->isNotEmpty())
+                            <div class="col-md-6">
                         <div class="card introduction-section">
                             <div class="card-header">
                                 <h3>Employment History</h3>
@@ -685,10 +705,13 @@
                                 </a>
                             </div>
                         </div>
+                            </div>
                     @endif
 
                     <!-- Life Section -->
+
                     @if($user->userLife->isNotEmpty())
+                            <div class="col-md-6">
                     <div class="card introduction-section">
                         <div class="card-header">
                             <h3>Life events & accomplishments</h3>
@@ -728,10 +751,13 @@
                             </a>
                         </div>
                     </div>
+                            </div>
                     @endif
 
                     <!-- Goals Section -->
+
                     @if($user->userGoals->isNotEmpty())
+                            <div class="col-md-6">
                         <div class="card introduction-section">
                             <div class="card-header">
                                 <h3>Goals & ambitions</h3>
@@ -770,9 +796,11 @@
                                 </a>
                             </div>
                         </div>
+                            </div>
                     @endif
 
                     <!-- My interests & favourites Section -->
+                        <div class="col-md-6">
                     <div class="card introduction-section">
                         <div class="card-header">
                             <h3>My interests & favourites</h3>
@@ -843,6 +871,9 @@
                             <a href="{{route('seemore.myinterests', $user->username)}}">
                                 <button class="btn-invite">See More</button>
                             </a>
+                        </div>
+                    </div>
+                        </div>
                         </div>
                     </div>
                 </div>

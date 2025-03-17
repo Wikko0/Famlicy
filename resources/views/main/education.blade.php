@@ -30,8 +30,10 @@
                                     <option value="">Year</option>
                                     @php
                                         $currentYear = date('Y');
+                                        $startYear = $currentYear + 20;
+                                        $endYear = $currentYear - 100;
                                     @endphp
-                                    @for ($i = $currentYear; $i >= $currentYear - 100; $i--)
+                                    @for ($i = $startYear; $i >= $endYear; $i--)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
@@ -50,7 +52,7 @@
 
                                 <select name="primary_end_year">
                                     <option value="">Year</option>
-                                    @for ($i = $currentYear; $i >= $currentYear - 100; $i--)
+                                    @for ($i = $startYear; $i >= $endYear; $i--)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
@@ -63,7 +65,7 @@
                             <input type="text" name="primary_subjects[]" placeholder="Subject" />
                             <select name="primary_grades[]">
                                 <option value="">Grade</option>
-                                @foreach (['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'E', 'F'] as $grade)
+                                @foreach (['W', 'E', 'G'] as $grade)
                                     <option value="{{ $grade }}">{{ $grade }}</option>
                                 @endforeach
                             </select>
@@ -88,15 +90,15 @@
                             <label>Enter start date:</label>
                             <div class="input-part">
                                 <select name="secondary_start_month">
-                                    <option value="">Month</option>
-                                    @for ($i = 1; $i <= 12; $i++)
-                                        <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
-                                    @endfor
+                                    <option value="">Grade</option>
+                                    @foreach (['9', '8', '7', '6', '5', '4', '3', '2', '1', 'U'] as $grade)
+                                        <option value="{{ $grade }}">{{ $grade }}</option>
+                                    @endforeach
                                 </select>
 
                                 <select name="secondary_start_year">
                                     <option value="">Year</option>
-                                    @for ($i = $currentYear; $i >= $currentYear - 100; $i--)
+                                    @for ($i = $startYear; $i >= $endYear; $i--)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
@@ -115,7 +117,7 @@
 
                                 <select name="secondary_end_year">
                                     <option value="">Year</option>
-                                    @for ($i = $currentYear; $i >= $currentYear - 100; $i--)
+                                    @for ($i = $startYear; $i >= $endYear; $i--)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
@@ -161,7 +163,7 @@
 
                                 <select name="college_start_year">
                                     <option value="">Year</option>
-                                    @for ($i = $currentYear; $i >= $currentYear - 100; $i--)
+                                    @for ($i = $startYear; $i >= $endYear; $i--)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
@@ -180,7 +182,7 @@
 
                                 <select name="college_end_year">
                                     <option value="">Year</option>
-                                    @for ($i = $currentYear; $i >= $currentYear - 100; $i--)
+                                    @for ($i = $startYear; $i >= $endYear; $i--)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
@@ -193,7 +195,7 @@
                             <input type="text" name="college_subjects[]" placeholder="Subject" />
                             <select name="college_grades[]">
                                 <option value="">Grade</option>
-                                @foreach (['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'E', 'F'] as $grade)
+                                @foreach (['A', 'B', 'C', 'D', 'E', 'U'] as $grade)
                                     <option value="{{ $grade }}">{{ $grade }}</option>
                                 @endforeach
                             </select>
@@ -226,7 +228,7 @@
 
                                 <select name="university_start_year">
                                     <option value="">Year</option>
-                                    @for ($i = $currentYear; $i >= $currentYear - 100; $i--)
+                                    @for ($i = $startYear; $i >= $endYear; $i--)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
@@ -245,7 +247,7 @@
 
                                 <select name="university_end_year">
                                     <option value="">Year</option>
-                                    @for ($i = $currentYear; $i >= $currentYear - 100; $i--)
+                                    @for ($i = $startYear; $i >= $endYear; $i--)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
@@ -258,7 +260,7 @@
                             <input type="text" name="university_subjects[]" placeholder="Subject" />
                             <select name="university_grades[]">
                                 <option value="">Grade</option>
-                                @foreach (['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'E', 'F'] as $grade)
+                                @foreach (['1st', '2:1', '2:2', '3rd', 'Pass', 'Fail'] as $grade)
                                     <option value="{{ $grade }}">{{ $grade }}</option>
                                 @endforeach
                             </select>

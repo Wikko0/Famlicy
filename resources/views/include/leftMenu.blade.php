@@ -6,9 +6,16 @@
         <div class="user-info">
             <div class="name">{{Auth::user()->name}}</div>
         </div>
+        <div class="menu-toggle">
+            <div class="arrow-container">
+                <span class="arrow"></span>
+            </div>
+        </div>
+
     </div>
 
-    <div class="add-items">
+
+    <div class="add-items add-items-mobile">
         <a href="{{route('home')}}" class="item ">
             <div class="title">All</div>
             <button class="add-btn">Visit</button>
@@ -21,7 +28,8 @@
                 </a>
             @endforeach
         @endif
-
     </div>
+
     @include('ads.ad-container-300')
 </div>
+
