@@ -140,43 +140,7 @@
                     </div>
 
                     <div class="next-btn-sec">
-                        <button type="button" class="next-btn" onclick="showPage2()">Next</button>
-                    </div>
-                </div>
-
-                <!-- Second section -->
-                <div class="input-section" id="inputSection2" style="display: none;">
-                    <div class="input-item-grid">
-                        <input type="text" name="location" placeholder="City" value="{{ old('location') }}" />
-                        <input type="text" name="country" placeholder="Country of residence" value="{{ old('country') }}" />
-                    </div>
-
-                    <div class="input-item-grid">
-                        <select name="marital" id="">
-                            <option value="">Marital status</option>
-                            <option value="Single" {{ old('marital') == 'Single' ? 'selected' : '' }}>Single</option>
-                            <option value="Married" {{ old('marital') == 'Married' ? 'selected' : '' }}>Married</option>
-                            <option value="Nothing to say" {{ old('marital') == 'Nothing to say' ? 'selected' : '' }}>Nothing to say</option>
-                        </select>
-                        <input type="text" name="religious" placeholder="Religious status" value="{{ old('religious') }}" />
-                    </div>
-
-                    <div class="input-item-grid">
-                        <select name="children" id="">
-                            <option value="">Do you have children</option>
-                            <option value="Yes" {{ old('children') == 'Yes' ? 'selected' : '' }}>Yes</option>
-                            <option value="No" {{ old('children') == 'No' ? 'selected' : '' }}>No</option>
-                        </select>
-                        <select name="grandchildren" id="">
-                            <option value="">Do you have grandchildren</option>
-                            <option value="Yes" {{ old('grandchildren') == 'Yes' ? 'selected' : '' }}>Yes</option>
-                            <option value="No" {{ old('grandchildren') == 'No' ? 'selected' : '' }}>No</option>
-                        </select>
-                    </div>
-
-                    <div class="next-btn-sec">
-                        <button type="button" class="back-btn" onclick="showPage1()">Back</button>
-                        <button type="submit" class="save-btn">Save</button>
+                        <button type="submit" class="next-btn">Next</button>
                     </div>
                 </div>
 
@@ -224,14 +188,5 @@
             }
         });
 
-        function showPage2() {
-            document.getElementById("inputSection1").style.display = "none";
-            document.getElementById("inputSection2").style.display = "block";
-        }
-
-        function showPage1() {
-            document.getElementById("inputSection1").style.display = "block";
-            document.getElementById("inputSection2").style.display = "none";
-        }
     </script>
 @endsection

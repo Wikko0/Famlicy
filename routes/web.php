@@ -37,6 +37,9 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'registerUser'])->name('register.form');
+Route::get('/register/second', [RegisterController::class, 'indexSecond'])->name('register.second');
+Route::post('/register/second', [RegisterController::class, 'registerUserSecond'])->name('register.form.second');
+
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'loginUser'])->name('login.form');
@@ -52,7 +55,10 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 
 Route::middleware('auth')->group(function () {
     Route::get('/{username}/register', [RegisterController::class, 'familyRegister'])->name('family.register');
-    Route::post('/{username}/register', [RegisterController::class, 'familyRegisterUser'])->name('family.register.form');
+    Route::post('/{username}/register', [RegisterController::class, 'familyRegisterStepOne'])->name('family.register.form');
+    Route::get('/{username}/register/second', [RegisterController::class, 'familyRegisterStepTwo'])->name('family.register.second');
+    Route::post('/{username}/register/second', [RegisterController::class, 'familyRegisterUser'])->name('family.register.form.second');
+
 
     Route::get('/welcome', [WelcomeController::class, 'index'])->name('welcome');
     Route::get('/information', [WelcomeController::class, 'index'])->name('information');

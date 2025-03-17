@@ -29,8 +29,8 @@ class UsersLifeController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|string|max:255',
-            'start_month' => 'required|string',
-            'start_year' => 'required|string',
+            'start_month' => 'nullable|string',
+            'start_year' => 'nullable|string',
             'end_month' => 'nullable|string',
             'end_year' => 'nullable|string',
             'description' => 'nullable|string',
@@ -40,8 +40,9 @@ class UsersLifeController extends Controller
         $lifeEvent->user_id = $user->id;
         $lifeEvent->name = $validated['name'];
         $lifeEvent->type = $validated['type'];
-        $lifeEvent->start_date = $validated['start_year'] . '-' . $validated['start_month'];
-
+        if (!empty($validated['start_year']) && !empty($validated['start_month'])) {
+            $lifeEvent->start_date = $validated['start_year'] . '-' . $validated['start_month'];
+        }
         if (!empty($validated['end_year']) && !empty($validated['end_month'])) {
             $lifeEvent->end_date = $validated['end_year'] . '-' . $validated['end_month'];
         }

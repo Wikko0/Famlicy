@@ -33,69 +33,9 @@
                         </div>
                     </div>
 
-                    <!-- Modal for changing profile picture -->
-                    <div class="modal fade" id="changeProfileImageModal" tabindex="-1" aria-labelledby="changeProfileImageModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="changeProfileImageModalLabel">Change Profile Picture</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="text-center">
-                                        <img id="modal-profile-image"
-                                             src="{{ asset('images/users/user-' . $user->id . '.jpg') }}"
-                                             alt="Current Profile Image"
-                                             class="img-thumbnail"
-                                             width="150">
-                                    </div>
-                                    <form id="upload-form" method="POST" action="{{ route('user.updateProfileImage', $user->id) }}" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="mt-3">
-                                            <label for="new-profile-image" class="form-label">Upload New Image</label>
-                                            <input type="file" class="form-control" name="image" id="new-profile-image" accept="image/*">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="profile">
-                    <div class="add-items">
-                        <a href="{{route('user.aboutme', Auth::user()->username)}}" class="item ">
-                            <div class="title">About Me</div>
-                            <button class="add-btn">Visit</button>
-                        </a>
-                        <a href="{{route('user.myinterests', Auth::user()->username)}}" class="item ">
-                            <div class="title">My interests & favourites</div>
-                            <button class="add-btn">Visit</button>
-                        </a>
-                        <a href="{{route('user.education', Auth::user()->username)}}" class="item ">
-                            <div class="title">Education</div>
-                            <button class="add-btn">Visit</button>
-                        </a>
-                        <a href="{{route('user.employment', Auth::user()->username)}}" class="item ">
-                            <div class="title">Employment & vocation</div>
-                            <button class="add-btn">Visit</button>
-                        </a>
-                        <a href="{{route('user.life', Auth::user()->username)}}" class="item ">
-                            <div class="title">Life events & accomplishments</div>
-                            <button class="add-btn">Visit</button>
-                        </a>
-                        <a href="{{route('user.goals', Auth::user()->username)}}" class="item ">
-                            <div class="title">Goals & ambitions</div>
-                            <button class="add-btn">Visit</button>
-                        </a>
-                        <a href="{{route('family.register', Auth::user()->username)}}" class="item ">
-                            <div class="title">Create Account for Family Member</div>
-                            <button class="add-btn">Create</button>
-                        </a>
-                    </div>
-                    </div>
+                    <!-- Profile In -->
+                    @include('include.profileIn')
+
                     <!-- About Me Section -->
 
                     <div class="card introduction-section">
@@ -298,9 +238,11 @@
                                                 <div class="info">
                                                     <strong>Type:</strong> {{ $life->type ?? 'Not specified' }}
                                                 </div>
+                                                @if($life->start_date)
                                                 <div class="info">
                                                     <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($life->start_date)->format('d-m-Y') ?? 'Not specified' }}
                                                 </div>
+                                                @endif
                                                 @if($life->end_date)
                                                     <div class="info">
                                                         <strong>End Date:</strong> {{ \Carbon\Carbon::parse($life->end_date)->format('d-m-Y') }}
@@ -344,9 +286,11 @@
                                                 <div class="info">
                                                     <strong>Goal:</strong> {{ $goals->name ?? 'Not specified' }}
                                                 </div>
+                                                @if($goals->start_date)
                                                 <div class="info">
                                                     <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($goals->start_date)->format('d-m-Y') ?? 'Not specified' }}
                                                 </div>
+                                                @endif
                                                 @if($goals->end_date)
                                                     <div class="info">
                                                         <strong>End Date:</strong> {{ \Carbon\Carbon::parse($goals->end_date)->format('d-m-Y') }}
@@ -671,7 +615,6 @@
                                                     End Date: {{ \Carbon\Carbon::parse($education->end_date)->format('d-m-Y') ?? 'Not specified'}}
                                                 </div>
 
-                                                {{-- Проверка дали има предмети и ако не са празни --}}
                                                 @if($education->subject && $education->subject != "{\"\":null}")
                                                     <div class="info">
                                                         Subjects and Grades:

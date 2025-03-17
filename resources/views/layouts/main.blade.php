@@ -144,7 +144,7 @@
                     </a>
                     <a href="{{route('family.register', Auth::user()->username)}}" class="menu-item">
                         <img src="{{asset('images/family-member-icon.png')}}" alt="Family Create Icon" />
-                        <span>Create Family Member Account</span>
+                        <span>Create for transitioned</span>
                     </a>
                     <a href="{{route('logout')}}" class="menu-item">
                         <img src="{{asset('images/exit-icon.png')}}" alt="Exit Icon" />

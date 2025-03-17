@@ -2114,6 +2114,8 @@ a {
     padding: 10px;
     border: 1px solid #dde2e5;
     border-radius: 8px;
+    font-size: 14px;
+    line-height: 18px;
 }
 
 .my-favourites .favourite-items .item .add-btn {

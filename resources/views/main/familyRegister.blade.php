@@ -9,13 +9,20 @@
 
         <div class="right">
             @include('include/alert')
-            <form method="POST" action="{{ route('family.register.form', $user->id) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('family.register.form', $user->username) }}" enctype="multipart/form-data">
                 @csrf
 
                 <!-- First section -->
                 <div class="input-section" id="inputSection1">
                     <div class="input-item">
                         <div class="left">
+                            <div class="d-flex align-items-center ps-lg-3 ps-md-0 ps-0">
+                                <div class="creating-account me-2">I’m creating an account for?</div>
+                                <div class="btn-selection">
+                                    <button type="button" class="family-mem-btn activeBar">Transitioned</button>
+                                </div>
+                            </div>
+
                             <label class="titleLabel" for="title">Title</label><br />
                             <select name="title" id="title">
                                 <option value="">Title</option>
@@ -52,44 +59,7 @@
                         <input type="text" placeholder="Username" name="username" id="username" value="{{ old('username') }}" />
                     </div>
 
-                    <div class="input-item-grid btn-item-grid">
-                        <div class="input-with-label">
-                            <label for="dob">Enter date of birth</label>
-                            <div class="input-item-three">
-                                <select name="dob_day" id="dob_day">
-                                    <option value="">Day</option>
-                                    @for ($i = 1; $i <= 31; $i++)
-                                        <option value="{{ $i }}" {{ old('dob_day') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                    @endfor
-                                </select>
-                                <select name="dob_month" id="dob_month">
-                                    <option value="">Month</option>
-                                    @for ($i = 1; $i <= 12; $i++)
-                                        <option value="{{ $i }}" {{ old('dob_month') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                    @endfor
-                                </select>
-                                <select name="dob_year" id="dob_year">
-                                    <option value="">Year</option>
-                                    @for ($i = date('Y'); $i >= date('Y') - 100; $i--)
-                                        <option value="{{ $i }}" {{ old('dob_year') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                        </div>
-                        <div class="btn-fnc ps-lg-3 ps-md-0 ps-0">
-                            <div class="creating-account">I’m creating an account for?</div>
-                            <div class="btn-selection">
-                                <button type="button" class="family-mem-btn" id="familyMemberBtn">Transitioned</button>
-                                <button type="button" class="myself-btn activeBar" id="mySelfBtn">Family Member</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="for-family-member" id="forFamily" style="display:none;">
-                        <div class="input-item-grid">
-                            <input type="text" placeholder="Name" name="family_name" value="{{ old('family_name') }}" />
-                            <input type="text" placeholder="Surname" name="family_surname" value="{{ old('family_surname') }}" />
-                        </div>
+                    <div class="for-family-member">
 
                         <div class="input-with-label">
                             <label for="family_dob">Enter their date of Birth</label>
@@ -140,43 +110,7 @@
                     </div>
 
                     <div class="next-btn-sec">
-                        <button type="button" class="next-btn" onclick="showPage2()">Next</button>
-                    </div>
-                </div>
-
-                <!-- Second section -->
-                <div class="input-section" id="inputSection2" style="display: none;">
-                    <div class="input-item-grid">
-                        <input type="text" name="location" placeholder="City" value="{{ old('location') }}" />
-                        <input type="text" name="country" placeholder="Country of residence" value="{{ old('country') }}" />
-                    </div>
-
-                    <div class="input-item-grid">
-                        <select name="marital" id="">
-                            <option value="">Marital status</option>
-                            <option value="Single" {{ old('marital') == 'Single' ? 'selected' : '' }}>Single</option>
-                            <option value="Married" {{ old('marital') == 'Married' ? 'selected' : '' }}>Married</option>
-                            <option value="Nothing to say" {{ old('marital') == 'Nothing to say' ? 'selected' : '' }}>Nothing to say</option>
-                        </select>
-                        <input type="text" name="religious" placeholder="Religious status" value="{{ old('religious') }}" />
-                    </div>
-
-                    <div class="input-item-grid">
-                        <select name="children" id="">
-                            <option value="">Do you have children</option>
-                            <option value="Yes" {{ old('children') == 'Yes' ? 'selected' : '' }}>Yes</option>
-                            <option value="No" {{ old('children') == 'No' ? 'selected' : '' }}>No</option>
-                        </select>
-                        <select name="grandchildren" id="">
-                            <option value="">Do you have grandchildren</option>
-                            <option value="Yes" {{ old('grandchildren') == 'Yes' ? 'selected' : '' }}>Yes</option>
-                            <option value="No" {{ old('grandchildren') == 'No' ? 'selected' : '' }}>No</option>
-                        </select>
-                    </div>
-
-                    <div class="next-btn-sec">
-                        <button type="button" class="back-btn" onclick="showPage1()">Back</button>
-                        <button type="submit" class="save-btn">Save</button>
+                        <button type="submit" class="next-btn">Next</button>
                     </div>
                 </div>
 
@@ -198,50 +132,6 @@
                 reader.readAsDataURL(file);
             }
         });
-
-        let familyMemberBtn = document.getElementById("familyMemberBtn");
-        let mySelfBtn = document.getElementById("mySelfBtn");
-        let forFamily = document.getElementById("forFamily");
-        let nameField = document.querySelector("input[name='name']");
-        let surnameField = document.querySelector("input[name='surname']");
-        let dobField = document.querySelector("label[for='dob']").parentElement;
-
-        mySelfBtn.addEventListener("click", () => {
-            forFamily.style.display = "none";
-            nameField.style.display = "block";
-            surnameField.style.display = "block";
-            dobField.style.display = "block";
-        });
-
-        familyMemberBtn.addEventListener("click", () => {
-            forFamily.style.display = "block";
-            nameField.style.display = "none";
-            surnameField.style.display = "none";
-            dobField.style.display = "none";
-        });
-
-        let btnItems = [familyMemberBtn, mySelfBtn];
-
-        btnItems.forEach((item) => {
-            if (item) {
-                item.addEventListener("click", () => {
-                    btnItems.forEach((removeClass) => {
-                        removeClass.classList.remove("activeBar");
-                    });
-                    item.classList.add("activeBar");
-                });
-            }
-        });
-
-        function showPage2() {
-            document.getElementById("inputSection1").style.display = "none";
-            document.getElementById("inputSection2").style.display = "block";
-        }
-
-        function showPage1() {
-            document.getElementById("inputSection1").style.display = "block";
-            document.getElementById("inputSection2").style.display = "none";
-        }
 
     </script>
 @endsection
