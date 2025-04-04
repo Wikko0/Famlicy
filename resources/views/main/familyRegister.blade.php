@@ -26,18 +26,18 @@
                             <label class="titleLabel" for="title">Title</label><br />
                             <select name="title" id="title">
                                 <option value="">Title</option>
-                                <option value="Mr" {{ old('title') == 'Mr' ? 'selected' : '' }}>Mr</option>
-                                <option value="Mrs" {{ old('title') == 'Mrs' ? 'selected' : '' }}>Mrs</option>
-                                <option value="Ms" {{ old('title') == 'Ms' ? 'selected' : '' }}>Ms</option>
-                                <option value="Miss" {{ old('title') == 'Miss' ? 'selected' : '' }}>Miss</option>
-                                <option value="Dr" {{ old('title') == 'Dr' ? 'selected' : '' }}>Dr</option>
+                                <option value="Mr" {{ session('title', old('title')) == 'Mr' ? 'selected' : '' }}>Mr</option>
+                                <option value="Mrs" {{ session('title', old('title')) == 'Mrs' ? 'selected' : '' }}>Mrs</option>
+                                <option value="Ms" {{ session('title', old('title')) == 'Ms' ? 'selected' : '' }}>Ms</option>
+                                <option value="Miss" {{ session('title', old('title')) == 'Miss' ? 'selected' : '' }}>Miss</option>
+                                <option value="Dr" {{ session('title', old('title')) == 'Dr' ? 'selected' : '' }}>Dr</option>
                             </select>
                         </div>
                         <div class="upload-img">
-                            <div class="icon-circle" id="imageCircle" style="display: flex; justify-content: center; align-items: center; overflow: hidden; border-radius: 50%; width: 100px; height: 100px; background-color: #ddd;">
+                            <div class="icon-circle" id="imageCircle">
                                 <input type="file" name="photo" id="imageUpload" style="display:none;" />
                                 <label for="imageUpload" style="cursor: pointer;">
-                                    <img id="previewImage" src="{{ asset('images/camera-icon.png') }}" alt="Upload Preview" style="width: 80%; height: 80%; object-fit: cover;" />
+                                    <img id="previewImage" src="{{ asset(session('photo', 'images/camera-icon.png')) }}" alt="Upload Preview" style="width: 80%; height: 80%; object-fit: cover;" />
                                 </label>
                             </div>
                             <div class="up-text">Upload new image</div>
@@ -45,64 +45,63 @@
                     </div>
 
                     <div class="input-item-grid">
-                        <input type="text" placeholder="Name" name="name" value="{{ old('name') }}" />
-                        <input type="text" placeholder="Surname" name="surname" value="{{ old('surname') }}" />
+                        <input type="text" placeholder="Name" name="name" value="{{ session('name', old('name')) }}" />
+                        <input type="text" placeholder="Surname" name="surname" value="{{ session('surname', old('surname')) }}" />
                     </div>
 
                     <div class="input-item-grid">
-                        <input type="email" placeholder="Email" name="email" id="email" value="{{ old('email') }}"/>
-                        <input type="text" placeholder="Phone Number" name="phone" value="{{ old('phone') }}" />
+                        <input type="text" placeholder="Username" name="username" value="{{ session('username', old('username')) }}" />
+                        <input type="text" placeholder="Alias of nicknames (separete with a comma)" name="alias" value="{{ session('alias', old('alias')) }}" />
                     </div>
 
                     <div class="input-item-grid">
-                        <input type="password" placeholder="Password" name="password" />
-                        <input type="text" placeholder="Username" name="username" id="username" value="{{ old('username') }}" />
+                         <input type="text" placeholder="Relation (nicknames, separete with a comma)" name="relation" value="{{ session('relation', old('relation')) }}" />
                     </div>
 
                     <div class="for-family-member">
-
                         <div class="input-with-label">
                             <label for="family_dob">Enter their date of Birth</label>
                             <div class="input-item-three">
-                                <select name="family_dob_day" id="family_dob_day">
+                                <select name="family_dob_day">
                                     <option value="">Day</option>
                                     @for ($i = 1; $i <= 31; $i++)
-                                        <option value="{{ $i }}" {{ old('family_dob_day') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        <option value="{{ $i }}" {{ session('family_dob_day', old('family_dob_day')) == $i ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
-                                <select name="family_dob_month" id="family_dob_month">
+                                <select name="family_dob_month">
                                     <option value="">Month</option>
                                     @for ($i = 1; $i <= 12; $i++)
-                                        <option value="{{ $i }}" {{ old('family_dob_month') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        <option value="{{ $i }}" {{ session('family_dob_month', old('family_dob_month')) == $i ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
-                                <select name="family_dob_year" id="family_dob_year">
+                                <select name="family_dob_year">
                                     <option value="">Year</option>
                                     @for ($i = date('Y'); $i >= date('Y') - 100; $i--)
-                                        <option value="{{ $i }}" {{ old('family_dob_year') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        <option value="{{ $i }}" {{ session('family_dob_year', old('family_dob_year')) == $i ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
                             </div>
                         </div>
 
                         <div class="input-with-label">
-                            <label for="">Enter transition date</label>
+                            <label>Enter transition date</label>
                             <div class="input-item-three">
-                                <select name="family_transition_day" id="family_transition_day">
+                                <select name="family_transition_day">
                                     <option value="">Day</option>
                                     @for ($i = 1; $i <= 31; $i++)
-                                        <option value="{{ $i }}" {{ old('family_transition_day') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        <option value="{{ $i }}" {{ session('family_transition_day', old('family_transition_day')) == $i ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
-                                <select name="family_transition_month" id="family_transition_month">
+                                <select name="family_transition_month">
                                     <option value="">Month</option>
                                     @for ($i = 1; $i <= 12; $i++)
-                                        <option value="{{ $i }}" {{ old('family_transition_month') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        <option value="{{ $i }}" {{ session('family_transition_month', old('family_transition_month')) == $i ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
-                                <select name="family_transition_year" id="family_transition_year">
+                                <select name="family_transition_year">
+                                    <option value="">Year</option>
                                     @for ($i = date('Y'); $i >= date('Y') - 100; $i--)
-                                        <option value="{{ $i }}" {{ old('family_transition_year') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        <option value="{{ $i }}" {{ session('family_transition_year', old('family_transition_year')) == $i ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
                             </div>

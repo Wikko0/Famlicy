@@ -21,6 +21,7 @@ class PostController extends Controller
             'content' => 'required|string|max:255',
             'file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp3,wav,ogg,mp4,mov,avi,wmv|max:51200',
             'type' => 'required|string',
+            'location' => 'nullable|string',
         ]);
 
         $filePath = null;
@@ -30,6 +31,7 @@ class PostController extends Controller
             'content' => $request->input('content'),
             'type' => $request->input('type'),
             'image_path' => null,
+            'location' => $request->input('location'),
         ]);
 
         if ($request->hasFile('file')) {
@@ -37,18 +39,14 @@ class PostController extends Controller
             $extension = $file->getClientOriginalExtension();
             $mimeType = $file->getMimeType();
 
-
             $filePath = "/images/posts/post-{$post->id}.{$extension}";
 
-
             $file->storeAs('images/posts', "post-{$post->id}.{$extension}", 'public_uploads');
-
 
             if (str_starts_with($mimeType, 'image')) {
                 $image = Image::make(public_path($filePath));
                 $image->save();
             }
-
 
             $post->update(['image_path' => $filePath]);
         }

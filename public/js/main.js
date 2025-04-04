@@ -237,3 +237,33 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+document.addEventListener("DOMContentLoaded", function () {
+    let postForm = document.getElementById("post-form");
+
+    if (postForm) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    let lat = position.coords.latitude;
+                    let lon = position.coords.longitude;
+
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            let locationName = data.address.city || data.address.town || data.address.village ||
+                                data.address.county || data.address.state || "Unknown location";
+
+                            document.getElementById("location").value = locationName;
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                        });
+                },
+                function (error) {
+                    console.warn("Error:", error.message);
+                }
+            );
+        }
+    }
+});
+

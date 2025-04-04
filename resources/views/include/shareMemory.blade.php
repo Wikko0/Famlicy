@@ -1,5 +1,7 @@
-<form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data" id="post-form">
     @csrf
+    <input type="hidden" name="location" id="location">
+
     <div class="share-memory">
         <div class="img">
             <img src="{{ asset('images/users/user-' . Auth::user()->id . '.jpg') }}" alt="User Image" />

@@ -17,7 +17,10 @@
                             'content' => Str::words($post->content, 5, '')
                         ]) }}">
 
-                        {{ $post->created_at->diffForHumans() }}
+                            {{ $post->created_at->diffForHumans() }}
+                            @if($post->location && $post->location !== 'Unknown location')
+                                - {{ $post->location }}
+                            @endif
                         </a>
                     </div>
                 </div>

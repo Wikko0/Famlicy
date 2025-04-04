@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
 
@@ -26,10 +27,10 @@ class RegisterController extends Controller
         return view('main.register');
     }
 
-    public function indexSecond(): View
+    public function indexSecond(): RedirectResponse | View
     {
         if (!session()->has('registration_data')) {
-            return redirect()->route('main.register')->withErrors('Please complete the first step of registration.');
+            return redirect()->route('register')->withErrors('Please complete the first step of registration.');
         }
 
         return view('main.registerSecond');
@@ -39,7 +40,7 @@ class RegisterController extends Controller
     {
         $request->validate([
             'title' => 'required|string',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:5000',
             'name' => 'required|string',
             'surname' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
@@ -81,7 +82,7 @@ class RegisterController extends Controller
         $registrationData = session('registration_data');
 
         if (!$registrationData) {
-            return redirect()->route('main.register')->withErrors('Session expired. Please, start the registration again.');
+            return redirect()->route('register')->withErrors('Session expired. Please, start the registration again.');
         }
 
         $request->validate([
@@ -170,6 +171,8 @@ class RegisterController extends Controller
 
             Auth::login($user);
 
+            Mail::to($user->email)->send(new WelcomeMail($user));
+
             session()->forget('registration_data');
 
             return redirect()->route('welcome')->withSuccess('Your account has been created successfully!');
@@ -193,17 +196,16 @@ class RegisterController extends Controller
             'title' => 'required|string',
             'name' => 'required|string',
             'surname' => 'required|string',
-            'email' => 'required|string|email|max:255|unique:users',
-            'phone' => 'required|string',
             'username' => 'required|string|min:3|max:25|regex:/^[a-z0-9._-]+$/i',
-            'password' => 'required|string|min:8',
             'family_dob_day' => 'required|integer|between:1,31',
             'family_dob_month' => 'required|integer|between:1,12',
             'family_dob_year' => 'required|integer|digits:4',
             'family_transition_day' => 'required|integer|between:1,31',
             'family_transition_month' => 'required|integer|between:1,12',
             'family_transition_year' => 'required|integer|digits:4',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:5000',
+            'relation' => 'nullable|string|exists:users,username',
+            'alias' => 'nullable|string',
         ]);
 
         $photoPath = null;
@@ -218,16 +220,16 @@ class RegisterController extends Controller
 
         session([
             'step_one_data' => array_merge($request->only([
-                'title', 'name', 'surname', 'email', 'phone', 'username', 'password', 'family_dob_day', 'family_dob_month', 'family_dob_year',
-                'family_transition_day', 'family_transition_month', 'family_transition_year'
+                'title', 'name', 'surname', 'username', 'family_dob_day', 'family_dob_month', 'family_dob_year',
+                'family_transition_day', 'family_transition_month', 'family_transition_year', 'alias', 'relation'
             ]), ['photo' => $photoPath])
         ]);
 
         return redirect()->route('family.register.second', ['username' => $username]);
     }
+
     public function familyRegisterStepTwo($username): View
     {
-
         $user = User::where('username', $username)->firstOrFail();
         if (auth()->user()->username !== $user->username) {
             abort(403, 'You are not allowed to edit this profile.');
@@ -239,13 +241,11 @@ class RegisterController extends Controller
                 ->withErrors('Please complete step 1 first.');
         }
 
-        // Връщаме изгледа с данни за потребителя и сесията за стъпка 1
         return view('main.familyRegisterSecond', compact('user', 'stepOneData'));
     }
 
     public function familyRegisterUser(Request $request, $username): RedirectResponse
     {
-        $userId = User::where('username', $username)->first();
         $stepOneData = session('step_one_data');
 
         if (!$stepOneData) {
@@ -262,65 +262,82 @@ class RegisterController extends Controller
         ]);
 
         try {
+            $adminIds = [auth()->id()];
 
-        $fullName = $stepOneData['name'] . ' ' . $stepOneData['surname'];
-        $birthday = "{$stepOneData['family_dob_day']}/{$stepOneData['family_dob_month']}/{$stepOneData['family_dob_year']}";
-        $died = "{$stepOneData['family_transition_day']}/{$stepOneData['family_transition_month']}/{$stepOneData['family_transition_year']}";
+             if ($request->filled('relation')) {
+                $adminUser = User::where('username', $request->input('relation'))->first();
+                if ($adminUser) {
+                    $adminIds[] = $adminUser->id;
+                }
+            }
 
-        $user = User::create([
-            'title' => $stepOneData['title'],
-            'name' => $fullName,
-            'email' => $stepOneData['email'],
-            'password' => Hash::make($stepOneData['password']),
-            'username' => strtolower($stepOneData['username']),
-            'phone' => $stepOneData['phone'],
-            'birthday' => $birthday,
-            'died' => $died,
-        ]);
+            $fullName = $stepOneData['name'] . ' ' . $stepOneData['surname'];
+            $birthday = "{$stepOneData['family_dob_day']}/{$stepOneData['family_dob_month']}/{$stepOneData['family_dob_year']}";
+            $died = "{$stepOneData['family_transition_day']}/{$stepOneData['family_transition_month']}/{$stepOneData['family_transition_year']}";
 
-        $photoPath = 'images/default-avatar.png';
+            $email = strtolower($stepOneData['username']) . '@noemail.com';
+            $password = Str::random(12);
 
-        if (!empty($stepOneData['photo'])) {
-            $tempPhotoPath = public_path($stepOneData['photo']);
-            $newPhotoPath = public_path("images/users/user-{$user->id}.jpg");
+            $rawAlias = $stepOneData['alias'] ?? '';
+            $aliasArray = array_filter(array_map('trim', explode(',', $rawAlias)));
 
-            if (File::exists($tempPhotoPath)) {
-                rename($tempPhotoPath, $newPhotoPath);
+           $user = User::create([
+                'admin_id' => json_encode($adminIds),
+                'title' => $stepOneData['title'],
+                'name' => $fullName,
+                'email' => $email,
+                'password' => Hash::make($password),
+                'username' => strtolower($stepOneData['username']),
+                'phone' => auth()->user()->phone,
+                'birthday' => $birthday,
+                'died' => $died,
+               'alias' => $aliasArray,
+            ]);
 
-                $photo = Image::make($newPhotoPath);
-                $photo->resize(300, 300)->save();
+            $photoPath = 'images/default-avatar.png';
 
+            if (!empty($stepOneData['photo'])) {
+                $tempPhotoPath = public_path($stepOneData['photo']);
+                $newPhotoPath = public_path("images/users/user-{$user->id}.jpg");
+
+                if (File::exists($tempPhotoPath)) {
+                    rename($tempPhotoPath, $newPhotoPath);
+
+                    $photo = Image::make($newPhotoPath);
+                    $photo->resize(300, 300)->save();
+
+                    $photoPath = "images/users/user-{$user->id}.jpg";
+                }
+            } else {
+                File::copy(public_path('images/default-avatar.png'), public_path("images/users/user-{$user->id}.jpg"));
                 $photoPath = "images/users/user-{$user->id}.jpg";
             }
-        } else {
-            File::copy(public_path('images/default-avatar.png'), public_path("images/users/user-{$user->id}.jpg"));
-            $photoPath = "images/users/user-{$user->id}.jpg";
-        }
 
-        $user->update(['photo' => $photoPath]);
+            $user->update(['photo' => $photoPath]);
 
-        $userInformation = new UsersInformation();
-        $userInformation->user_id = $user->id;
-        $userInformation->location = $request->input('location');
-        $userInformation->country = $request->input('country');
-        $userInformation->marital = $request->input('marital');
-        $userInformation->religious = $request->input('religious');
-        $userInformation->children = $request->input('children');
-        $userInformation->grandchildren = $request->input('grandchildren');
-        $userInformation->save();
+            $userInformation = new UsersInformation();
+            $userInformation->user_id = $user->id;
+            $userInformation->location = $request->input('location');
+            $userInformation->country = $request->input('country');
+            $userInformation->marital = $request->input('marital');
+            $userInformation->religious = $request->input('religious');
+            $userInformation->children = $request->input('children');
+            $userInformation->grandchildren = $request->input('grandchildren');
+            $userInformation->save();
 
-        $communities = Community::whereJsonContains('users', intval($userId->id))->get();
-        foreach ($communities as $community) {
-            $community->addUser($user->id);
-        }
+             $communities = Community::whereJsonContains('users', intval($user->id))->get();
+            foreach ($communities as $community) {
+                $community->addUser($user->id);
+            }
 
-//        Mail::to($user->email)->send(new WelcomeMail($user));
+             Mail::to($user->email)->send(new WelcomeMail($user));
 
-        session()->forget('step_one_data');
+            session()->forget('step_one_data');
 
             return redirect()->route('welcome')->withSuccess('Your account has been created successfully!');
         } catch (\Exception $e) {
             return redirect()->route('family.register', $username)->withErrors(['message' => 'An error occurred. Please, try again.'])->withInput();
         }
     }
+
 }

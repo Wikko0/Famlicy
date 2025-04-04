@@ -28,8 +28,9 @@ class User extends Authenticatable
         'photo',
         'birthday',
         'died',
+        'admin_id',
+        'alias',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -47,6 +48,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'admin_id' => 'array',
+        'alias' => 'array',
     ];
 
     public function userInformation()
@@ -167,4 +170,5 @@ class User extends Authenticatable
             $notification->markAsRead();
         }
     }
+
 }

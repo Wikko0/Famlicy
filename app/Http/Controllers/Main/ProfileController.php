@@ -142,14 +142,14 @@ class ProfileController extends Controller
 
     public function updateProfileImage(Request $request, $id): RedirectResponse
     {
-        $user = Auth::user();
+        $user = User::where('id', $id)->firstOrFail();
 
-        if ($user->id != $id) {
+        if (Auth::user()->id != $id && !in_array(Auth::user()->id, json_decode($user->admin_id ?? '[]'))) {
             return redirect()->back()->withErrors('Unauthorized action.');
         }
 
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5000',
         ]);
 
         if ($request->hasFile('image')) {

@@ -24,6 +24,9 @@
                         ]) }}">
 
                                             {{ $post->created_at->diffForHumans() }}
+                                            @if($post->location && $post->location !== 'Unknown location')
+                                                - {{ $post->location }}
+                                            @endif
                                         </a>
                                     </div>
                                 </div>
