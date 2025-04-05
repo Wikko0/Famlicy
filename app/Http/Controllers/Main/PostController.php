@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
 
@@ -22,12 +24,19 @@ class PostController extends Controller
             'file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp3,wav,ogg,mp4,mov,avi,wmv|max:51200',
             'type' => 'required|string',
             'location' => 'nullable|string',
+            'from' => 'nullable|string',
         ]);
+
+        $from = Auth::id();
+
+        if ($request->input('from')) {
+            $from = $request->input('from');
+        }
 
         $filePath = null;
 
         $post = Post::create([
-            'user_id' => Auth::id(),
+            'user_id' => $from,
             'content' => $request->input('content'),
             'type' => $request->input('type'),
             'image_path' => null,
@@ -116,10 +125,11 @@ class PostController extends Controller
         return redirect()->back()->withSuccess('Post deleted successfully!');
     }
 
-    public function edit($id): View
+    public function edit($id): View | RedirectResponse
     {
         $post = Post::findOrFail($id);
-        if ($post->user_id !== Auth::id()) {
+        $user = User::where('id', $post->user_id)->firstOrFail();
+        if ($post->user_id !== Auth::id() && !in_array(Auth::user()->id, json_decode($user->admin_id ?? '[]'))) {
             return redirect()->back()->withErrors('You are not authorized to edit this post.');
         }
 
@@ -135,8 +145,9 @@ class PostController extends Controller
         ]);
 
         $post = Post::findOrFail($id);
+        $user = User::where('id', $post->user_id)->firstOrFail();
 
-        if ($post->user_id !== Auth::id()) {
+        if ($post->user_id !== Auth::id() && !in_array(Auth::user()->id, json_decode($user->admin_id ?? '[]'))) {
             return redirect()->back()->withErrors('You are not authorized to update this post.');
         }
 
@@ -168,7 +179,7 @@ class PostController extends Controller
         return redirect()->route('posts.show', [
             'username' => $post->user->username,
             'type' => $post->type,
-            'content' => $post->content
+            'content' => Str::words($post->content, 5, '')
         ])->withSuccess('Post updated successfully!');
     }
 

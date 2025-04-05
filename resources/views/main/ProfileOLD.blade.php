@@ -486,13 +486,6 @@
                             </div>
                             <div class="user-info">
                                 <div class="name">{{ $user->name }}</div>
-                                @if(!empty($user->alias))
-                                    <div class="country">
-                                        @foreach($user->alias as $alias)
-                                            <div>({{ $alias }})</div>
-                                        @endforeach
-                                    </div>
-                                @endif
                             </div>
                             <button type="submit" class="friends-btn">
                                 <span><i class="ri-home-2-fill"></i></span> Profile Clicks {{$clickCount}}

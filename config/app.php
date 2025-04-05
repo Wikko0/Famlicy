@@ -199,6 +199,7 @@ return [
          * Famlicy Providers...
          */
         App\Providers\CommunityProvider::class,
+        App\Providers\TransmitedUsersProvider::class,
 
     ],
 

@@ -33,6 +33,18 @@
                         @endforeach
                     @endif
                 </select>
+                @if(Auth::user()->transitioned_id)
+                <select name="from" id="contentType" class="form-select ">
+                    <option value="{{Auth::id()}}" selected>From : Myself</option>
+                    @if(!empty($userTransmited) && $userTransmited->count())
+                        @foreach ($userTransmited as $transmited)
+                            <option value="{{ $transmited->id }}">From : {{ $transmited->name }}</option>
+                        @endforeach
+                    @else
+                        <option disabled>No transitioned users</option>
+                    @endif
+                </select>
+                @endif
                 <button type="submit" class="just-button">Post</button>
             </div>
         </div>

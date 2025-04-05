@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('died')->nullable();
             $table->json('alias')->nullable();
             $table->json('admin_id')->nullable();
+            $table->json('transitioned_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

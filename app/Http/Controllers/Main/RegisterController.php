@@ -262,26 +262,39 @@ class RegisterController extends Controller
         ]);
 
         try {
+
             $adminIds = [auth()->id()];
 
-             if ($request->filled('relation')) {
-                $adminUser = User::where('username', $request->input('relation'))->first();
-                if ($adminUser) {
-                    $adminIds[] = $adminUser->id;
+
+            $relationUsers = [];
+            if (!empty($stepOneData['relation'])) {
+
+                $relationUsernames = explode(',', $stepOneData['relation']);
+                foreach ($relationUsernames as $username) {
+                    $username = trim($username);
+                    $relationUser = User::where('username', $username)->first();
+                    if ($relationUser) {
+                        $relationUsers[] = $relationUser;
+                        $adminIds[] = $relationUser->id;
+                    }
                 }
             }
+
 
             $fullName = $stepOneData['name'] . ' ' . $stepOneData['surname'];
             $birthday = "{$stepOneData['family_dob_day']}/{$stepOneData['family_dob_month']}/{$stepOneData['family_dob_year']}";
             $died = "{$stepOneData['family_transition_day']}/{$stepOneData['family_transition_month']}/{$stepOneData['family_transition_year']}";
 
+
             $email = strtolower($stepOneData['username']) . '@noemail.com';
             $password = Str::random(12);
+
 
             $rawAlias = $stepOneData['alias'] ?? '';
             $aliasArray = array_filter(array_map('trim', explode(',', $rawAlias)));
 
-           $user = User::create([
+
+            $user = User::create([
                 'admin_id' => json_encode($adminIds),
                 'title' => $stepOneData['title'],
                 'name' => $fullName,
@@ -291,8 +304,23 @@ class RegisterController extends Controller
                 'phone' => auth()->user()->phone,
                 'birthday' => $birthday,
                 'died' => $died,
-               'alias' => $aliasArray,
+                'alias' => $aliasArray,
             ]);
+
+             $currentUser = auth()->user();
+            $transitioned = $currentUser->transitioned_id ?? [];
+            $transitioned[] = $user->id;
+            $currentUser->update(['transitioned_id' => $transitioned]);
+
+           foreach ($relationUsers as $relationUser) {
+                $relationTransitioned = $relationUser->transitioned_id ?? [];
+                $relationTransitioned[] = $user->id;
+                $relationUser->update(['transitioned_id' => $relationTransitioned]);
+
+               $relationUser->following()->attach($user->id);
+            }
+
+            $currentUser->following()->attach($user->id);
 
             $photoPath = 'images/default-avatar.png';
 
@@ -315,7 +343,7 @@ class RegisterController extends Controller
 
             $user->update(['photo' => $photoPath]);
 
-            $userInformation = new UsersInformation();
+           $userInformation = new UsersInformation();
             $userInformation->user_id = $user->id;
             $userInformation->location = $request->input('location');
             $userInformation->country = $request->input('country');
@@ -325,12 +353,12 @@ class RegisterController extends Controller
             $userInformation->grandchildren = $request->input('grandchildren');
             $userInformation->save();
 
-             $communities = Community::whereJsonContains('users', intval($user->id))->get();
+           $communities = Community::whereJsonContains('users', intval($user->id))->get();
             foreach ($communities as $community) {
                 $community->addUser($user->id);
             }
 
-             Mail::to($user->email)->send(new WelcomeMail($user));
+            Mail::to($user->email)->send(new WelcomeMail($user));
 
             session()->forget('step_one_data');
 

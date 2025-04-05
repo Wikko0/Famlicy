@@ -125,7 +125,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/post/{username}/{type}/{content}', [PostController::class, 'show'])->name('posts.show');
     Route::delete('/post/{id}/delete', [PostController::class, 'destroy'])->name('posts.delete');
     Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
-    Route::put('/post/{id}/edit/update', [PostController::class, 'update'])->name('posts.update');
+    Route::post('/post/{id}/edit/update', [PostController::class, 'update'])->name('posts.update');
     Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like');
     Route::post('/posts/{id}/comment', [PostController::class, 'comment'])->name('posts.comment');
     Route::get('/posts/{post}/comment', [PostController::class, 'loadMore'])->name('posts.comment.load');

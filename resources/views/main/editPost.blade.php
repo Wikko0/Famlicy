@@ -10,7 +10,6 @@
 
                 <form method="POST" action="{{ route('posts.update', $post->id) }}" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
 
                     <div class="primary">
                         <div class="message-box">

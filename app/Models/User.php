@@ -30,6 +30,7 @@ class User extends Authenticatable
         'died',
         'admin_id',
         'alias',
+        'transitioned_id',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -50,6 +51,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'admin_id' => 'array',
         'alias' => 'array',
+        'transitioned_id' => 'array',
     ];
 
     public function userInformation()

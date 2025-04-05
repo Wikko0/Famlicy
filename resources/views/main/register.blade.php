@@ -30,7 +30,7 @@
                             <div class="icon-circle" id="imageCircle">
                                 <input type="file" name="photo" id="imageUpload" style="display:none;" />
                                 <label for="imageUpload" style="cursor: pointer;">
-                                    <img id="previewImage" src="{{ session('registration_data.photo') ? asset(session('registration_data.photo')) : asset('images/camera-icon.png') }}" alt="Upload Preview" style="width: 80%; height: 80%; object-fit: cover;" />
+                                    <img id="previewImage" src="{{asset('images/camera-icon.png') }}" alt="Upload Preview" style="width: 80%; height: 80%; object-fit: cover;" />
                                 </label>
                             </div>
                             <div class="up-text">Upload new image</div>
