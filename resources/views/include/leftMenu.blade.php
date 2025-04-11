@@ -29,7 +29,8 @@
             @endforeach
         @endif
     </div>
-
-    @include('ads.ad-container-300')
+    <div class="d-none d-md-block">
+        @include('ads.ad-container-300')
+    </div>
 </div>
 

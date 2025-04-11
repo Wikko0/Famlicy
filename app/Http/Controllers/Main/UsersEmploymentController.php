@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Models\User;
 use App\Models\UsersEmployment;
 use App\Models\UsersInformation;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class UsersEmploymentController extends Controller
@@ -36,6 +38,9 @@ class UsersEmploymentController extends Controller
             'end_month' => 'nullable|string',
             'end_year' => 'nullable|string',
             'description' => 'nullable|string',
+            'file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp3,wav,ogg,mp4,mov,avi,wmv|max:51200',
+            'location' => 'nullable|string',
+            'from' => 'nullable|string',
         ]);
 
         $employment = new UsersEmployment();
@@ -51,6 +56,15 @@ class UsersEmploymentController extends Controller
         $employment->description = $validated['description'] ?? null;
         $employment->save();
 
+        // Create a post for primary education update
+        Post::createPost([
+            'content' => "I started working at {$validated['name']} as a {$validated['title']} from {$validated['start_month']}/{$validated['start_year']}" .
+                (isset($validated['end_month'], $validated['end_year']) ? " to {$validated['end_month']}/{$validated['end_year']}" : "") . ".",
+            'type' => 'Global',
+            'file' => $request->file('file'),
+            'location' => $request->input('location'),
+            'from' => $request->input('from') ?? Auth::id(),
+        ]);
         return redirect()->back()->withSuccess('Employment information updated successfully!');
     }
 

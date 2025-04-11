@@ -28,35 +28,35 @@
         </div>
     </div>
 </div>
-<div class="profile">
-    <div class="add-items">
-        <a href="{{route('user.aboutme', $user->username)}}" class="item ">
-            <div class="title">About Me</div>
-            <button class="add-btn">Visit</button>
-        </a>
-        <a href="{{route('user.myinterests', $user->username)}}" class="item ">
-            <div class="title">My interests & favourites</div>
-            <button class="add-btn">Visit</button>
-        </a>
-        <a href="{{route('user.education', $user->username)}}" class="item ">
-            <div class="title">Education</div>
-            <button class="add-btn">Visit</button>
-        </a>
-        <a href="{{route('user.employment', $user->username)}}" class="item ">
-            <div class="title">Employment & vocation</div>
-            <button class="add-btn">Visit</button>
-        </a>
-        <a href="{{route('user.life', $user->username)}}" class="item ">
-            <div class="title">Life events & accomplishments</div>
-            <button class="add-btn">Visit</button>
-        </a>
-        <a href="{{route('user.goals', $user->username)}}" class="item ">
-            <div class="title">Goals & ambitions</div>
-            <button class="add-btn">Visit</button>
-        </a>
-        <a href="{{route('family.register', $user->username)}}" class="item ">
-            <div class="title">Create account for transitioned</div>
-            <button class="add-btn">Visit</button>
-        </a>
-    </div>
-</div>
+{{--<div class="profile">--}}
+{{--    <div class="add-items">--}}
+{{--        <a href="{{route('user.aboutme', Auth::user()->username)}}" class="item ">--}}
+{{--            <div class="title">About Me</div>--}}
+{{--            <button class="add-btn">Visit</button>--}}
+{{--        </a>--}}
+{{--        <a href="{{route('user.myinterests', Auth::user()->username)}}" class="item ">--}}
+{{--            <div class="title">My interests & favourites</div>--}}
+{{--            <button class="add-btn">Visit</button>--}}
+{{--        </a>--}}
+{{--        <a href="{{route('user.education', Auth::user()->username)}}" class="item ">--}}
+{{--            <div class="title">Education</div>--}}
+{{--            <button class="add-btn">Visit</button>--}}
+{{--        </a>--}}
+{{--        <a href="{{route('user.employment', Auth::user()->username)}}" class="item ">--}}
+{{--            <div class="title">Employment & vocation</div>--}}
+{{--            <button class="add-btn">Visit</button>--}}
+{{--        </a>--}}
+{{--        <a href="{{route('user.life', Auth::user()->username)}}" class="item ">--}}
+{{--            <div class="title">Life events & accomplishments</div>--}}
+{{--            <button class="add-btn">Visit</button>--}}
+{{--        </a>--}}
+{{--        <a href="{{route('user.goals', Auth::user()->username)}}" class="item ">--}}
+{{--            <div class="title">Goals & ambitions</div>--}}
+{{--            <button class="add-btn">Visit</button>--}}
+{{--        </a>--}}
+{{--        <a href="{{route('family.register', Auth::user()->username)}}" class="item ">--}}
+{{--            <div class="title">Create account for transitioned</div>--}}
+{{--            <button class="add-btn">Visit</button>--}}
+{{--        </a>--}}
+{{--    </div>--}}
+{{--</div>--}}
