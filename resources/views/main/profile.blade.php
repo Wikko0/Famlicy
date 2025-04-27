@@ -289,6 +289,9 @@
                             <button type="submit" class="friends-btn">
                                 <span><i class="ri-home-2-fill"></i></span> Profile Clicks {{$clickCount}}
                             </button>
+                            <button type="submit" class="friends-btn" data-bs-toggle="modal" data-bs-target="#addAdminProfile">
+                                <span><i class="ri-user-add-line"></i></span> Add admin access
+                            </button>
                         </div>
                     </div>
 

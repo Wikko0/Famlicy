@@ -134,6 +134,16 @@
                         <img src="{{asset('images/users/user-'. Auth::user()->id) . '.jpg'}}" alt="User Image" />
                         <span>{{ Auth::user()->name }}</span>
                     </a>
+                    @if(Auth::user()->transitioned_id)
+                            @if(!empty($userTransmited) && $userTransmited->count())
+                                @foreach ($userTransmited as $transmited)
+                                <a href="{{route('profile', $transmited->username)}}" class="menu-item">
+                                    <img src="{{asset('images/users/user-'. $transmited->id) . '.jpg'}}" alt="User Image" />
+                                    <span>{{ $transmited->name }}</span>
+                                </a>
+                                @endforeach
+                            @endif
+                    @endif
                     <a href="{{route('information')}}" class="menu-item">
                         <img src="{{asset('images/user-information-icon.png')}}" alt="Information Icon" />
                         <span>User Information</span>

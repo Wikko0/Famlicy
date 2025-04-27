@@ -28,6 +28,31 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="addAdminProfile" tabindex="-1" aria-labelledby="addAdminProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAdminProfileImageModalLabel">Add Admin Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="upload-form" method="POST" action="{{ route('user.addAdminProfile', $user->id) }}">
+                    @csrf
+                    <div class="mt-3">
+                        <label for="new-profile-image" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {{--<div class="profile">--}}
 {{--    <div class="add-items">--}}
 {{--        <a href="{{route('user.aboutme', Auth::user()->username)}}" class="item ">--}}

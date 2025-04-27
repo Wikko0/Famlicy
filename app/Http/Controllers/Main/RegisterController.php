@@ -181,6 +181,25 @@ class RegisterController extends Controller
         }
     }
 
+    private function transliterate($text)
+    {
+        $cyr = [
+            'а','б','в','г','д','е','ж','з','и','й','к','л','м',
+            'н','о','п','р','с','т','у','ф','х','ц','ч','ш','щ','ъ','ь','ю','я',
+            'А','Б','В','Г','Д','Е','Ж','З','И','Й','К','Л','М',
+            'Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ь','Ю','Я'
+        ];
+
+        $lat = [
+            'a','b','v','g','d','e','zh','z','i','y','k','l','m',
+            'n','o','p','r','s','t','u','f','h','ts','ch','sh','sht','a','y','yu','ya',
+            'A','B','V','G','D','E','Zh','Z','I','Y','K','L','M',
+            'N','O','P','R','S','T','U','F','H','Ts','Ch','Sh','Sht','A','Y','Yu','Ya'
+        ];
+
+        return str_replace($cyr, $lat, $text);
+    }
+
     public function familyRegister($username): View
     {
         $user = User::where('username', $username)->firstOrFail();
@@ -196,7 +215,6 @@ class RegisterController extends Controller
             'title' => 'required|string',
             'name' => 'required|string',
             'surname' => 'required|string',
-            'username' => 'required|string|min:3|max:25|regex:/^[a-z0-9._-]+$/i|unique:users',
             'family_dob_day' => 'required|integer|between:1,31',
             'family_dob_month' => 'required|integer|between:1,12',
             'family_dob_year' => 'required|integer|digits:4',
@@ -206,6 +224,7 @@ class RegisterController extends Controller
             'photo' => 'image|mimes:jpeg,png,jpg,gif|max:5000',
             'relation' => 'nullable|string|exists:users,username',
             'alias' => 'nullable|string',
+            'relations' => 'nullable|string',
         ]);
 
         $photoPath = null;
@@ -218,11 +237,25 @@ class RegisterController extends Controller
             $photoPath = $tempPhotoPath;
         }
 
+        $name = $this->transliterate($request->input('name'));
+        $surname = $this->transliterate($request->input('surname'));
+
+        $baseUsername = strtolower(Str::slug($name . '.' . $surname));
+        $finalUsername = $baseUsername;
+        $counter = 1;
+        while (User::where('username', $finalUsername)->exists()) {
+            $finalUsername = $baseUsername . $counter;
+            $counter++;
+        }
+
         session([
             'step_one_data' => array_merge($request->only([
-                'title', 'name', 'surname', 'username', 'family_dob_day', 'family_dob_month', 'family_dob_year',
-                'family_transition_day', 'family_transition_month', 'family_transition_year', 'alias', 'relation'
-            ]), ['photo' => $photoPath])
+                'title', 'name', 'surname', 'family_dob_day', 'family_dob_month', 'family_dob_year',
+                'family_transition_day', 'family_transition_month', 'family_transition_year', 'alias', 'relation', 'relations'
+            ]), [
+                'photo' => $photoPath,
+                'username' => $finalUsername,
+            ])
         ]);
 
         return redirect()->route('family.register.second', ['username' => $username]);
@@ -305,6 +338,7 @@ class RegisterController extends Controller
                 'birthday' => $birthday,
                 'died' => $died,
                 'alias' => $aliasArray,
+                'relation' => $stepOneData['relations'],
             ]);
 
              $currentUser = auth()->user();
@@ -357,8 +391,6 @@ class RegisterController extends Controller
             foreach ($communities as $community) {
                 $community->addUser($user->id);
             }
-
-            Mail::to($user->email)->send(new WelcomeMail($user));
 
             session()->forget('step_one_data');
 

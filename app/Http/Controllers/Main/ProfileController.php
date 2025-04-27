@@ -167,4 +167,68 @@ class ProfileController extends Controller
 
         return redirect()->back()->withErrors('Failed to upload image.');
     }
+
+    public function addAdminProfile(Request $request, $id): RedirectResponse
+    {
+        $user = User::where('id', $id)->firstOrFail();
+        $currentUser = auth()->user();
+
+        if ($currentUser->id != $id && !in_array($currentUser->id, json_decode($user->admin_id ?? '[]'))) {
+            return redirect()->back()->withErrors('Unauthorized action.');
+        }
+
+        $request->validate([
+            'username' => 'required|string',
+        ]);
+
+        $adminIds = json_decode($user->admin_id ?? '[]') ?? [];
+        $relationUsers = [];
+
+        $missingUsers = [];
+
+        if (!empty($request->username)) {
+            $relationUsernames = explode(',', $request->username);
+
+            foreach ($relationUsernames as $relationUsername) {
+                $relationUsername = trim($relationUsername);
+
+                $relationUser = User::where('username', $relationUsername)->first();
+
+                if ($relationUser) {
+                    $relationUsers[] = $relationUser;
+                    $adminIds[] = $relationUser->id;
+
+
+                    $relationUser->following()->syncWithoutDetaching([$user->id]);
+
+
+                    $relationTransitioned = $relationUser->transitioned_id ?? [];
+                    $relationTransitioned[] = $user->id;
+                    $relationUser->update([
+                        'transitioned_id' => array_unique($relationTransitioned)
+                    ]);
+                } else {
+
+                    $missingUsers[] = $relationUsername;
+                }
+            }
+        }
+
+
+        if (!empty($missingUsers)) {
+            return redirect()->back()->withErrors([
+                'message' => 'The following usernames do not exist: ' . implode(', ', $missingUsers)
+            ])->withInput();
+        }
+
+
+        $user->update([
+            'admin_id' => json_encode(array_unique($adminIds)),
+        ]);
+
+        $currentUser->following()->syncWithoutDetaching([$user->id]);
+
+        return redirect()->back()->withSuccess('Admin profiles updated successfully.');
+    }
+
 }

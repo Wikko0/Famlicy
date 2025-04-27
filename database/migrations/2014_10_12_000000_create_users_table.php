@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->string('birthday');
             $table->string('died')->nullable();
+            $table->string('relation')->nullable();
             $table->json('alias')->nullable();
             $table->json('admin_id')->nullable();
             $table->json('transitioned_id')->nullable();

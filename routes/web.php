@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/follow/{user}', [ProfileController::class, 'follow'])->name('follow');
     Route::post('/unfollow/{user}', [ProfileController::class, 'unfollow'])->name('unfollow');
     Route::post('/user/{id}/update-profile-image', [ProfileController::class, 'updateProfileImage'])->name('user.updateProfileImage');
+    Route::post('/user/{id}/add-admin-profile', [ProfileController::class, 'addAdminProfile'])->name('user.addAdminProfile');
 
 //    About Me
     Route::get('/user/{username}/aboutme', [UsersInformationController::class, 'aboutMe'])->name('user.aboutme');

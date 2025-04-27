@@ -3440,3 +3440,6 @@ a {
     position: absolute;
     bottom: 10px;
 }
+.input-item-full {
+    grid-template-columns: none !important;
+}

@@ -50,12 +50,26 @@
                     </div>
 
                     <div class="input-item-grid">
-                        <input type="text" placeholder="Username" name="username" value="{{ session('step_one_data.username', old('username')) }}" />
                         <input type="text" placeholder="Alias of nicknames (separete with a comma)" name="alias" value="{{ session('step_one_data.alias', old('alias')) }}" />
+                        <select name="relations" class="form-control">
+                            <option value="" {{ session('step_one_data.relations', old('relations')) == '' ? 'selected' : '' }}>Relation</option>
+                            <option value="Mother" {{ session('step_one_data.relations', old('relations')) == 'Mother' ? 'selected' : '' }}>Mother</option>
+                            <option value="Father" {{ session('step_one_data.relations', old('relations')) == 'Father' ? 'selected' : '' }}>Father</option>
+                            <option value="Daughter" {{ session('step_one_data.relations', old('relations')) == 'Daughter' ? 'selected' : '' }}>Daughter</option>
+                            <option value="Son" {{ session('step_one_data.relations', old('relations')) == 'Son' ? 'selected' : '' }}>Son</option>
+                            <option value="Sister" {{ session('step_one_data.relations', old('relations')) == 'Sister' ? 'selected' : '' }}>Sister</option>
+                            <option value="Brother" {{ session('step_one_data.relations', old('relations')) == 'Brother' ? 'selected' : '' }}>Brother</option>
+                            <option value="Cousin" {{ session('step_one_data.relations', old('relations')) == 'Cousin' ? 'selected' : '' }}>Cousin</option>
+                            <option value="Grandmother" {{ session('step_one_data.relations', old('relations')) == 'Grandmother' ? 'selected' : '' }}>Grandmother</option>
+                            <option value="Grandfather" {{ session('step_one_data.relations', old('relations')) == 'Grandfather' ? 'selected' : '' }}>Grandfather</option>
+                            <option value="Great Grandmother" {{ session('step_one_data.relations', old('relations')) == 'Great Grandmother' ? 'selected' : '' }}>Great Grandmother</option>
+                            <option value="Great Grandfather" {{ session('step_one_data.relations', old('relations')) == 'Great Grandfather' ? 'selected' : '' }}>Great Grandfather</option>
+                            <option value="Friend" {{ session('step_one_data.relations', old('relations')) == 'Friend' ? 'selected' : '' }}>Friend</option>
+                        </select>
                     </div>
 
-                    <div class="input-item-grid">
-                         <input type="text" placeholder="Relation (nicknames, separete with a comma)" name="relation" value="{{ session('step_one_data.relation', old('relation')) }}" />
+                    <div class="input-item-grid input-item-full">
+                         <input type="text" placeholder="Admin Profile (nicknames, separete with a comma)" name="relation" value="{{ session('step_one_data.relation', old('relation')) }}" />
                     </div>
 
                     <div class="for-family-member">
